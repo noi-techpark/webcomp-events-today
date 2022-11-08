@@ -182,8 +182,9 @@ export class EventsToday extends LitElement {
                         </h2>
                         </div>
                         <div class="col-sm-5 col-12 col-lg-5 col-lg offset-lg-0 col-md-5" style="justify-content:flex-end">
-                        <div class="location">
-                        <span>${item.Room}</span>
+                            <div class="location">
+                                <span>${item.Room}</span>
+                            </div>
                         </div>
                         `);
               }
