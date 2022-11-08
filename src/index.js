@@ -2,6 +2,7 @@ import {LitElement, html, css} from 'lit'
 import axios from 'axios';
 
 export class EventsToday extends LitElement {
+    
     static styles = css`
     .slideshow-container{
         height:max-content;
@@ -115,14 +116,15 @@ export class EventsToday extends LitElement {
             <h1>
                 <strong>
                     NOI
-                </strong> Events
+                </strong>
+                Events
             </h1>
         </header>
         <body>
             <div class="slideshow-container" class="full-height">
-            <div class="container-fluid">
-                <div class="line">
-                    ${this._showEvents()}
+                <div class="container-fluid">
+                    <div class="line">
+                        ${this._showEvents()}
                     </div>
                 </div>
             </div>
@@ -173,13 +175,13 @@ export class EventsToday extends LitElement {
                     itemTemplates.push(
                         html`
                         <div class="col-sm-7 col-12 description col-lg-7 col-md-7">
-                        <h2>
-                            ${item.ShortName}
-                            <br>
-                            <small>
-                                ${item.CompanyName}
+                            <h2>
+                                ${item.ShortName}
+                                <br>
+                                <small>
+                                    ${item.CompanyName}
                                 </small>
-                        </h2>
+                            </h2>
                         </div>
                         <div class="col-sm-5 col-12 col-lg-5 col-lg offset-lg-0 col-md-5" style="justify-content:flex-end">
                             <div class="location">
