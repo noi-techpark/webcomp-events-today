@@ -1,43 +1,67 @@
-import {LitElement, html, _$LE} from 'lit'
+import {LitElement, html, css} from 'lit'
 import axios from 'axios';
 
-class EventsToday extends LitElement {
+
+export class EventsToday extends LitElement {
     static get properties(){
         return{
-            events: {type: JSON},
+            language:{type: String},
         }
     }
 
     constructor(){
         super();
-        this.events = this.fetchData();   
+        this.language = "IT"
     }
 
     render() {
         return html`
-        <p>Hello World </p>
-        <button type="button"@click="${this._handleClick}"> Console log</button>
-        `;
+        <p> Hello World! </p>`
     }
 
-    _handleClick(){
-        console.log(this.events);
+    fetchData() {
+        return new Promise((resolve,reject) => {
+            var events = [];
+            const params = new URLSearchParams([['startdate', new Date().getTime()],
+             ['eventlocation','NOI'],
+            ['datetimeformat','uxtimestamp'],
+            ['onlyactive', true]
+            ]);
+       
+            axios.get("https://tourism.api.opendatahub.com/v1/EventShort", {params})
+            .then((response) =>{
+                var items = response.data.Items;
+
+                if(items.length != 0){
+                    for(var i = 0; i <= items.length - 1; ++i){
+                        var element = items[i];
+
+                        events.push({
+                            ShortName: element.Shortname,
+                            CompanyName: element.CompanyName,
+                            EventText: element.EventTextIT,
+                            WebAddress: element.WebAddress
+                        });
+                    }
+                    resolve(events);
+                }
+                else
+                    reject("Error");       
+                });
+            });
+        }
+
+    _showEvents(){
+        this.eventsPromise.then((items)=>{
+            return html `
+            <ul>
+                ${items.map((item) => html`<li>${item.WebAddress}</li>`)}
+            </ul>`
+        }).catch(error => {
+            console.log(error);
+        }); 
     }
 
-    async fetchData() {
-        const params = new URLSearchParams([['startdate', new Date().getTime()],
-         ['eventlocation','NOI'],
-         ['datetimeformat','uxtimestamp'],
-         ['onlyactive', true]
-         ]);
-
-        let data = await axios.get("https://tourism.api.opendatahub.com/v1/EventShort", {params});
-
-        return data;
-    }
 }
 
-
-
-// Register our first Custom Element named <hello-world>
 customElements.define('events-today', EventsToday);
