@@ -157,7 +157,7 @@ export class EventsToday extends LitElement {
         for (var i = 0; i <= items.length - 1; ++i) {
           var element = items[i];
 
-          this.NOIevent = {
+          var NOIevent = {
             ShortName: element.Shortname,
             CompanyName: element.CompanyName,
             EventText: element.EventTextIT,
@@ -165,22 +165,20 @@ export class EventsToday extends LitElement {
             Room: element.AnchorVenueRoomMapping,
           };
 
-          this._pushEvent();
-
-          console.log(this.NOIevent);
+          this._pushEvent(NOIevent);
         }
       });
     });
   }
 
-  _pushEvent() {
+  _pushEvent(NOIevent) {
     this.template.push(html`
       <div class="line">
         <div class="col-sm-7 col-12 description col-lg-7 col-md-7">
           <h2>
-            ${this.NOIevent.ShortName}
+            ${NOIevent.ShortName}
             <br />
-            <small> ${this.NOIevent.CompanyName} </small>
+            <small> ${NOIevent.CompanyName} </small>
           </h2>
         </div>
         <div
@@ -188,11 +186,12 @@ export class EventsToday extends LitElement {
           style="justify-content:flex-end"
         >
           <div class="location">
-            <span>${this.NOIevent.Room}</span>
+            <span>${NOIevent.Room}</span>
           </div>
         </div>
       </div>
     `);
+    this.requestUpdate();
   }
 }
 
