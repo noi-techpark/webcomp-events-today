@@ -1,11 +1,32 @@
 import { LitElement, html, css } from "lit";
-import axios from "axios";
 
 export class EventsToday extends LitElement {
   static styles = css`
+    .center {
+      margin-top: auto;
+      margin-bottom: auto;
+      width: 50%;
+      padding: 10px;
+    }
+    h1 {
+      font-size: 5em;
+      padding: 25px;
+      margin: 0;
+    }
+    h2 {
+      font-size: 1.4em;
+    }
+    h2.description {
+      padding: 15px;
+      margin-bottom: 50px;
+    }
+    h1.title {
+      padding: 5px;
+      font-size: 3.5em;
+    }
     .slideshow-container {
       height: max-content;
-      padding: 0 20px;
+
       min-height: 100vh;
       position: relative;
       padding: 20px;
@@ -21,7 +42,7 @@ export class EventsToday extends LitElement {
       padding: 0 20px;
       position: relative;
       display: block;
-      height: 17vh;
+      height: 18vh;
     }
     body {
       width: 100%;
@@ -33,40 +54,6 @@ export class EventsToday extends LitElement {
       min-height: 100vh;
       height: 100%;
       padding-bottom: 20px;
-    }
-    .col-sm-7 {
-      flex: 0 0 auto;
-      width: 58.33333333%;
-    }
-    .col-lg-7 {
-      flex: 0 0 auto;
-      width: 58.33333333%;
-    }
-    .col-md-7 {
-      flex: 0 0 auto;
-      width: 58.33333333%;
-    }
-    .col-12 {
-      flex: 0 0 auto;
-      width: 100%;
-    }
-    .col-sm-7 {
-      flex: 0 0 auto;
-      width: 58.33333333%;
-    }
-    .col-lg-5 {
-      flex: 0 0 auto;
-      width: 41.66666667%;
-    }
-    .offset-lg-0 {
-      margin-left: 0;
-    }
-    .col-lg {
-      flex: 1 0 0%;
-    }
-    .col-md-5 {
-      flex: 0 0 auto;
-      width: 41.66666667%;
     }
     .starts-in {
       text-align: right;
@@ -87,32 +74,29 @@ export class EventsToday extends LitElement {
       color: #fff;
       background-color: #000;
       padding: 10px 26px;
-      margin-left: 20px;
+      margin-left: 1000px;
       margin-right: 20px;
       font-size: 1.6em;
       font-weight: bold;
-      max-width: 50%;
+      max-width: 10%;
     }
     .description {
       text-align: left;
     }
+    small {
+      font-size: 0.7em;
+      color: grey;
+    }
   `;
 
   static properties = {
-    NOIevent: {
-      ShortName: "",
-      CompanyName: "",
-      EventText: "",
-      WebAddress: "",
-      Room: "",
-    },
     template: { type: Array },
     language: { type: String },
   };
 
   constructor() {
     super();
-    this.fetchData();
+    this.fetchData("NOI");
     this.language = "IT";
     this.template = [];
   }
@@ -120,13 +104,13 @@ export class EventsToday extends LitElement {
   render() {
     return html`
       <header id="header">
-        <h1>
+        <h1 class="title">
           <strong> NOI </strong>
           Events
         </h1>
       </header>
       <body>
-        <div class="slideshow-container" class="full-height">
+        <div class="slideshow-container full-height">
           <div class="container-fluid">
             ${this.template.map((templateItem) => html`${templateItem}`)}
           </div>
@@ -135,15 +119,21 @@ export class EventsToday extends LitElement {
     `;
   }
 
-  fetchData() {
+  fetchData(eventLocation) {
+    const baseURL = "https://tourism.api.opendatahub.com/v1/EventShort?";
+
     const params = new URLSearchParams([
       ["startdate", new Date().getTime()],
-      ["eventlocation", "NOI"],
+      ["eventlocation", eventLocation],
+      ["pagesize", 999],
       ["datetimeformat", "uxtimestamp"],
       ["onlyactive", true],
+      ["sortorder", "ASC"],
     ]);
 
-    fetch("https://tourism.api.opendatahub.com/v1/EventShort?" + params, {
+    console.log(baseURL + params);
+
+    fetch(baseURL + params, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -158,11 +148,12 @@ export class EventsToday extends LitElement {
           var element = items[i];
 
           var NOIevent = {
-            ShortName: element.Shortname,
-            CompanyName: element.CompanyName,
-            EventText: element.EventTextIT,
-            WebAddress: element.WebAddress,
-            Room: element.AnchorVenueRoomMapping,
+            shortName: element.Shortname,
+            companyName: element.CompanyName,
+            eventText: element.EventTextIT,
+            webAddress: element.WebAddress,
+            room: element.AnchorVenueRoomMapping,
+            startDate: new Date(element.StartDate),
           };
 
           this._pushEvent(NOIevent);
@@ -173,25 +164,47 @@ export class EventsToday extends LitElement {
   }
 
   _pushEvent(NOIevent) {
-    this.template.push(html`
-      <div class="line">
-        <div class="col-sm-7 col-12 description col-lg-7 col-md-7">
-          <h2>
-            ${NOIevent.ShortName}
-            <br />
-            <small> ${NOIevent.CompanyName} </small>
-          </h2>
-        </div>
-        <div
-          class="col-sm-5 col-12 col-lg-5 col-lg offset-lg-0 col-md-5"
-          style="justify-content:flex-end"
-        >
-          <div class="location">
-            <span>${NOIevent.Room}</span>
+    if (
+      NOIevent.webAddress != undefined &&
+      NOIevent.webAddress != null &&
+      NOIevent.webAddress != ""
+    )
+      this.template.push(html`
+        <div class="line">
+          <div class="description">
+            <h2 class="description">
+            <a href="${NOIevent.webAddress} target="_blank">
+              ${NOIevent.shortName}
+              </a></h2>
+            <h2>
+              <small> ${NOIevent.companyName} </small>
+            </h2>
+          </div>
+          <div style="justify-content:flex-end">
+            <div class="location">
+            ${NOIevent.room}
+            </div>
           </div>
         </div>
-      </div>
-    `);
+      `);
+    else {
+      this.template.push(html`
+        <div class="line">
+          <div class="description">
+            <h2 class="description">
+              ${NOIevent.shortName}
+              <br />
+              <small> ${NOIevent.companyName} </small>
+            </h2>
+          </div>
+          <div style="justify-content:flex-end">
+            <div class="location">
+              <span>${NOIevent.room}</span>
+            </div>
+          </div>
+        </div>
+      `);
+    }
   }
 }
 
