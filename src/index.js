@@ -167,6 +167,7 @@ export class EventsToday extends LitElement {
 
           this._pushEvent(NOIevent);
         }
+        this.requestUpdate();
       });
     });
   }
@@ -191,7 +192,6 @@ export class EventsToday extends LitElement {
         </div>
       </div>
     `);
-    this.requestUpdate();
   }
 }
 
