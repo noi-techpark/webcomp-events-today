@@ -17,8 +17,8 @@ export class EventsToday extends LitElement {
       font-size: 1.4em;
     }
     h2.description {
-      padding: 15px;
-      margin-bottom: 50px;
+      text-align: left;
+      line-break: anywhere;
     }
     h1.title {
       padding: 5px;
@@ -73,12 +73,17 @@ export class EventsToday extends LitElement {
     .location {
       color: #fff;
       background-color: #000;
+      background-size: 50%;
       padding: 10px 26px;
-      margin-left: 1000px;
+      right: 1em;
+      left: 65em;
+      bottom: 3.1em;
+      position: relative;
       margin-right: 20px;
-      font-size: 1.6em;
+      font-size: 1em;
       font-weight: bold;
       max-width: 10%;
+      line-break: auto;
     }
     .description {
       text-align: left;
@@ -87,16 +92,24 @@ export class EventsToday extends LitElement {
       font-size: 0.7em;
       color: grey;
     }
+    a {
+      color: #fff;
+    }
+    a.room {
+      color: #ffffff;
+    }
   `;
 
   static properties = {
     template: { type: Array },
     language: { type: String },
+    eventLocation: { type: String },
   };
 
   constructor() {
     super();
-    this.fetchData("NOI");
+    this.eventLocation = "NOI";
+    this.fetchData();
     this.language = "IT";
     this.template = [];
   }
@@ -119,17 +132,19 @@ export class EventsToday extends LitElement {
     `;
   }
 
-  fetchData(eventLocation) {
+  fetchData() {
     const baseURL = "https://tourism.api.opendatahub.com/v1/EventShort?";
 
     const params = new URLSearchParams([
       ["startdate", new Date().getTime()],
-      ["eventlocation", eventLocation],
+      ["eventlocation", this.eventLocation],
       ["pagesize", 999],
       ["datetimeformat", "uxtimestamp"],
       ["onlyactive", true],
       ["sortorder", "ASC"],
     ]);
+
+    console.log(baseURL + params);
 
     console.log(baseURL + params);
 
@@ -147,7 +162,7 @@ export class EventsToday extends LitElement {
         for (var i = 0; i <= items.length - 1; ++i) {
           var element = items[i];
 
-          var NOIevent = {
+          var event = {
             shortName: element.Shortname,
             companyName: element.CompanyName,
             eventText: element.EventTextIT,
@@ -156,50 +171,55 @@ export class EventsToday extends LitElement {
             startDate: new Date(element.StartDate),
           };
 
-          this._pushEvent(NOIevent);
+          this._pushEvent(event);
         }
         this.requestUpdate();
       });
     });
   }
 
-  _pushEvent(NOIevent) {
+  _pushEvent(event) {
     if (
-      NOIevent.webAddress != undefined &&
-      NOIevent.webAddress != null &&
-      NOIevent.webAddress != ""
+      event.webAddress != undefined &&
+      event.webAddress != null &&
+      event.webAddress != ""
     )
       this.template.push(html`
         <div class="line">
           <div class="description">
             <h2 class="description">
-            <a href="${NOIevent.webAddress} target="_blank">
-              ${NOIevent.shortName}
-              </a></h2>
+              <a href="${event.webAddress}" target="_blank">
+                ${event.shortName}
+              </a>
+            </h2>
             <h2>
-              <small> ${NOIevent.companyName} </small>
+              <small> ${event.companyName} </small>
             </h2>
           </div>
           <div style="justify-content:flex-end">
             <div class="location">
-            ${NOIevent.room}
+              <a href="https://maps.noi.bz.it/en/"> ${event.room}</a>
             </div>
           </div>
         </div>
       `);
-    else {
+    else if (
+      event.room != "" &&
+      event.room != null &&
+      event.room != undefined
+    ) {
       this.template.push(html`
         <div class="line">
           <div class="description">
             <h2 class="description">
-              ${NOIevent.shortName}
+              ${event.shortName}
               <br />
-              <small> ${NOIevent.companyName} </small>
+              <small> ${event.companyName} </small>
             </h2>
           </div>
           <div style="justify-content:flex-end">
             <div class="location">
-              <span>${NOIevent.room}</span>
+              <a href="https://maps.noi.bz.it/en/"> ${event.room}</a>
             </div>
           </div>
         </div>
