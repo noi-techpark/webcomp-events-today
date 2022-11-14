@@ -160,7 +160,16 @@ export class EventsToday extends LitElement {
       response.json().then((json) => {
         var items = json.Items;
         for (var i = 0; i <= items.length - 1; ++i) {
+          var options = {
+            year: "2-digit",
+            month: "short",
+            day: "numeric",
+          };
+
           var element = items[i];
+
+          let startDate = new Date(element.StartDate);
+          let endDate = new Date(element.EndDate);
 
           var event = {
             shortName: element.Shortname,
@@ -168,7 +177,8 @@ export class EventsToday extends LitElement {
             eventText: element.EventTextIT,
             webAddress: element.WebAddress,
             room: element.AnchorVenueRoomMapping,
-            startDate: new Date(element.StartDate),
+            startDate: startDate.toLocaleDateString("it-it", options),
+            time: this._formatTime(startDate, endDate),
           };
 
           this._pushEvent(event);
@@ -179,6 +189,7 @@ export class EventsToday extends LitElement {
   }
 
   _pushEvent(event) {
+    console.log(event.time);
     if (
       event.webAddress != undefined &&
       event.webAddress != null &&
@@ -225,6 +236,18 @@ export class EventsToday extends LitElement {
         </div>
       `);
     }
+  }
+
+  _formatTime(startDate, endDate) {
+    return new String(
+      startDate.getHours() +
+        ":" +
+        String(startDate.getMinutes()).padStart(2, "0") +
+        " - " +
+        endDate.getHours() +
+        ":" +
+        String(endDate.getMinutes()).padStart(2, "0")
+    );
   }
 }
 
