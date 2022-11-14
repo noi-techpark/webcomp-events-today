@@ -73,7 +73,6 @@ export class EventsToday extends LitElement {
     .location {
       color: #fff;
       background-color: #000;
-      background-size: 50%;
       padding: 10px 26px;
       right: 1em;
       left: 65em;
@@ -84,6 +83,7 @@ export class EventsToday extends LitElement {
       font-weight: bold;
       max-width: 10%;
       line-break: auto;
+      text-align: center;
     }
     .description {
       text-align: left;
@@ -93,7 +93,7 @@ export class EventsToday extends LitElement {
       color: grey;
     }
     a {
-      color: #fff;
+      color: #000000;
     }
     a.room {
       color: #ffffff;
@@ -198,16 +198,14 @@ export class EventsToday extends LitElement {
           </div>
           <div style="justify-content:flex-end">
             <div class="location">
-              <a href="https://maps.noi.bz.it/en/"> ${event.room}</a>
+              <a class="room" href="https://maps.noi.bz.it/en/">
+                ${event.room}</a
+              >
             </div>
           </div>
         </div>
       `);
-    else if (
-      event.room != "" &&
-      event.room != null &&
-      event.room != undefined
-    ) {
+    else {
       this.template.push(html`
         <div class="line">
           <div class="description">
@@ -219,7 +217,9 @@ export class EventsToday extends LitElement {
           </div>
           <div style="justify-content:flex-end">
             <div class="location">
-              <a href="https://maps.noi.bz.it/en/"> ${event.room}</a>
+              <a class="room" href="https://maps.noi.bz.it/en/">
+                ${event.room}</a
+              >
             </div>
           </div>
         </div>
