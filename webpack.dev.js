@@ -7,6 +7,14 @@ module.exports = {
     filename: "noi-events.js",
     clean: true,
   },
+  module: {
+    rules: [
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
+    ],
+  },
   devServer: {
     static: "./public",
     port: 8998,

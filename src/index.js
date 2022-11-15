@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit";
+import logo from "./noi-black.svg";
 
 export class EventsToday extends LitElement {
   static styles = css`
@@ -13,16 +14,16 @@ export class EventsToday extends LitElement {
       padding: 25px;
       margin: 0;
     }
+    h1.title {
+      padding: 5px;
+      font-size: 3.5em;
+    }
     h2 {
       font-size: 1.4em;
     }
     h2.description {
       text-align: left;
       line-break: anywhere;
-    }
-    h1.title {
-      padding: 5px;
-      font-size: 3.5em;
     }
     .slideshow-container {
       height: max-content;
@@ -62,13 +63,10 @@ export class EventsToday extends LitElement {
       justify-content: right;
     }
     .container-fluid {
-      --bs-gutter-x: 1.5rem;
-      --bs-gutter-y: 0;
       width: 100%;
-      padding-right: calc(var(--bs-gutter-x) * 0.5);
-      padding-left: calc(var(--bs-gutter-x) * 0.5);
       margin-right: auto;
       margin-left: auto;
+      margin-top: auto;
     }
     .location {
       color: #fff;
@@ -98,6 +96,15 @@ export class EventsToday extends LitElement {
     a.room {
       color: #ffffff;
     }
+    .noi-logo {
+      width: 275px;
+    }
+    img {
+      position: relative;
+      left: 65em;
+      bottom: 5em;
+      padding: 0px;
+    }
   `;
 
   static properties = {
@@ -121,6 +128,7 @@ export class EventsToday extends LitElement {
           <strong> NOI </strong>
           Events
         </h1>
+        <img class="noi-logo" src=${logo} />
       </header>
       <body>
         <div class="slideshow-container full-height">
