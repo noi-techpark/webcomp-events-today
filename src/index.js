@@ -105,6 +105,21 @@ export class EventsToday extends LitElement {
       bottom: 5em;
       padding: 0px;
     }
+    .clock {
+      font-size: 80px;
+      line-height: 80px;
+      font-size: 1em;
+      padding: 10px;
+      left: 67.5em;
+      bottom: 6.5em;
+      position: relative;
+    }
+    .date {
+      margin-top: 5px;
+      left: 68.2em;
+      bottom: 2em;
+      position: relative;
+    }
   `;
 
   static properties = {
@@ -185,7 +200,9 @@ export class EventsToday extends LitElement {
             eventText: element.EventTextIT,
             webAddress: element.WebAddress,
             room: element.AnchorVenueRoomMapping,
-            startDate: startDate.toLocaleDateString("it-it", options),
+            startDate: startDate
+              .toLocaleDateString("it-it", options)
+              .toUpperCase(),
             time: this._formatTime(startDate, endDate),
           };
 
@@ -222,6 +239,8 @@ export class EventsToday extends LitElement {
               >
             </div>
           </div>
+          <div>${event.startDate}</div>
+          <div class="clock">${event.time}</div>
         </div>
       `);
     else {
@@ -241,6 +260,8 @@ export class EventsToday extends LitElement {
               >
             </div>
           </div>
+          <div class="date">${event.startDate}</div>
+          <div class="clock">${event.time}</div>
         </div>
       `);
     }
