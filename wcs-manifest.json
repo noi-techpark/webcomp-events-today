@@ -3,7 +3,7 @@
   "description": "A simple web component to see NOI events",
   "descriptionAbstract": "events simple webcomp",
   "license": "AGPL-3.0-or-later",
-  "repositoryUrl": "https://github.com/BlueRyse/webcomp-events-today.git",
+  "repositoryUrl": "https://github.com/noi-techpark/webcomp-events-today.git",
   "copyrightHolders": [
     {
       "name": "NOI",
