@@ -1,16 +1,28 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  mode: 'development',
-  entry: './src/index.js',
+  mode: "development",
+  entry: "./src/index.js",
   output: {
-    filename: 'webcomp-boilerplate.js',
-    clean: true
+    filename: "noi-events.js",
+    clean: true,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
+      },
+    ],
   },
   devServer: {
-    static: './public',
+    static: "./public",
     port: 8998,
-    hot: true
+    hot: true,
   },
-  devtool: 'inline-source-map',
+  devtool: "inline-source-map",
 };

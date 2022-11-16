@@ -1,9 +1,9 @@
 {
-  "title": "Hello-world",
-  "description": "Hello world simple webcomp example",
-  "descriptionAbstract": "Hello world simple webcomp example",
+  "title": "events-today",
+  "description": "A simple web component to see NOI events",
+  "descriptionAbstract": "events simple webcomp",
   "license": "AGPL-3.0-or-later",
-  "repositoryUrl": "https://your-repository.git",
+  "repositoryUrl": "https://github.com/noi-techpark/webcomp-events-today.git",
   "copyrightHolders": [
     {
       "name": "NOI",
@@ -14,10 +14,10 @@
   ],
   "authors": [
     {
-      "name": "...",
-      "email": "...",
-      "organization": "...",
-      "organizationUrl": "..."
+      "name": "Sergio Evola",
+      "email": "evola.sergio97@gmail.com",
+      "organization": "NOI S.p.A",
+      "organizationUrl": "https://noi.bz.it"
     }
   ],
   "image": "wcs-logo.png",
@@ -25,21 +25,21 @@
   "dist": {
     "basePath": "dist",
     "files": [
-      "webcomp-boilerplate.min.js"
+      "webcomp-noi-events.min.js"
     ],
     "scripts": [
     ]
   },
   "configuration": {
-    "tagName": "hello-world",
+    "tagName": "events-today",
     "options": [
       {
         "key": "title",
         "type": "text",
-        "label": "title of the web-comp",
+        "label": "events-today",
         "required": false,
         "options": {
-          "default": "hello-world"
+          "default": "events-today"
         }
       }
     ]
