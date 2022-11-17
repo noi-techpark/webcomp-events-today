@@ -77,65 +77,48 @@ export class EventsToday extends LitElement {
         U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
         U+2212, U+2215, U+FEFF, U+FFFD;
     }
-
-    .center {
-      margin-top: auto;
-      margin-bottom: auto;
-      width: 50%;
-      padding: 10px;
-    }
     h1 {
-      font-size: 5em;
+      font-family: "Source Sans Pro", sans-serif !important;
+      font-size: 2.6em;
       padding: 25px;
       margin: 0;
     }
-    h1.title {
-      padding: 5px;
-      font-size: 3.5em;
-    }
     h2 {
+      font-family: "Source Sans Pro", sans-serif !important;
       font-size: 1.4em;
     }
     h2.description {
       text-align: left;
-      line-break: anywhere;
+      line-break: normal;
     }
     .slideshow-container {
       height: max-content;
-
+      width: 80%;
       min-height: 100vh;
       position: relative;
       padding: 20px;
       background-color: #000;
     }
-    .full-height {
-      height: 100%;
-    }
     .line {
       background-color: white;
+      width: 96%;
       margin: 0;
       margin-bottom: 15px;
       padding: 0 20px;
       position: relative;
       display: block;
-      height: 18vh;
+      height: 20vh;
     }
     body {
-      width: 100%;
+      width: max-content;
       text-align: center;
-      font-family: "Source Sans Pro", sans-serif !important;
       color: #000;
       font-size: 16px;
       margin: 0;
       min-height: 100vh;
       height: 100%;
+      width: 50%;
       padding-bottom: 20px;
-    }
-    .starts-in {
-      text-align: right;
-      font-size: 2em;
-      line-height: 1;
-      justify-content: right;
     }
     .container-fluid {
       width: 100%;
@@ -144,11 +127,12 @@ export class EventsToday extends LitElement {
       margin-top: auto;
     }
     .location {
+      font-family: "Source Sans Pro", sans-serif !important;
       color: #fff;
       background-color: #000;
       padding: 10px 26px;
       right: 1em;
-      left: 65em;
+      left: 48em;
       bottom: 3.1em;
       position: relative;
       margin-right: 20px;
@@ -172,28 +156,31 @@ export class EventsToday extends LitElement {
       color: #ffffff;
     }
     .noi-logo {
-      width: 275px;
-    }
-    img {
+      width: 250px;
       position: relative;
-      left: 65em;
-      bottom: 5em;
+      left: 50em;
+      bottom: 7em;
       padding: 0px;
     }
     .clock {
-      font-size: 80px;
+      font-size: 99%;
+      font-family: "Source Sans Pro", sans-serif !important;
       line-height: 80px;
-      font-size: 1em;
       padding: 10px;
-      left: 67.5em;
-      bottom: 6.5em;
+      left: 59.3em;
+      bottom: 9em;
       position: relative;
     }
     .date {
+      font-family: "Source Sans Pro", sans-serif !important;
+      font-size: 1.25em;
       margin-top: 5px;
-      left: 68.2em;
-      bottom: 2em;
+      left: 47em;
+      bottom: 3em;
       position: relative;
+    }
+    strong {
+      font-weigth: 600;
     }
   `;
 
@@ -213,7 +200,6 @@ export class EventsToday extends LitElement {
 
   render() {
     return html`
-      <link href="fonts/source-sans-pro/style.css" rel="stylesheet" />
       <header id="header">
         <h1 class="title">
           <strong> NOI </strong>
@@ -222,7 +208,7 @@ export class EventsToday extends LitElement {
         <img class="noi-logo" src=${logo} />
       </header>
       <body>
-        <div class="slideshow-container full-height">
+        <div class="slideshow-container">
           <div class="container-fluid">
             ${this.template.map((templateItem) => html`${templateItem}`)}
           </div>
@@ -315,7 +301,7 @@ export class EventsToday extends LitElement {
               >
             </div>
           </div>
-          <div>${event.startDate}</div>
+          <div class="date">${event.startDate}</div>
           <div class="clock">${event.time}</div>
         </div>
       `);
