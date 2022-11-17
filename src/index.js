@@ -93,7 +93,7 @@ export class EventsToday extends LitElement {
     }
     .slideshow-container {
       height: max-content;
-      width: max-content;
+      width: 95%;
       min-height: 100vh;
       position: relative;
       padding: 20px;
@@ -165,17 +165,16 @@ export class EventsToday extends LitElement {
     .clock {
       font-size: 99%;
       font-family: "Source Sans Pro", sans-serif !important;
-      line-height: 80px;
       padding: 10px;
-      left: 59.3em;
-      bottom: 9em;
+      bottom: 7em;
       position: relative;
+      display: none;
     }
     .date {
       font-family: "Source Sans Pro", sans-serif !important;
       font-size: 1.25em;
       margin-top: 5px;
-      left: 47em;
+      display: none;
       bottom: 3em;
       position: relative;
     }
