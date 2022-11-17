@@ -93,7 +93,7 @@ export class EventsToday extends LitElement {
     }
     .slideshow-container {
       height: max-content;
-      width: 80%;
+      width: max-content;
       min-height: 100vh;
       position: relative;
       padding: 20px;
