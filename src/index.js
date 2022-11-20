@@ -77,19 +77,45 @@ export class EventsToday extends LitElement {
         U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
         U+2212, U+2215, U+FEFF, U+FFFD;
     }
-    h1 {
+    .line > div {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    .content {
+      padding: 0;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h1,
+    h2 {
+      font-family: inherit;
+      font-weight: 500;
+      line-height: 1.1;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: inherit;
       font-family: "Source Sans Pro", sans-serif !important;
+    }
+    h1 {
       font-size: 2.6em;
       padding: 25px;
       margin: 0;
     }
-    h2 {
-      font-family: "Source Sans Pro", sans-serif !important;
-      font-size: 1.4em;
+    h2 small {
+      font-weight: bold;
+      color: #8c8c8c;
     }
-    h2.description {
-      text-align: left;
-      line-break: normal;
+    small {
+      font-size: 65%;
+      line-height: 1;
     }
     .slideshow-container {
       height: max-content;
@@ -110,14 +136,14 @@ export class EventsToday extends LitElement {
       height: 20vh;
     }
     body {
-      width: max-content;
+      width: 100%;
       text-align: center;
+      font-family: "Source Sans Pro", sans-serif !important;
       color: #000;
       font-size: 16px;
       margin: 0;
       min-height: 100vh;
       height: 100%;
-      width: 50%;
       padding-bottom: 20px;
     }
     .container-fluid {
@@ -131,23 +157,14 @@ export class EventsToday extends LitElement {
       color: #fff;
       background-color: #000;
       padding: 10px 26px;
-      right: 1em;
-      left: 48em;
-      bottom: 3.1em;
-      position: relative;
+      margin-left: 20px;
       margin-right: 20px;
-      font-size: 1em;
+      font-size: 1.6em;
       font-weight: bold;
-      max-width: 10%;
-      line-break: auto;
-      text-align: center;
+      max-width: 50%;
     }
     .description {
       text-align: left;
-    }
-    small {
-      font-size: 0.7em;
-      color: grey;
     }
     a {
       color: #000000;
@@ -156,30 +173,63 @@ export class EventsToday extends LitElement {
       color: #ffffff;
     }
     .noi-logo {
-      width: 250px;
+      width: 150px;
       position: relative;
-      left: 50em;
-      bottom: 7em;
+      left: 40em;
+      bottom: 5.6em;
       padding: 0px;
-    }
-    .clock {
-      font-size: 99%;
-      font-family: "Source Sans Pro", sans-serif !important;
-      padding: 10px;
-      bottom: 7em;
-      position: relative;
-      display: none;
-    }
-    .date {
-      font-family: "Source Sans Pro", sans-serif !important;
-      font-size: 1.25em;
-      margin-top: 5px;
-      display: none;
-      bottom: 3em;
-      position: relative;
     }
     strong {
       font-weigth: 600;
+    }
+    .col-sm-7,
+    .col-xs-12,
+    .col-lg-7,
+    .col-md-7,
+    .col-sm-5,
+    .col-lg-5,
+    .col-md-5 {
+      position: relative;
+      min-height: 1px;
+      padding-right: 15px;
+      padding-left: 15px;
+      float: left;
+    }
+    .col-xs-12 {
+      width: 100%;
+    }
+    .col-lg-7,
+    .col-md-7,
+    .col-sm-7 {
+      width: 58.33333333%;
+    }
+    .col-sm-5,
+    .col-lg-5,
+    .col-md-5 {
+      width: 41.66666667%;
+    }
+    .col-lg-offset-0 {
+      margin-left: 0;
+    }
+    .location a {
+      color: #fff;
+    }
+    .starts-in {
+      text-align: right;
+      font-size: 2em;
+      line-height: 1;
+      justify-content: right;
+    }
+    .starts-in strong {
+      font-size: 1.25em;
+    }
+    .clock {
+      font-size: 20px;
+      line-height: 30px;
+    }
+    .row {
+      margin-right: -15px;
+      margin-left: -15px;
     }
   `;
 
@@ -199,7 +249,7 @@ export class EventsToday extends LitElement {
 
   render() {
     return html`
-      <header id="header">
+      <header>
         <h1 class="title">
           <strong> NOI </strong>
           Events
@@ -208,8 +258,10 @@ export class EventsToday extends LitElement {
       </header>
       <body>
         <div class="slideshow-container">
-          <div class="container-fluid">
-            ${this.template.map((templateItem) => html`${templateItem}`)}
+          <div class=" content container-fluid">
+            <div class="lines">
+              ${this.template.map((templateItem) => html`${templateItem}`)}
+            </div>
           </div>
         </div>
       </body>
@@ -282,47 +334,52 @@ export class EventsToday extends LitElement {
       event.webAddress != ""
     )
       this.template.push(html`
-        <div class="line">
-          <div class="description">
-            <h2 class="description">
-              <a href="${event.webAddress}" target="_blank">
-                ${event.shortName}
-              </a>
-            </h2>
+        <div class="row line">
+          <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
             <h2>
+              <a href="${event.webAddress}" target="_blank">
+                <strong class="desc"> ${event.shortName} </strong>
+              </a>
+              <br />
               <small> ${event.companyName} </small>
             </h2>
           </div>
-          <div style="justify-content:flex-end">
-            <div class="location">
-              <a class="room" href="https://maps.noi.bz.it/en/">
-                ${event.room}</a
-              >
+          <div
+            class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
+            style="justify-content:flex-end"
+          >
+            <div class="location">${event.room}</div>
+            <div class="starts-in">
+              <div class="clock">${event.startDate}</div>
+              <div class="clock">${event.time}</div>
             </div>
           </div>
-          <div class="date">${event.startDate}</div>
-          <div class="clock">${event.time}</div>
         </div>
       `);
     else {
       this.template.push(html`
-        <div class="line">
-          <div class="description">
-            <h2 class="description">
+        <div class="row line">
+          <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
+            <h2>
               ${event.shortName}
               <br />
               <small> ${event.companyName} </small>
             </h2>
           </div>
-          <div style="justify-content:flex-end">
+          <div
+            class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
+            style="justify-content:flex-end"
+          >
             <div class="location">
               <a class="room" href="https://maps.noi.bz.it/en/">
                 ${event.room}</a
               >
             </div>
+            <div class="starts-in">
+              <div class="clock">${event.startDate}</div>
+              <small class="clock">${event.time}</small>
+            </div>
           </div>
-          <div class="date">${event.startDate}</div>
-          <div class="clock">${event.time}</div>
         </div>
       `);
     }
