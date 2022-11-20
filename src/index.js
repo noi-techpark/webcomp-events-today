@@ -77,11 +77,8 @@ export class EventsToday extends LitElement {
         U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
         U+2212, U+2215, U+FEFF, U+FFFD;
     }
-    .line > div {
+    .full-height {
       height: 100%;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
     }
     * {
       box-sizing: border-box;
@@ -135,6 +132,12 @@ export class EventsToday extends LitElement {
       display: block;
       height: 20vh;
     }
+    .line > div {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
     body {
       width: 100%;
       text-align: center;
@@ -145,6 +148,9 @@ export class EventsToday extends LitElement {
       min-height: 100vh;
       height: 100%;
       padding-bottom: 20px;
+    }
+    body > div {
+      width: 100%;
     }
     .container-fluid {
       width: 100%;
@@ -174,10 +180,6 @@ export class EventsToday extends LitElement {
     }
     .noi-logo {
       width: 150px;
-      position: relative;
-      left: 40em;
-      bottom: 5.6em;
-      padding: 0px;
     }
     strong {
       font-weigth: 600;
@@ -257,7 +259,7 @@ export class EventsToday extends LitElement {
         <img class="noi-logo" src=${logo} />
       </header>
       <body>
-        <div class="slideshow-container">
+        <div class="slideshow-container full-height">
           <div class=" content container-fluid">
             <div class="lines">
               ${this.template.map((templateItem) => html`${templateItem}`)}
