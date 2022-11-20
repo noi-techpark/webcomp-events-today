@@ -122,13 +122,12 @@ export class EventsToday extends LitElement {
     }
     .line {
       background-color: white;
-      width: 96%;
       margin: 0;
       margin-bottom: 15px;
       padding: 0 20px;
       position: relative;
       display: block;
-      height: 20vh;
+      height: 17vh;
     }
     .line > div {
       height: 100%;
