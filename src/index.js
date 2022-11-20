@@ -102,7 +102,7 @@ export class EventsToday extends LitElement {
       font-family: "Source Sans Pro", sans-serif !important;
     }
     h1 {
-      font-size: 2.6em;
+      font-size: 3em;
       padding: 25px;
       margin: 0;
     }
@@ -174,6 +174,7 @@ export class EventsToday extends LitElement {
     }
     a.room {
       color: #ffffff;
+      font-size: 0.7em;
     }
     .noi-logo {
       width: 250px;
@@ -210,9 +211,6 @@ export class EventsToday extends LitElement {
     .col-lg-offset-0 {
       margin-left: 0;
     }
-    .location a {
-      color: #fff;
-    }
     .starts-in {
       text-align: right;
       font-size: 2em;
@@ -224,7 +222,7 @@ export class EventsToday extends LitElement {
     }
     .clock {
       font-size: 20px;
-      line-height: 30px;
+      line-height: 5px;
     }
     .row {
       margin-right: -15px;
@@ -350,7 +348,7 @@ export class EventsToday extends LitElement {
             <div class="location">${event.room}</div>
             <div class="starts-in">
               <div class="clock">${event.startDate}</div>
-              <div class="clock">${event.time}</div>
+              <small class="clock">${event.time}</small>
             </div>
           </div>
         </div>
