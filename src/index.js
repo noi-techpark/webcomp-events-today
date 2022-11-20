@@ -115,12 +115,10 @@ export class EventsToday extends LitElement {
       line-height: 1;
     }
     .slideshow-container {
-      height: max-content;
-      width: 95%;
-      min-height: 100vh;
       position: relative;
       padding: 20px;
       background-color: #000;
+      min-height: 85vh;
     }
     .line {
       background-color: white;
@@ -179,7 +177,7 @@ export class EventsToday extends LitElement {
       color: #ffffff;
     }
     .noi-logo {
-      width: 150px;
+      width: 250px;
     }
     strong {
       font-weigth: 600;
