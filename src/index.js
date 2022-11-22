@@ -77,39 +77,48 @@ export class EventsToday extends LitElement {
         U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
         U+2212, U+2215, U+FEFF, U+FFFD;
     }
-
-    .center {
-      margin-top: auto;
-      margin-bottom: auto;
-      width: 50%;
-      padding: 10px;
+    .full-height {
+      height: 100%;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    .content {
+      padding: 0;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h1,
+    h2 {
+      font-family: inherit;
+      font-weight: 500;
+      line-height: 1.1;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: inherit;
+      font-family: "Source Sans Pro", sans-serif !important;
     }
     h1 {
-      font-size: 5em;
+      font-size: 3em;
       padding: 25px;
       margin: 0;
     }
-    h1.title {
-      padding: 5px;
-      font-size: 3.5em;
+    h2 small {
+      font-weight: bold;
+      color: #8c8c8c;
     }
-    h2 {
-      font-size: 1.4em;
-    }
-    h2.description {
-      text-align: left;
-      line-break: anywhere;
+    small {
+      font-size: 65%;
+      line-height: 1;
     }
     .slideshow-container {
-      height: max-content;
-
-      min-height: 100vh;
       position: relative;
       padding: 20px;
       background-color: #000;
-    }
-    .full-height {
-      height: 100%;
+      min-height: 85vh;
     }
     .line {
       background-color: white;
@@ -118,7 +127,13 @@ export class EventsToday extends LitElement {
       padding: 0 20px;
       position: relative;
       display: block;
-      height: 18vh;
+      height: 17vh;
+    }
+    .line > div {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
     }
     body {
       width: 100%;
@@ -131,11 +146,8 @@ export class EventsToday extends LitElement {
       height: 100%;
       padding-bottom: 20px;
     }
-    .starts-in {
-      text-align: right;
-      font-size: 2em;
-      line-height: 1;
-      justify-content: right;
+    body > div {
+      width: 100%;
     }
     .container-fluid {
       width: 100%;
@@ -144,56 +156,77 @@ export class EventsToday extends LitElement {
       margin-top: auto;
     }
     .location {
+      font-family: "Source Sans Pro", sans-serif !important;
       color: #fff;
       background-color: #000;
       padding: 10px 26px;
-      right: 1em;
-      left: 65em;
-      bottom: 3.1em;
-      position: relative;
+      margin-left: 20px;
       margin-right: 20px;
-      font-size: 1em;
+      font-size: 1.6em;
       font-weight: bold;
-      max-width: 10%;
-      line-break: auto;
-      text-align: center;
+      max-width: 50%;
     }
     .description {
       text-align: left;
-    }
-    small {
-      font-size: 0.7em;
-      color: grey;
     }
     a {
       color: #000000;
     }
     a.room {
       color: #ffffff;
+      font-size: 0.7em;
     }
     .noi-logo {
-      width: 275px;
+      width: 250px;
     }
-    img {
+    strong {
+      font-weigth: 600;
+    }
+    .col-sm-7,
+    .col-xs-12,
+    .col-lg-7,
+    .col-md-7,
+    .col-sm-5,
+    .col-lg-5,
+    .col-md-5 {
       position: relative;
-      left: 65em;
-      bottom: 5em;
-      padding: 0px;
+      min-height: 1px;
+      padding-right: 15px;
+      padding-left: 15px;
+      float: left;
+    }
+    .col-xs-12 {
+      width: 100%;
+    }
+    .col-lg-7,
+    .col-md-7,
+    .col-sm-7 {
+      width: 58.33333333%;
+    }
+    .col-sm-5,
+    .col-lg-5,
+    .col-md-5 {
+      width: 41.66666667%;
+    }
+    .col-lg-offset-0 {
+      margin-left: 0;
+    }
+    .starts-in {
+      text-align: right;
+      font-size: 2em;
+      line-height: 1;
+      justify-content: right;
+    }
+    .starts-in strong {
+      font-size: 1.25em;
     }
     .clock {
-      font-size: 80px;
-      line-height: 80px;
-      font-size: 1em;
-      padding: 10px;
-      left: 67.5em;
-      bottom: 6.5em;
-      position: relative;
+      font-size: 20px;
+      line-height: 5px;
     }
-    .date {
-      margin-top: 5px;
-      left: 68.2em;
-      bottom: 2em;
-      position: relative;
+    .row {
+      margin-right: -15px;
+      margin-left: -15px;
     }
   `;
 
@@ -213,8 +246,7 @@ export class EventsToday extends LitElement {
 
   render() {
     return html`
-      <link href="fonts/source-sans-pro/style.css" rel="stylesheet" />
-      <header id="header">
+      <header>
         <h1 class="title">
           <strong> NOI </strong>
           Events
@@ -223,8 +255,10 @@ export class EventsToday extends LitElement {
       </header>
       <body>
         <div class="slideshow-container full-height">
-          <div class="container-fluid">
-            ${this.template.map((templateItem) => html`${templateItem}`)}
+          <div class=" content container-fluid">
+            <div class="lines">
+              ${this.template.map((templateItem) => html`${templateItem}`)}
+            </div>
           </div>
         </div>
       </body>
@@ -297,47 +331,52 @@ export class EventsToday extends LitElement {
       event.webAddress != ""
     )
       this.template.push(html`
-        <div class="line">
-          <div class="description">
-            <h2 class="description">
-              <a href="${event.webAddress}" target="_blank">
-                ${event.shortName}
-              </a>
-            </h2>
+        <div class="row line">
+          <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
             <h2>
+              <a href="${event.webAddress}" target="_blank">
+                <strong class="desc"> ${event.shortName} </strong>
+              </a>
+              <br />
               <small> ${event.companyName} </small>
             </h2>
           </div>
-          <div style="justify-content:flex-end">
-            <div class="location">
-              <a class="room" href="https://maps.noi.bz.it/en/">
-                ${event.room}</a
-              >
+          <div
+            class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
+            style="justify-content:flex-end"
+          >
+            <div class="location">${event.room}</div>
+            <div class="starts-in">
+              <div class="clock">${event.startDate}</div>
+              <small class="clock">${event.time}</small>
             </div>
           </div>
-          <div>${event.startDate}</div>
-          <div class="clock">${event.time}</div>
         </div>
       `);
     else {
       this.template.push(html`
-        <div class="line">
-          <div class="description">
-            <h2 class="description">
+        <div class="row line">
+          <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
+            <h2>
               ${event.shortName}
               <br />
               <small> ${event.companyName} </small>
             </h2>
           </div>
-          <div style="justify-content:flex-end">
+          <div
+            class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
+            style="justify-content:flex-end"
+          >
             <div class="location">
               <a class="room" href="https://maps.noi.bz.it/en/">
                 ${event.room}</a
               >
             </div>
+            <div class="starts-in">
+              <div class="clock">${event.startDate}</div>
+              <small class="clock">${event.time}</small>
+            </div>
           </div>
-          <div class="date">${event.startDate}</div>
-          <div class="clock">${event.time}</div>
         </div>
       `);
     }
