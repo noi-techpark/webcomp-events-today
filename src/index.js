@@ -333,8 +333,8 @@ export class EventsToday extends LitElement {
             <a class="room" href="https://maps.noi.bz.it/en/"> ${event.room}</a>
           </div>
           <div class="starts-in">
-            <div class="clock">${event.startDate}</div>
             <small class="clock">${event.time}</small>
+            <div class="clock">${event.startDate}</div>
           </div>
         </div>
       </div>
@@ -357,7 +357,7 @@ export class EventsToday extends LitElement {
     if (event.webAddress != null && event.webAddress != "")
       return html`<h2>
         <a href="${event.webAddress}" target="_blank">
-          <strong class="desc"> ${event.shortName} </strong>
+          <strong class="description"> ${event.shortName} </strong>
         </a>
         <br />
         <small> ${event.companyName} </small>
@@ -365,7 +365,7 @@ export class EventsToday extends LitElement {
     else
       return html`
         <h2>
-          ${event.shortName}
+          <strong> ${event.shortName} </strong>
           <br />
           <small> ${event.companyName} </small>
         </h2>
