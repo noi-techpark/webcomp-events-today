@@ -177,7 +177,7 @@ export class EventsToday extends LitElement {
       font-size: 0.7em;
     }
     .noi-logo {
-      width: 250px;
+      width: 275px;
     }
     strong {
       font-weigth: 600;
