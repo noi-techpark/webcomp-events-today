@@ -223,7 +223,7 @@ export class EventsToday extends LitElement {
     .clock {
       font-family: "Source Sans Pro", sans-serif !important;
       font-size: 20px;
-      line-height: 15px;
+      line-height: 20px;
     }
     day {
       font-weight: normal;
@@ -253,7 +253,7 @@ export class EventsToday extends LitElement {
   render() {
     return html`
       <header>
-        <h1 class="title"><strong> TODAY</strong>.NOI.EVENTS</h1>
+        <h1 class="title"><strong> TODAY</strong>.BZ.IT</h1>
         <img class="noi-logo" src=${logo} />
       </header>
       <body>
