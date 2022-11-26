@@ -239,9 +239,9 @@ export class EventsToday extends LitElement {
   constructor() {
     super();
     this.eventLocation = "NOI";
-    this.fetchData();
     this.language = "IT";
     this.template = [];
+    this.fetchData();
   }
 
   render() {
@@ -276,8 +276,6 @@ export class EventsToday extends LitElement {
       ["onlyactive", true],
       ["sortorder", "ASC"],
     ]);
-
-    console.log(baseURL + params);
 
     console.log(baseURL + params);
 
@@ -325,61 +323,25 @@ export class EventsToday extends LitElement {
 
   _pushEvent(event) {
     console.log(event.time);
-    if (
-      event.webAddress != undefined &&
-      event.webAddress != null &&
-      event.webAddress != ""
-    )
-      this.template.push(html`
-        <div class="row line">
-          <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
-            <h2>
-              <a href="${event.webAddress}" target="_blank">
-                <strong class="desc"> ${event.shortName} </strong>
-              </a>
-              <br />
-              <small> ${event.companyName} </small>
-            </h2>
+    this.template.push(html`
+      <div class="row line">
+        <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
+          ${this._webAddressIsNotNull(event)}
+        </div>
+        <div
+          class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
+          style="justify-content:flex-end"
+        >
+          <div class="location">
+            <a class="room" href="https://maps.noi.bz.it/en/"> ${event.room}</a>
           </div>
-          <div
-            class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
-            style="justify-content:flex-end"
-          >
-            <div class="location">${event.room}</div>
-            <div class="starts-in">
-              <div class="clock">${event.startDate}</div>
-              <small class="clock">${event.time}</small>
-            </div>
+          <div class="starts-in">
+            <div class="clock">${event.startDate}</div>
+            <small class="clock">${event.time}</small>
           </div>
         </div>
-      `);
-    else {
-      this.template.push(html`
-        <div class="row line">
-          <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
-            <h2>
-              ${event.shortName}
-              <br />
-              <small> ${event.companyName} </small>
-            </h2>
-          </div>
-          <div
-            class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
-            style="justify-content:flex-end"
-          >
-            <div class="location">
-              <a class="room" href="https://maps.noi.bz.it/en/">
-                ${event.room}</a
-              >
-            </div>
-            <div class="starts-in">
-              <div class="clock">${event.startDate}</div>
-              <small class="clock">${event.time}</small>
-            </div>
-          </div>
-        </div>
-      `);
-    }
+      </div>
+    `);
   }
 
   _formatTime(startDate, endDate) {
@@ -392,6 +354,25 @@ export class EventsToday extends LitElement {
         ":" +
         String(endDate.getMinutes()).padStart(2, "0")
     );
+  }
+
+  _webAddressIsNotNull(event) {
+    if (event.webAddress != null && event.webAddress != "")
+      return html`<h2>
+        <a href="${event.webAddress}" target="_blank">
+          <strong class="desc"> ${event.shortName} </strong>
+        </a>
+        <br />
+        <small> ${event.companyName} </small>
+      </h2>`;
+    else
+      return html`
+        <h2>
+          ${event.shortName}
+          <br />
+          <small> ${event.companyName} </small>
+        </h2>
+      `;
   }
 }
 
