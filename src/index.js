@@ -247,10 +247,7 @@ export class EventsToday extends LitElement {
   render() {
     return html`
       <header>
-        <h1 class="title">
-          <strong> NOI </strong>
-          Events
-        </h1>
+        <h1 class="title"><strong> TODAY</strong>.NOI.EVENTS</h1>
         <img class="noi-logo" src=${logo} />
       </header>
       <body>
