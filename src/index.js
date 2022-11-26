@@ -222,7 +222,12 @@ export class EventsToday extends LitElement {
     }
     .clock {
       font-size: 20px;
-      line-height: 5px;
+      line-height: 15px;
+    }
+    day {
+      font-weight: normal;
+      font-size: 24px;
+      color: #fff;
     }
     .row {
       margin-right: -15px;
@@ -274,8 +279,6 @@ export class EventsToday extends LitElement {
       ["sortorder", "ASC"],
     ]);
 
-    console.log(baseURL + params);
-
     fetch(baseURL + params, {
       method: "GET",
       headers: {
@@ -288,12 +291,6 @@ export class EventsToday extends LitElement {
       response.json().then((json) => {
         var items = json.Items;
         for (var i = 0; i <= items.length - 1; ++i) {
-          var options = {
-            year: "2-digit",
-            month: "short",
-            day: "numeric",
-          };
-
           var element = items[i];
 
           let startDate = new Date(element.StartDate);
@@ -305,9 +302,7 @@ export class EventsToday extends LitElement {
             eventText: element.EventTextIT,
             webAddress: element.WebAddress,
             room: element.AnchorVenueRoomMapping,
-            startDate: startDate
-              .toLocaleDateString("it-it", options)
-              .toUpperCase(),
+            startDate: this._formatDate(startDate),
             time: this._formatTime(startDate, endDate),
           };
 
@@ -319,7 +314,6 @@ export class EventsToday extends LitElement {
   }
 
   _pushEvent(event) {
-    console.log(event.time);
     this.template.push(html`
       <div class="row line">
         <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
@@ -334,7 +328,9 @@ export class EventsToday extends LitElement {
           </div>
           <div class="starts-in">
             <small class="clock">${event.time}</small>
-            <div class="clock">${event.startDate}</div>
+            <div class="clock day">
+              <strong>${event.startDate} </strong>
+            </div>
           </div>
         </div>
       </div>
@@ -351,6 +347,34 @@ export class EventsToday extends LitElement {
         ":" +
         String(endDate.getMinutes()).padStart(2, "0")
     );
+  }
+
+  _formatDate(date) {
+    var options = {
+      year: "2-digit",
+      month: "short",
+      day: "numeric",
+    };
+
+    let day = date.getDate();
+
+    let formatStartDate = date.toLocaleDateString("it-it", options);
+
+    if (day >= 10)
+      formatStartDate =
+        formatStartDate.charAt(0) +
+        formatStartDate.charAt(1) +
+        formatStartDate.charAt(2) +
+        formatStartDate.charAt(3).toUpperCase() +
+        formatStartDate.slice(4);
+    else
+      formatStartDate =
+        formatStartDate.charAt(0) +
+        formatStartDate.charAt(1) +
+        formatStartDate.charAt(2).toUpperCase() +
+        formatStartDate.slice(3);
+
+    return formatStartDate;
   }
 
   _webAddressIsNotNull(event) {
