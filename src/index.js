@@ -221,6 +221,7 @@ export class EventsToday extends LitElement {
       font-size: 1.25em;
     }
     .clock {
+      font-family: "Source Sans Pro", sans-serif !important;
       font-size: 20px;
       line-height: 15px;
     }
