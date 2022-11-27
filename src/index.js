@@ -402,8 +402,19 @@ export class EventsToday extends LitElement {
 
     let formatStartDate = date.toLocaleDateString("it-it", options);
 
-    if (day >= 10) formatStartDate.charAt(3).toUpperCase();
-    else formatStartDate.charAt(2).toUpperCase();
+    if (day >= 10)
+      formatStartDate =
+        formatStartDate.charAt(0) +
+        formatStartDate.charAt(1) +
+        formatStartDate.charAt(2) +
+        formatStartDate.charAt(3).toUpperCase() +
+        formatStartDate.slice(4);
+    else
+      formatStartDate =
+        formatStartDate.charAt(0) +
+        formatStartDate.charAt(1) +
+        formatStartDate.charAt(2).toUpperCase() +
+        formatStartDate.slice(3);
 
     return formatStartDate;
   }
