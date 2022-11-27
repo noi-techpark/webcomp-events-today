@@ -165,6 +165,7 @@ export class EventsToday extends LitElement {
       font-size: 1.6em;
       font-weight: bold;
       max-width: 50%;
+      text-align: center;
     }
     .location a {
       color: #000000;
