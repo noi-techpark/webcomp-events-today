@@ -370,9 +370,12 @@ export class EventsToday extends LitElement {
         </h2>
       `;
   }
+
   _showLocation(room, index, length) {
-    if (index == length - 1) return html`${room}`;
-    else return html`${room + ", "}`;
+    if (index === 2 || length === 1 || (index === 1 && length === 2))
+      return html`${room}`;
+    else if (index < 2) return html`${room + ", "}`;
+    else if (index === 3) return html`...`;
   }
 
   _formatTime(startDate, endDate) {
