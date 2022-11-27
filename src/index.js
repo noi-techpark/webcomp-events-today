@@ -253,7 +253,7 @@ export class EventsToday extends LitElement {
   render() {
     return html`
       <header>
-        <h1 class="title"><strong> TODAY</strong>.NOI.BZ.IT</h1>
+        <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
         <img class="noi-logo" src=${logo} />
       </header>
       <body>
@@ -280,6 +280,8 @@ export class EventsToday extends LitElement {
       ["sortorder", "ASC"],
     ]);
 
+    console.log(baseURL + params);
+
     fetch(baseURL + params, {
       method: "GET",
       headers: {
@@ -292,17 +294,25 @@ export class EventsToday extends LitElement {
       response.json().then((json) => {
         var items = json.Items;
         for (var i = 0; i <= items.length - 1; ++i) {
-          var element = items[i];
+          let element = items[i];
 
           let startDate = new Date(element.StartDate);
           let endDate = new Date(element.EndDate);
 
-          var event = {
+          let roomsBooked = element.RoomBooked;
+          let roomsSet = new Set();
+
+          for (let i = 0; i < roomsBooked.length; i++)
+            roomsSet.add(roomsBooked[i].SpaceDescRoomMapping);
+
+          let rooms = Array.from(roomsSet);
+
+          let event = {
             shortName: element.Shortname,
             companyName: element.CompanyName,
             eventText: element.EventTextIT,
             webAddress: element.WebAddress,
-            room: element.AnchorVenueRoomMapping,
+            rooms: rooms,
             startDate: this._formatDate(startDate),
             time: this._formatTime(startDate, endDate),
           };
@@ -325,7 +335,11 @@ export class EventsToday extends LitElement {
           style="justify-content:flex-end"
         >
           <div class="location">
-            <a class="room" href="https://maps.noi.bz.it/en/"> ${event.room}</a>
+            <a class="room" href="https://maps.noi.bz.it/en/">
+              ${event.rooms.map((room, index) =>
+                this._showLocation(room, index, event.rooms.length)
+              )}</a
+            >
           </div>
           <div class="starts-in">
             <small class="clock">${event.time}</small>
@@ -336,6 +350,29 @@ export class EventsToday extends LitElement {
         </div>
       </div>
     `);
+  }
+
+  _webAddressIsNotNull(event) {
+    if (event.webAddress != null && event.webAddress != "")
+      return html`<h2>
+        <a href="${event.webAddress}" target="_blank">
+          <strong class="description"> ${event.shortName} </strong>
+        </a>
+        <br />
+        <small> ${event.companyName} </small>
+      </h2>`;
+    else
+      return html`
+        <h2>
+          <strong> ${event.shortName} </strong>
+          <br />
+          <small> ${event.companyName} </small>
+        </h2>
+      `;
+  }
+  _showLocation(room, index, length) {
+    if (index == length - 1) return html`${room}`;
+    else return html`${room + ", "}`;
   }
 
   _formatTime(startDate, endDate) {
@@ -361,40 +398,10 @@ export class EventsToday extends LitElement {
 
     let formatStartDate = date.toLocaleDateString("it-it", options);
 
-    if (day >= 10)
-      formatStartDate =
-        formatStartDate.charAt(0) +
-        formatStartDate.charAt(1) +
-        formatStartDate.charAt(2) +
-        formatStartDate.charAt(3).toUpperCase() +
-        formatStartDate.slice(4);
-    else
-      formatStartDate =
-        formatStartDate.charAt(0) +
-        formatStartDate.charAt(1) +
-        formatStartDate.charAt(2).toUpperCase() +
-        formatStartDate.slice(3);
+    if (day >= 10) formatStartDate.charAt(3).toUpperCase();
+    else formatStartDate.charAt(2).toUpperCase();
 
     return formatStartDate;
-  }
-
-  _webAddressIsNotNull(event) {
-    if (event.webAddress != null && event.webAddress != "")
-      return html`<h2>
-        <a href="${event.webAddress}" target="_blank">
-          <strong class="description"> ${event.shortName} </strong>
-        </a>
-        <br />
-        <small> ${event.companyName} </small>
-      </h2>`;
-    else
-      return html`
-        <h2>
-          <strong> ${event.shortName} </strong>
-          <br />
-          <small> ${event.companyName} </small>
-        </h2>
-      `;
   }
 }
 
