@@ -241,12 +241,15 @@ export class EventsToday extends LitElement {
     template: { type: Array },
     language: { type: String },
     eventLocation: { type: String },
+    fetched: { type: Boolean },
   };
 
   constructor() {
     super();
     this.language = "IT";
     this.template = [];
+    this.fetched = false;
+    this._fetchData();
   }
 
   connectedCallback() {
@@ -265,8 +268,7 @@ export class EventsToday extends LitElement {
   };
 
   render() {
-    this._fetchData();
-
+    if (!this.fetched) this._fetchData();
     return html`
       <header>
         <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
@@ -282,6 +284,8 @@ export class EventsToday extends LitElement {
         </div>
       </body>
     `;
+
+    this.fetched = false;
   }
 
   _fetchData() {
@@ -334,6 +338,7 @@ export class EventsToday extends LitElement {
           this._pushEvent(event);
         }
         this.requestUpdate();
+        this.fetched = true;
       });
     });
   }
