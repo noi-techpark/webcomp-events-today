@@ -251,6 +251,22 @@ export class EventsToday extends LitElement {
     this.fetchData();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+
+    window.addEventListener("resize", this._handleResize);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener("resize", this._handleResize);
+
+    super.disconnectedCallback();
+  }
+
+  _handleResize = () => {
+    console.log("window resize");
+  };
+
   render() {
     return html`
       <header>
