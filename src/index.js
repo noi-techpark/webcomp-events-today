@@ -349,10 +349,10 @@ export class EventsToday extends LitElement {
           style="justify-content:flex-end"
         >
           <div class="location">
-            <a class="room" href="https://maps.noi.bz.it/en/">
+            <span>
               ${event.rooms.map((room, index) =>
                 this._showLocation(room, index, event.rooms.length)
-              )}</a
+              )}</span
             >
           </div>
           <div class="starts-in">
@@ -387,8 +387,20 @@ export class EventsToday extends LitElement {
 
   _showLocation(room, index, length) {
     if (index === 2 || length === 1 || (index === 1 && length === 2))
-      return html`${room}`;
-    else if (index < 2) return html`${room + ", "}`;
+      return html`<a
+        class="room"
+        href="https://maps.noi.bz.it/en/"
+        target="_blank"
+      >
+        ${room}</a
+      >`;
+    else if (index < 2)
+      return html`<a
+          class="room"
+          href="https://maps.noi.bz.it/en/"
+          target="_blank"
+          >${room}</a
+        >, `;
     else if (index === 3) return html`...`;
   }
 
