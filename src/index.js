@@ -245,15 +245,12 @@ export class EventsToday extends LitElement {
 
   constructor() {
     super();
-    this.eventLocation = "NOI";
     this.language = "IT";
     this.template = [];
-    this.fetchData();
   }
 
   connectedCallback() {
     super.connectedCallback();
-
     window.addEventListener("resize", this._handleResize);
   }
 
@@ -268,6 +265,8 @@ export class EventsToday extends LitElement {
   };
 
   render() {
+    this._fetchData();
+
     return html`
       <header>
         <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
@@ -285,7 +284,7 @@ export class EventsToday extends LitElement {
     `;
   }
 
-  fetchData() {
+  _fetchData() {
     const baseURL = "https://tourism.api.opendatahub.com/v1/EventShort?";
 
     const params = new URLSearchParams([
@@ -296,8 +295,6 @@ export class EventsToday extends LitElement {
       ["onlyactive", true],
       ["sortorder", "ASC"],
     ]);
-
-    console.log(baseURL + params);
 
     fetch(baseURL + params, {
       method: "GET",
