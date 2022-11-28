@@ -268,7 +268,11 @@ export class EventsToday extends LitElement {
   };
 
   render() {
-    if (!this.fetched) this._fetchData();
+    if (!this.fetched) {
+      this._fetchData();
+      this.fetched = false;
+    }
+
     return html`
       <header>
         <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
@@ -284,8 +288,6 @@ export class EventsToday extends LitElement {
         </div>
       </body>
     `;
-
-    this.fetched = false;
   }
 
   _fetchData() {
