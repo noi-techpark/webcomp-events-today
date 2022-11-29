@@ -276,7 +276,11 @@ export class EventsToday extends LitElement {
     return html`
       <header>
         <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
-        <img class="noi-logo" src=${logo} />
+        <iframe
+          class="noi-logo"
+          src="https://svgshare.com/f/oT_"
+          frameborder="0"
+        ></iframe>
       </header>
       <body>
         <div class="slideshow-container full-height">
