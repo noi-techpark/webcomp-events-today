@@ -77,6 +77,7 @@ export class EventsToday extends LitElement {
         U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
         U+2212, U+2215, U+FEFF, U+FFFD;
     }
+
     .full-height {
       height: 100%;
     }
@@ -102,17 +103,22 @@ export class EventsToday extends LitElement {
       font-family: "Source Sans Pro", sans-serif !important;
     }
     h1 {
-      font-size: 3em;
+      font-size: 5em;
       padding: 25px;
       margin: 0;
     }
-    h2 small {
-      font-weight: bold;
-      color: #8c8c8c;
+    h1.title {
+      padding: 5px;
+      font-size: 5em;
     }
-    small {
+    h2 {
+      font-size: 2.3em;
+    }
+    h2 small {
       font-size: 65%;
       line-height: 1;
+      font-weight: bold;
+      color: #8c8c8c;
     }
     .slideshow-container {
       position: relative;
@@ -135,10 +141,10 @@ export class EventsToday extends LitElement {
       align-items: center;
       overflow: hidden;
     }
-    body {
+    .bdy {
+      font-family: "Source Sans Pro", sans-serif !important;
       width: 100%;
       text-align: center;
-      font-family: "Source Sans Pro", sans-serif !important;
       color: #000;
       font-size: 16px;
       margin: 0;
@@ -146,14 +152,23 @@ export class EventsToday extends LitElement {
       height: 100%;
       padding-bottom: 20px;
     }
-    body > div {
+    .bdy.div {
       width: 100%;
     }
     .container-fluid {
-      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
       margin-right: auto;
       margin-left: auto;
-      margin-top: auto;
+    }
+    .container-fluid:after,
+    .row:before,
+    .row:after {
+      display: table;
+      content: " ";
+    }
+    .container-fluid:after {
+      clear: both;
     }
     .location {
       font-family: "Source Sans Pro", sans-serif !important;
@@ -165,7 +180,6 @@ export class EventsToday extends LitElement {
       font-size: 1.6em;
       font-weight: bold;
       max-width: 50%;
-      text-align: center;
     }
     .location a {
       color: #000000;
@@ -173,12 +187,14 @@ export class EventsToday extends LitElement {
     .description {
       text-align: left;
     }
+    a {
+      color: #000;
+    }
     a.room {
       color: #ffffff;
-      font-size: 0.7em;
     }
     .noi-logo {
-      width: 275px;
+      width: 258px;
     }
     strong {
       font-weigth: 600;
@@ -222,9 +238,9 @@ export class EventsToday extends LitElement {
       font-size: 1.25em;
     }
     .clock {
-      font-family: "Source Sans Pro", sans-serif !important;
       font-size: 20px;
       line-height: 20px;
+      font-family: "Source Sans Pro", sans-serif !important;
     }
     day {
       font-weight: normal;
@@ -235,6 +251,89 @@ export class EventsToday extends LitElement {
       margin-right: -15px;
       margin-left: -15px;
     }
+    *:before,
+    *:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    @media screen and (min-width: 320px) and (max-width: 812px) {
+      h1{
+      font-size: 2.6em;
+      }
+      header{
+      display: block;
+      }
+      .line{
+      font-size:12px;
+      padding:0;
+      }
+      .line{
+      font-size:1.3vw;
+      }
+      .bdy{
+        overflow:auto;
+        padding-top:2vh;
+      }
+      .clock{
+          font-size:1em;
+      }
+      .slideshow-container{
+        height:max-content;
+      }
+    }
+    @media screen and (min-width: 812px) and (max-width: 830px) {
+      .clock {
+        font-size: 17px;
+      }
+      .day {
+        font-size: 16px;
+      }
+      }
+    @media screen and (min-width: 769px) and (max-width: 811px){
+      h2 {
+      font-size:2em;
+    }
+    .clock {
+      font-size: 16px;
+    }
+    .day {
+      font-size: 15px;
+    }
+    }
+    @media screen and (min-width: 713px) and (max-width: 768px){
+      h2 {
+      font-size:1.8em;
+    }
+    .clock {
+      font-size: 16px;
+    }
+    .day {
+      font-size: 15px;
+    }
+    .location {
+      font-size:1.4em;
+    }
+    }
+    @media screen and (max-width: 1441px) and (max-height: 901px){
+      .bdy {
+        font-size: 12px;
+      }
+    }
+    @media screen and (max-width: 1280px) and (min-height: 1024px){
+      .bdy {
+        font-size: 16px;
+      }
+    }
+    @media screen and (max-width: 1600px) and (min-height: 900px){
+      .bdy {
+        font-size: 14px;
+      }
+    }
+    @media screen and (max-width: 992px) and (min-width: 812px){
+      .bdy {
+        font-size: 8px;
+      }
   `;
 
   static properties = {
@@ -274,23 +373,23 @@ export class EventsToday extends LitElement {
     }
 
     return html`
-      <header>
-        <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
-        <iframe
-          class="noi-logo"
-          src="https://svgshare.com/f/oT_"
-          frameborder="0"
-        ></iframe>
-      </header>
-      <body>
+      <div class="bdy">
+        <header>
+          <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
+          <iframe
+            class="noi-logo"
+            src="https://svgshare.com/f/oT_"
+            frameborder="0"
+          ></iframe>
+        </header>
         <div class="slideshow-container full-height">
-          <div class=" content container-fluid">
+          <div class="content container-fluid">
             <div class="lines">
               ${this.template.map((templateItem) => html`${templateItem}`)}
             </div>
           </div>
         </div>
-      </body>
+      </div>
     `;
   }
 
