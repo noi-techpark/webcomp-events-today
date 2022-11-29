@@ -165,19 +165,20 @@ export class EventsToday extends LitElement {
       font-size: 1.6em;
       font-weight: bold;
       max-width: 50%;
+      text-align: center;
+    }
+    .location a {
+      color: #000000;
     }
     .description {
       text-align: left;
-    }
-    a {
-      color: #000000;
     }
     a.room {
       color: #ffffff;
       font-size: 0.7em;
     }
     .noi-logo {
-      width: 250px;
+      width: 275px;
     }
     strong {
       font-weigth: 600;
@@ -221,8 +222,14 @@ export class EventsToday extends LitElement {
       font-size: 1.25em;
     }
     .clock {
+      font-family: "Source Sans Pro", sans-serif !important;
       font-size: 20px;
-      line-height: 5px;
+      line-height: 20px;
+    }
+    day {
+      font-weight: normal;
+      font-size: 24px;
+      color: #fff;
     }
     .row {
       margin-right: -15px;
@@ -234,24 +241,46 @@ export class EventsToday extends LitElement {
     template: { type: Array },
     language: { type: String },
     eventLocation: { type: String },
+    fetched: { type: Boolean },
   };
 
   constructor() {
     super();
-    this.eventLocation = "NOI";
-    this.fetchData();
     this.language = "IT";
     this.template = [];
+    this.fetched = false;
+    this._fetchData();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener("resize", this._handleResize);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener("resize", this._handleResize);
+
+    super.disconnectedCallback();
+  }
+
+  _handleResize = () => {
+    console.log("window resize");
+  };
+
   render() {
+    if (!this.fetched) {
+      this._fetchData();
+      this.fetched = false;
+    }
+
     return html`
       <header>
-        <h1 class="title">
-          <strong> NOI </strong>
-          Events
-        </h1>
-        <img class="noi-logo" src=${logo} />
+        <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
+        <iframe
+          class="noi-logo"
+          src="https://svgshare.com/f/oT_"
+          frameborder="0"
+        ></iframe>
       </header>
       <body>
         <div class="slideshow-container full-height">
@@ -265,7 +294,7 @@ export class EventsToday extends LitElement {
     `;
   }
 
-  fetchData() {
+  _fetchData() {
     const baseURL = "https://tourism.api.opendatahub.com/v1/EventShort?";
 
     const params = new URLSearchParams([
@@ -276,10 +305,6 @@ export class EventsToday extends LitElement {
       ["onlyactive", true],
       ["sortorder", "ASC"],
     ]);
-
-    console.log(baseURL + params);
-
-    console.log(baseURL + params);
 
     fetch(baseURL + params, {
       method: "GET",
@@ -293,93 +318,101 @@ export class EventsToday extends LitElement {
       response.json().then((json) => {
         var items = json.Items;
         for (var i = 0; i <= items.length - 1; ++i) {
-          var options = {
-            year: "2-digit",
-            month: "short",
-            day: "numeric",
-          };
-
-          var element = items[i];
+          let element = items[i];
 
           let startDate = new Date(element.StartDate);
           let endDate = new Date(element.EndDate);
 
-          var event = {
+          let roomsBooked = element.RoomBooked;
+          let roomsSet = new Set();
+
+          for (let i = 0; i < roomsBooked.length; i++)
+            roomsSet.add(roomsBooked[i].SpaceDescRoomMapping);
+
+          let rooms = Array.from(roomsSet);
+
+          let event = {
             shortName: element.Shortname,
             companyName: element.CompanyName,
             eventText: element.EventTextIT,
             webAddress: element.WebAddress,
-            room: element.AnchorVenueRoomMapping,
-            startDate: startDate
-              .toLocaleDateString("it-it", options)
-              .toUpperCase(),
+            rooms: rooms,
+            startDate: this._formatDate(startDate),
             time: this._formatTime(startDate, endDate),
           };
 
           this._pushEvent(event);
         }
         this.requestUpdate();
+        this.fetched = true;
       });
     });
   }
 
   _pushEvent(event) {
-    console.log(event.time);
-    if (
-      event.webAddress != undefined &&
-      event.webAddress != null &&
-      event.webAddress != ""
-    )
-      this.template.push(html`
-        <div class="row line">
-          <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
-            <h2>
-              <a href="${event.webAddress}" target="_blank">
-                <strong class="desc"> ${event.shortName} </strong>
-              </a>
-              <br />
-              <small> ${event.companyName} </small>
-            </h2>
+    this.template.push(html`
+      <div class="row line">
+        <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
+          ${this._webAddressIsNotNull(event)}
+        </div>
+        <div
+          class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
+          style="justify-content:flex-end"
+        >
+          <div class="location">
+            <span>
+              ${event.rooms.map((room, index) =>
+                this._showLocation(room, index, event.rooms.length)
+              )}</span
+            >
           </div>
-          <div
-            class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
-            style="justify-content:flex-end"
-          >
-            <div class="location">${event.room}</div>
-            <div class="starts-in">
-              <div class="clock">${event.startDate}</div>
-              <small class="clock">${event.time}</small>
+          <div class="starts-in">
+            <small class="clock">${event.time}</small>
+            <div class="clock day">
+              <strong>${event.startDate} </strong>
             </div>
           </div>
         </div>
-      `);
-    else {
-      this.template.push(html`
-        <div class="row line">
-          <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
-            <h2>
-              ${event.shortName}
-              <br />
-              <small> ${event.companyName} </small>
-            </h2>
-          </div>
-          <div
-            class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
-            style="justify-content:flex-end"
-          >
-            <div class="location">
-              <a class="room" href="https://maps.noi.bz.it/en/">
-                ${event.room}</a
-              >
-            </div>
-            <div class="starts-in">
-              <div class="clock">${event.startDate}</div>
-              <small class="clock">${event.time}</small>
-            </div>
-          </div>
-        </div>
-      `);
-    }
+      </div>
+    `);
+  }
+
+  _webAddressIsNotNull(event) {
+    if (event.webAddress != null && event.webAddress != "")
+      return html`<h2>
+        <a href="${event.webAddress}" target="_blank">
+          <strong class="description"> ${event.shortName} </strong>
+        </a>
+        <br />
+        <small> ${event.companyName} </small>
+      </h2>`;
+    else
+      return html`
+        <h2>
+          <strong> ${event.shortName} </strong>
+          <br />
+          <small> ${event.companyName} </small>
+        </h2>
+      `;
+  }
+
+  _showLocation(room, index, length) {
+    if (index === 2 || length === 1 || (index === 1 && length === 2))
+      return html`<a
+        class="room"
+        href="https://maps.noi.bz.it/en/"
+        target="_blank"
+      >
+        ${room}</a
+      >`;
+    else if (index < 2)
+      return html`<a
+          class="room"
+          href="https://maps.noi.bz.it/en/"
+          target="_blank"
+          >${room}</a
+        >, `;
+    else if (index === 3) return html`...`;
   }
 
   _formatTime(startDate, endDate) {
@@ -392,6 +425,34 @@ export class EventsToday extends LitElement {
         ":" +
         String(endDate.getMinutes()).padStart(2, "0")
     );
+  }
+
+  _formatDate(date) {
+    var options = {
+      year: "2-digit",
+      month: "short",
+      day: "numeric",
+    };
+
+    let day = date.getDate();
+
+    let formatStartDate = date.toLocaleDateString("it-it", options);
+
+    if (day >= 10)
+      formatStartDate =
+        formatStartDate.charAt(0) +
+        formatStartDate.charAt(1) +
+        formatStartDate.charAt(2) +
+        formatStartDate.charAt(3).toUpperCase() +
+        formatStartDate.slice(4);
+    else
+      formatStartDate =
+        formatStartDate.charAt(0) +
+        formatStartDate.charAt(1) +
+        formatStartDate.charAt(2).toUpperCase() +
+        formatStartDate.slice(3);
+
+    return formatStartDate;
   }
 }
 

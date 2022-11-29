@@ -34,12 +34,12 @@
     "tagName": "events-today",
     "options": [
       {
-        "key": "title",
+        "key": "eventLocation",
         "type": "text",
-        "label": "events-today",
-        "required": false,
+        "label": "eventLocation",
+        "required": true,
         "options": {
-          "default": "events-today"
+          "default": "NOI"
         }
       }
     ]
