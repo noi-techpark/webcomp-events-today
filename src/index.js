@@ -253,33 +253,32 @@ export class EventsToday extends LitElement {
     }
     *:before,
     *:after {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
       box-sizing: border-box;
     }
     @media screen and (min-width: 320px) and (max-width: 812px) {
-      h1{
-      font-size: 2.6em;
+      h1 {
+        font-size: 2.6em;
       }
-      header{
-      display: block;
+      header {
+        display: block;
       }
-      .line{
-      font-size:12px;
-      padding:0;
+      .line {
+        font-size: 12px;
+        padding: 0;
       }
-      .line{
-      font-size:1.3vw;
+      .line {
+        font-size: 1.3vw;
       }
-      .bdy{
-        overflow:auto;
-        padding-top:2vh;
+      .bdy {
+        overflow: auto;
+        font-size: 1.3vw;
+        padding-top: 2vh;
       }
-      .clock{
-          font-size:1em;
+      .clock {
+        font-size: 1em;
       }
-      .slideshow-container{
-        height:max-content;
+      .slideshow-container {
+        height: max-content;
       }
     }
     @media screen and (min-width: 812px) and (max-width: 830px) {
@@ -289,51 +288,83 @@ export class EventsToday extends LitElement {
       .day {
         font-size: 16px;
       }
+    }
+    @media screen and (min-width: 769px) and (max-width: 811px) {
+      h2 {
+        font-size: 2em;
       }
-    @media screen and (min-width: 769px) and (max-width: 811px){
-      h2 {
-      font-size:2em;
+      .clock {
+        font-size: 15px;
+      }
+      .day {
+        font-size: 16px;
+      }
     }
-    .clock {
-      font-size: 16px;
+    @media screen and (min-width: 712px) and (max-width: 768px) {
+      .clock {
+        font-size: 14px;
+      }
+      .day {
+        font-size: 14px;
+      }
+      .location {
+        font-size: 1.4em;
+      }
     }
-    .day {
-      font-size: 15px;
+    @media screen and (min-width: 647px) and (max-width: 711px) {
+      .clock {
+        font-size: 11px;
+      }
+      .day {
+        font-size: 11px;
+      }
+      .location {
+        font-size: 1.3em;
+      }
     }
+    @media screen and (min-width: 458px) and (max-width: 646px) {
+      .clock {
+        font-size: 10px;
+      }
+      .day {
+        font-size: 10px;
+      }
+      .location {
+        font-size: 1.3em;
+      }
     }
-    @media screen and (min-width: 713px) and (max-width: 768px){
-      h2 {
-      font-size:1.8em;
+    @media screen and (min-width: 320px) and (max-width: 458px) {
+      .clock {
+        font-size: 8px;
+      }
+      .day {
+        font-size: 8px;
+      }
+      .location {
+        font-size: 1.2em;
+      }
     }
-    .clock {
-      font-size: 16px;
-    }
-    .day {
-      font-size: 15px;
-    }
-    .location {
-      font-size:1.4em;
-    }
-    }
-    @media screen and (max-width: 1441px) and (max-height: 901px){
+
+    @media screen and (max-width: 1441px) and (max-height: 901px) {
       .bdy {
-        font-size: 12px;
+        font-size: 11px;
       }
     }
-    @media screen and (max-width: 1280px) and (min-height: 1024px){
+    @media screen and (max-width: 1280px) and (min-height: 1024px) {
       .bdy {
         font-size: 16px;
       }
     }
-    @media screen and (max-width: 1600px) and (min-height: 900px){
+    @media screen and (max-width: 1600px) and (min-height: 900px) {
       .bdy {
         font-size: 14px;
       }
     }
-    @media screen and (max-width: 992px) and (min-width: 812px){
+    @media screen and (max-width: 992px) and (min-width: 812px) {
       .bdy {
         font-size: 8px;
       }
+    }
   `;
 
   static properties = {
