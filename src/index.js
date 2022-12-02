@@ -1,5 +1,4 @@
 import { LitElement, html, css } from "lit";
-import logo from "./noi-black.svg";
 
 export class EventsToday extends LitElement {
   static styles = css`
