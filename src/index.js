@@ -344,7 +344,6 @@ export class EventsToday extends LitElement {
         font-size: 1.2em;
       }
     }
-
     @media screen and (max-width: 1441px) and (max-height: 901px) {
       .bdy {
         font-size: 11px;
