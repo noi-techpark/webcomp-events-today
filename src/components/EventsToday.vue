@@ -1,5 +1,5 @@
 <template>
-  <div class="bdy">
+  <body>
     <header>
       <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
       <iframe
@@ -10,20 +10,20 @@
     </header>
     <div class="slideshow-container full-height">
       <div class="content container-fluid">
-        <div class="lines" v-for="event in events">
-          <div class="row line">
+        <div class="lines">
+          <div class="row line" v-for="event in events" :key="event.key">
             <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
               <h2 v-if="event.webAddress != null && event.webAddress != ''">
                 <a :href="event.webAddress" target="_blank">
-                  <strong class="description"> @{{ event.shortName }} </strong>
+                  <strong> {{ event.shortName }} </strong>
                 </a>
                 <br />
-                <small> @{{ event.shortName }}</small>
+                <small> {{ event.shortName }}</small>
               </h2>
               <h2 v-else>
-                <strong> @{{ event.shortName }} </strong>
+                <strong> {{ event.shortName }} </strong>
                 <br />
-                <small> @{{ event.companyName }} </small>
+                <small> {{ event.companyName }} </small>
               </h2>
             </div>
             <div
@@ -31,12 +31,27 @@
               style="justify-content: flex-end"
             >
               <div class="location">
-                <span></span>
+                <span v-for="(room, index) in event.rooms" :key="room.key">
+                  <a
+                    v-if="index != 3"
+                    class="room"
+                    href="https://maps.noi.bz.it/en/"
+                    target="_blank"
+                    >{{ formatLocation(room, index, event.rooms.length) }}</a
+                  >
+                  <span v-else>{{
+                    formatLocation(room, index, event.rooms.length)
+                  }}</span>
+                </span>
               </div>
               <div class="starts-in">
-                <small class="clock"></small>
+                <small class="clock">
+                  {{ event.time }}
+                </small>
                 <div class="clock day">
-                  <strong></strong>
+                  <strong>
+                    {{ event.startDate }}
+                  </strong>
                 </div>
               </div>
             </div>
@@ -44,19 +59,25 @@
         </div>
       </div>
     </div>
-  </div>
+  </body>
 </template>
 
 <script>
 export default {
   name: "EventsToday",
+  props: {
+    options: Object,
+    default: () => {
+      return {};
+    },
+  },
   methods: {
-    fetchData() {
+    async fetchData() {
       const baseURL = "https://tourism.api.opendatahub.com/v1/EventShort?";
 
       const params = new URLSearchParams([
         ["startdate", new Date().getTime()],
-        ["eventlocation", this.eventLocation],
+        ["eventlocation", this.options.eventLocation],
         ["pagesize", 999],
         ["datetimeformat", "uxtimestamp"],
         ["onlyactive", true],
@@ -88,6 +109,8 @@ export default {
 
             let rooms = Array.from(roomsSet);
 
+            if (rooms.length > 3) rooms = rooms.splice(0, 4);
+
             let event = {
               shortName: element.Shortname,
               companyName: element.CompanyName,
@@ -100,7 +123,6 @@ export default {
 
             this.events.push(event);
           }
-          this.fetched = true;
         });
       });
     },
@@ -142,22 +164,38 @@ export default {
 
       return formatStartDate;
     },
+    formatLocation(room, index, length) {
+      if (index === 3) return "...";
+      else if (
+        length === 1 ||
+        (length === 2 && index === 1) ||
+        (length === 4 && index === 2)
+      )
+        return room;
+      else return room + ",";
+    },
   },
   created: function () {
     this.fetchData();
   },
+  data: function () {
+    return {
+      events: [],
+    };
+  },
 };
 </script>
 
-<stile lang="css">
-/* latin-ext */
+<style>
+@import "~bootstrap/dist/css/bootstrap.min.css";
 
+/* latin-ext */
 @font-face {
   font-family: "Source Sans Pro";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(../source-sans-pro/sans-pro-ext-400.woff2) format("woff2");
+  src: url(../assets/source-sans-pro/sans-pro-ext-400.woff2) format("woff2");
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
     U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
@@ -169,7 +207,7 @@ export default {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(../source-sans-pro/sans-pro-400.woff2) format("woff2");
+  src: url(../assets/source-sans-pro/sans-pro-400.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
     U+FEFF, U+FFFD;
@@ -182,7 +220,7 @@ export default {
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(../source-sans-pro/sans-pro-ext-600.woff2) format("woff2");
+  src: url(../assets/source-sans-pro/sans-pro-ext-600.woff2) format("woff2");
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
     U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
@@ -194,7 +232,7 @@ export default {
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(../source-sans-pro/sans-pro-600.woff2) format("woff2");
+  src: url(../assets/source-sans-pro/sans-pro-600.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
     U+FEFF, U+FFFD;
@@ -207,7 +245,7 @@ export default {
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(../source-sans-pro/sans-pro-ext-700.woff2) format("woff2");
+  src: url(../assets/source-sans-pro/sans-pro-ext-700.woff2) format("woff2");
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
     U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
@@ -219,7 +257,7 @@ export default {
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(../source-sans-pro/sans-pro-700.woff2) format("woff2");
+  src: url(../assets/source-sans-pro/sans-pro-700.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
     U+FEFF, U+FFFD;
@@ -227,9 +265,6 @@ export default {
 
 .full-height {
   height: 100%;
-}
-* {
-  box-sizing: border-box;
 }
 .content {
   padding: 0;
@@ -239,24 +274,10 @@ header {
   justify-content: space-between;
   align-items: center;
 }
-h1,
-h2 {
-  font-family: inherit;
-  font-weight: 500;
-  line-height: 1.1;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  color: inherit;
-  font-family: "Source Sans Pro", sans-serif !important;
-}
 h1 {
   font-size: 5em;
   padding: 25px;
   margin: 0;
-}
-h1.title {
-  padding: 5px;
-  font-size: 5em;
 }
 h2 {
   font-size: 2.3em;
@@ -266,6 +287,10 @@ h2 small {
   line-height: 1;
   font-weight: bold;
   color: #8c8c8c;
+}
+h1.title {
+  padding: 5px;
+  font-size: 5em;
 }
 .slideshow-container {
   position: relative;
@@ -288,10 +313,10 @@ h2 small {
   align-items: center;
   overflow: hidden;
 }
-.bdy {
-  font-family: "Source Sans Pro", sans-serif !important;
+body {
   width: 100%;
   text-align: center;
+  font-family: "Source Sans Pro", sans-serif !important;
   color: #000;
   font-size: 16px;
   margin: 0;
@@ -299,23 +324,8 @@ h2 small {
   height: 100%;
   padding-bottom: 20px;
 }
-.bdy.div {
+body > div {
   width: 100%;
-}
-.container-fluid {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
-.container-fluid:after,
-.row:before,
-.row:after {
-  display: table;
-  content: " ";
-}
-.container-fluid:after {
-  clear: both;
 }
 .location {
   font-family: "Source Sans Pro", sans-serif !important;
@@ -341,39 +351,10 @@ a.room {
   color: #ffffff;
 }
 .noi-logo {
-  width: 258px;
+  width: 275px;
 }
 strong {
   font-weight: 600;
-}
-.col-sm-7,
-.col-xs-12,
-.col-lg-7,
-.col-md-7,
-.col-sm-5,
-.col-lg-5,
-.col-md-5 {
-  position: relative;
-  min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
-  float: left;
-}
-.col-xs-12 {
-  width: 100%;
-}
-.col-lg-7,
-.col-md-7,
-.col-sm-7 {
-  width: 58.33333333%;
-}
-.col-sm-5,
-.col-lg-5,
-.col-md-5 {
-  width: 41.66666667%;
-}
-.col-lg-offset-0 {
-  margin-left: 0;
 }
 .starts-in {
   text-align: right;
@@ -387,20 +368,10 @@ strong {
 .clock {
   font-size: 20px;
   line-height: 20px;
-  font-family: "Source Sans Pro", sans-serif !important;
 }
-day {
+.day {
   font-weight: normal;
   font-size: 24px;
-  color: #fff;
-}
-.row {
-  margin-right: -15px;
-  margin-left: -15px;
-}
-*:before,
-*:after {
-  box-sizing: border-box;
 }
 @media screen and (min-width: 320px) and (max-width: 812px) {
   h1 {
@@ -409,16 +380,17 @@ day {
   header {
     display: block;
   }
+  header .pull-left,
+  header .pull-right {
+    float: none !important;
+  }
   .line {
     font-size: 12px;
     padding: 0;
+    height: auto;
   }
-  .line {
-    font-size: 1.3vw;
-  }
-  .bdy {
+  body {
     overflow: auto;
-    font-size: 1.3vw;
     padding-top: 2vh;
   }
   .clock {
@@ -428,87 +400,49 @@ day {
     height: max-content;
   }
 }
-@media screen and (min-width: 812px) and (max-width: 830px) {
-  .clock {
-    font-size: 17px;
-  }
-  .day {
-    font-size: 16px;
-  }
-}
-@media screen and (min-width: 769px) and (max-width: 811px) {
-  h2 {
-    font-size: 2em;
-  }
-  .clock {
-    font-size: 15px;
-  }
-  .day {
-    font-size: 16px;
-  }
-}
-@media screen and (min-width: 712px) and (max-width: 768px) {
-  .clock {
-    font-size: 14px;
-  }
-  .day {
-    font-size: 14px;
-  }
+@media screen and (min-width: 320px) and (max-width: 812px) and (orientation: portrait) {
   .location {
-    font-size: 1.4em;
+    max-width: none;
+    margin: 0 40px;
+  }
+  .line > div {
+    display: block;
+  }
+  .starts-in {
+    padding: 15px;
+  }
+  .starts-in,
+  .description {
+    text-align: center;
+  }
+  .slideshow-container {
+    height: max-content;
   }
 }
-@media screen and (min-width: 647px) and (max-width: 711px) {
-  .clock {
-    font-size: 11px;
-  }
-  .day {
-    font-size: 11px;
-  }
-  .location {
-    font-size: 1.3em;
-  }
-}
-@media screen and (min-width: 458px) and (max-width: 646px) {
-  .clock {
+
+@media screen and (min-width: 992px) and (max-height: 901px) and (orientation: landscape) {
+  body {
     font-size: 10px;
   }
-  .day {
-    font-size: 10px;
-  }
-  .location {
-    font-size: 1.3em;
+}
+@media screen and (max-width: 1441px) and (max-height: 901px) and (orientation: landscape) {
+  body {
+    font-size: 12px;
   }
 }
-@media screen and (min-width: 320px) and (max-width: 458px) {
-  .clock {
-    font-size: 8px;
-  }
-  .day {
-    font-size: 8px;
-  }
-  .location {
-    font-size: 1.2em;
-  }
-}
-@media screen and (max-width: 1441px) and (max-height: 901px) {
-  .bdy {
-    font-size: 11px;
-  }
-}
-@media screen and (max-width: 1280px) and (min-height: 1024px) {
-  .bdy {
+@media screen and (max-width: 1280px) and (min-height: 1024px) and (orientation: landscape) {
+  body {
     font-size: 16px;
   }
 }
-@media screen and (max-width: 1600px) and (min-height: 900px) {
-  .bdy {
+@media screen and (max-width: 1600px) and (min-height: 900px) and (orientation: landscape) {
+  body {
     font-size: 14px;
   }
 }
-@media screen and (max-width: 992px) and (min-width: 812px) {
-  .bdy {
+@media screen and (max-width: 992px) and (min-width: 812px) and (orientation: landscape) {
+  body {
     font-size: 8px;
   }
 }
-</stile>
+</style>

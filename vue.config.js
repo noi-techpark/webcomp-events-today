@@ -1,6 +1,18 @@
+const path = require("path");
 module.exports = {
-  chainWebpack: (config) => {
-    config.module.rule("images").use("url-loader").loader("url-loader");
+  configureWebpack: {
+    entry: "./src/App.vue",
+    output: {
+      filename: "webcomp-events-today.min.js",
+      path: path.resolve(__dirname, "dist"),
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: "asset/resource",
+        },
+      ],
+    },
   },
-  productionSourceMap: false,
 };
