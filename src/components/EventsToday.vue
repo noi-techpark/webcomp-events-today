@@ -33,22 +33,30 @@
               <div class="location">
                 <span v-for="(room, index) in event.rooms" :key="room.key">
                   <a
-                    v-if="index != 3"
+                    v-if="index < 3"
                     class="room"
                     href="https://maps.noi.bz.it/en/"
                     target="_blank"
-                    >{{ formatLocation(room, index, event.rooms.length) }}</a
+                    >{{ room }}</a
                   >
-                  <span v-else>{{
-                    formatLocation(room, index, event.rooms.length)
-                  }}</span>
+                  <span v-else>...</span>
+                  <span
+                    v-if="
+                      index >= 0 &&
+                      index < 2 &&
+                      event.rooms.length >= 2 &&
+                      index != event.rooms.length - 1
+                    "
+                    >,</span
+                  >
                 </span>
               </div>
               <div class="starts-in">
-                <small class="clock">
-                  {{ event.time }}
-                </small>
-                <div class="clock day">
+                <div>
+                  <small>
+                    {{ event.time }}
+                    <br />
+                  </small>
                   <strong>
                     {{ event.startDate }}
                   </strong>
@@ -164,16 +172,6 @@ export default {
 
       return formatStartDate;
     },
-    formatLocation(room, index, length) {
-      if (index === 3) return "...";
-      else if (
-        length === 1 ||
-        (length === 2 && index === 1) ||
-        (length === 4 && index === 2)
-      )
-        return room;
-      else return room + ",";
-    },
   },
   created: function () {
     this.fetchData();
@@ -273,6 +271,7 @@ body > div {
 }
 a {
   color: #000;
+  text-decoration: underline;
 }
 a.room {
   color: #ffffff;
@@ -291,14 +290,6 @@ strong {
 }
 .starts-in strong {
   font-size: 1.25em;
-}
-.clock {
-  font-size: 20px;
-  line-height: 20px;
-}
-.day {
-  font-weight: normal;
-  font-size: 24px;
 }
 @media screen and (min-width: 320px) and (max-width: 812px) {
   h1 {
