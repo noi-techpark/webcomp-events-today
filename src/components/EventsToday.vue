@@ -92,6 +92,17 @@ export default {
         ["sortorder", "ASC"],
       ]);
 
+      if (this.options.room != "" && this.options.room != null) {
+        params.set(
+          "rawfilter",
+          "in(RoomBooked.[*].SpaceDescRoomMapping," +
+            '"' +
+            this.options.room +
+            '"' +
+            ")"
+        );
+      }
+
       fetch(baseURL + params, {
         method: "GET",
         headers: {
