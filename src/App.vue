@@ -12,6 +12,14 @@ export default {
       type: String,
       default: "NOI",
     },
+    imageGalleryLink: {
+      type: String,
+      default: "NOI",
+    },
+    theme: {
+      type: String,
+      default: "NOI",
+    },
     room: { type: String, default: "Seminar 2" },
   },
   components: {

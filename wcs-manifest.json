@@ -1,47 +1,63 @@
 {
-  "title": "events-today",
-  "description": "A simple web component to see NOI events",
-  "descriptionAbstract": "events simple webcomp",
-  "license": "AGPL-3.0-or-later",
-  "repositoryUrl": "https://github.com/noi-techpark/webcomp-events-today.git",
-  "copyrightHolders": [
-    {
-      "name": "NOI",
-      "email": "info@noi.bz.it",
-      "organization": "NOI S.p.A",
-      "organizationUrl": "https://noi.bz.it"
+    "title": "events-today",
+    "description": "A simple web component to see NOI events",
+    "descriptionAbstract": "events simple webcomp",
+    "license": "AGPL-3.0-or-later",
+    "repositoryUrl": "https://github.com/noi-techpark/webcomp-events-today.git",
+    "copyrightHolders": [{
+        "name": "NOI",
+        "email": "info@noi.bz.it",
+        "organization": "NOI S.p.A",
+        "organizationUrl": "https://noi.bz.it"
+    }],
+    "authors": [{
+        "name": "Sergio Evola",
+        "email": "evola.sergio97@gmail.com",
+        "organization": "NOI S.p.A",
+        "organizationUrl": "https://noi.bz.it"
+    }],
+    "image": "wcs-logo.png",
+    "searchTags": [],
+    "dist": {
+        "basePath": "dist",
+        "files": [
+            "webcomp-noi-events.min.js"
+        ],
+        "scripts": []
+    },
+    "configuration": {
+        "tagName": "events-today",
+        "options": [{
+                "key": "eventLocation",
+                "type": "text",
+                "label": "eventLocation",
+                "required": true,
+                "options": {
+                    "default": "NOI"
+                }
+            },
+            {
+                "key": "imageGalleryLink",
+                "type": "text",
+                "label": "imageGalleryLink",
+                "required": false,
+                "options": {
+                    "default": "EC"
+                }
+            },
+            {
+                "key": "theme",
+                "type": "text",
+                "label": "Theme",
+                "required": true,
+                "options": {
+                    "values": [
+                        "NOI",
+                        "EURAC"
+                    ],
+                    "default": "NOI"
+                }
+            }
+        ]
     }
-  ],
-  "authors": [
-    {
-      "name": "Sergio Evola",
-      "email": "evola.sergio97@gmail.com",
-      "organization": "NOI S.p.A",
-      "organizationUrl": "https://noi.bz.it"
-    }
-  ],
-  "image": "wcs-logo.png",
-  "searchTags": [],
-  "dist": {
-    "basePath": "dist",
-    "files": [
-      "webcomp-noi-events.min.js"
-    ],
-    "scripts": [
-    ]
-  },
-  "configuration": {
-    "tagName": "events-today",
-    "options": [
-      {
-        "key": "eventLocation",
-        "type": "text",
-        "label": "eventLocation",
-        "required": true,
-        "options": {
-          "default": "NOI"
-        }
-      }
-    ]
-  }
 }
