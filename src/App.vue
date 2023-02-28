@@ -1,5 +1,11 @@
 <template>
-  <EventsToday :options="{ eventLocation: eventLocation, room: room }" />
+  <EventsToday
+    :options="{
+      eventLocation: eventLocation,
+      room: room,
+      imageGalleryInterval: imageGalleryInterval,
+    }"
+  />
 </template>
 <script>
 import EventsToday from "./components/EventsToday.vue";
@@ -9,11 +15,15 @@ export default {
   props: {
     eventLocation: {
       type: String,
-      default: "NOI",
+      default: "EC",
     },
     imageGalleryUrl: {
       type: String,
       default: "",
+    },
+    imageGalleryInterval: {
+      type: Number,
+      default: 2,
     },
     room: { type: String, default: "" },
   },

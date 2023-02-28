@@ -15,8 +15,8 @@
 
     <div class="slideshow-container full-height">
       <div class="content container-fluid">
-        <div class="lines">
-          <div class="line-separation"></div>
+        <div class="line-separation"></div>
+        <div v-if="this.events.length > 0" class="lines">
           <div
             class="row line line-separation"
             v-for="event in events"
@@ -66,6 +66,9 @@
             </div>
           </div>
         </div>
+        <div v-else>
+          <img :src="this.currentImage" alt="image" />
+        </div>
       </div>
     </div>
   </body>
@@ -80,7 +83,29 @@ export default {
       return {};
     },
   },
+  data: function () {
+    return {
+      events: [],
+      timestamp: "",
+      currentImageIndex: 0,
+      currentImage:
+        "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/0.png",
+    };
+  },
+  created: function () {
+    // this.events = this.listBucket();
+    this.fetchData();
+    setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
+    setInterval(this.getNow, 1000);
+  },
   methods: {
+    nextImage() {
+      this.currentImageIndex++;
+      if (this.currentImageIndex > 4) {
+        this.currentImageIndex = 0;
+      }
+      this.currentImage = `https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/${this.currentImageIndex}.png`;
+    },
     async fetchData() {
       const baseURL = "https://tourism.api.opendatahub.com/v1/EventShort?";
 
@@ -150,6 +175,19 @@ export default {
         });
       });
     },
+    listBucket() {
+      const parser = new DOMParser();
+
+      fetch(
+        "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery",
+        {
+          method: "GET",
+        }
+      ).then((response) => {
+        const xmlDoc = parser.parseFromString(response, "text/xml");
+        console.log(xmlDoc);
+      });
+    },
     formatTime(startDate, endDate) {
       return new String(
         startDate.getHours() +
@@ -208,16 +246,6 @@ export default {
       const dateTime = time;
       this.timestamp = dateTime;
     },
-  },
-  created: function () {
-    this.fetchData();
-    setInterval(this.getNow, 1000);
-  },
-  data: function () {
-    return {
-      events: [],
-      timestamp: "",
-    };
   },
 };
 </script>

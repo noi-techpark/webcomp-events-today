@@ -13,6 +13,7 @@
         :options="{
           eventLocation: this.options.eventLocation,
           room: this.options.room,
+          imageGalleryInterval: this.options.imageGalleryInterval,
         }"
       />
     </div>
