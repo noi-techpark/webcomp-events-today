@@ -1,7 +1,6 @@
 <template>
   <EventsToday :options="{ eventLocation: eventLocation, room: room }" />
 </template>
-
 <script>
 import EventsToday from "./components/EventsToday.vue";
 
@@ -12,15 +11,11 @@ export default {
       type: String,
       default: "NOI",
     },
-    imageGalleryLink: {
+    imageGalleryUrl: {
       type: String,
-      default: "NOI",
+      default: "",
     },
-    theme: {
-      type: String,
-      default: "NOI",
-    },
-    room: { type: String, default: "Seminar 2" },
+    room: { type: String, default: "" },
   },
   components: {
     EventsToday,

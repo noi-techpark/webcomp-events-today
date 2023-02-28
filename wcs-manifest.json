@@ -11,11 +11,18 @@
         "organizationUrl": "https://noi.bz.it"
     }],
     "authors": [{
-        "name": "Sergio Evola",
-        "email": "evola.sergio97@gmail.com",
-        "organization": "NOI S.p.A",
-        "organizationUrl": "https://noi.bz.it"
-    }],
+            "name": "Sergio Evola",
+            "email": "evola.sergio97@gmail.com",
+            "organization": "NOI S.p.A",
+            "organizationUrl": "https://noi.bz.it"
+        },
+        {
+            "name": "Ilaria Russo",
+            "email": "ilrusso@posteo.net",
+            "organization": "NOI S.p.A",
+            "organizationUrl": "https://noi.bz.it"
+        }
+    ],
     "image": "wcs-logo.png",
     "searchTags": [],
     "dist": {
@@ -37,25 +44,21 @@
                 }
             },
             {
-                "key": "imageGalleryLink",
+                "key": "imageGalleryUrl",
                 "type": "text",
-                "label": "imageGalleryLink",
+                "label": "imageGalleryUrl",
                 "required": false,
                 "options": {
-                    "default": "EC"
+                    "default": ""
                 }
             },
             {
-                "key": "theme",
+                "key": "room",
                 "type": "text",
-                "label": "Theme",
-                "required": true,
+                "label": "Room",
+                "required": false,
                 "options": {
-                    "values": [
-                        "NOI",
-                        "EURAC"
-                    ],
-                    "default": "NOI"
+                    "default": ""
                 }
             }
         ]
