@@ -27,7 +27,9 @@
     "searchTags": [],
     "dist": {
         "basePath": "dist",
-        "files": ["events-today.min.js"],
+        "files": [
+            "events-today.min.js"
+        ],
         "scripts": []
     },
     "configuration": {
