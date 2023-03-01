@@ -28,7 +28,7 @@
     "dist": {
         "basePath": "dist",
         "files": [
-            "webcomp-noi-events.min.js"
+            "events-today.min.js"
         ],
         "scripts": []
     },
@@ -46,10 +46,19 @@
             {
                 "key": "imageGalleryUrl",
                 "type": "text",
-                "label": "imageGalleryUrl",
+                "label": "Gallery image s3 bucket URL",
                 "required": false,
                 "options": {
                     "default": ""
+                }
+            },
+            {
+                "key": "imageGalleryInterval",
+                "type": "Number",
+                "label": "Gallery interval in seconds",
+                "required": false,
+                "options": {
+                    "default": 60
                 }
             },
             {
