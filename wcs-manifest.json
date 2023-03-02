@@ -1,77 +1,73 @@
 {
-  "title": "events-today",
-  "description": "A simple web component to see NOI events",
-  "descriptionAbstract": "events simple webcomp",
-  "license": "AGPL-3.0-or-later",
-  "repositoryUrl": "https://github.com/noi-techpark/webcomp-events-today.git",
-  "copyrightHolders": [
-    {
-      "name": "NOI",
-      "email": "info@noi.bz.it",
-      "organization": "NOI S.p.A",
-      "organizationUrl": "https://noi.bz.it"
-    }
-  ],
-  "authors": [
-    {
-      "name": "Sergio Evola",
-      "email": "evola.sergio97@gmail.com",
-      "organization": "NOI S.p.A",
-      "organizationUrl": "https://noi.bz.it"
+    "title": "events-today",
+    "description": "A simple web component to see NOI events",
+    "descriptionAbstract": "events simple webcomp",
+    "license": "AGPL-3.0-or-later",
+    "repositoryUrl": "https://github.com/noi-techpark/webcomp-events-today.git",
+    "copyrightHolders": [{
+        "name": "NOI",
+        "email": "info@noi.bz.it",
+        "organization": "NOI S.p.A",
+        "organizationUrl": "https://noi.bz.it"
+    }],
+    "authors": [{
+            "name": "Sergio Evola",
+            "email": "evola.sergio97@gmail.com",
+            "organization": "NOI S.p.A",
+            "organizationUrl": "https://noi.bz.it"
+        },
+        {
+            "name": "Ilaria Russo",
+            "email": "ilrusso@posteo.net",
+            "organization": "NOI S.p.A",
+            "organizationUrl": "https://noi.bz.it"
+        }
+    ],
+    "image": "wcs-logo.png",
+    "searchTags": [],
+    "dist": {
+        "basePath": "dist",
+        "files": ["events-today.min.js"],
+        "scripts": []
     },
-    {
-      "name": "Ilaria Russo",
-      "email": "ilrusso@posteo.net",
-      "organization": "NOI S.p.A",
-      "organizationUrl": "https://noi.bz.it"
+    "configuration": {
+        "tagName": "events-today",
+        "options": [{
+                "key": "event-location",
+                "type": "text",
+                "label": "Location of the events: NOI, EC",
+                "required": true,
+                "options": {
+                    "default": "NOI"
+                }
+            },
+            {
+                "key": "room",
+                "type": "text",
+                "label": "Room: e.g. Seminar 1, NOISE, Chapel",
+                "required": false,
+                "options": {
+                    "default": ""
+                }
+            },
+            {
+                "key": "image-gallery-url",
+                "type": "text",
+                "label": "Gallery image s3 bucket URL",
+                "required": false,
+                "options": {
+                    "default": "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/0.png"
+                }
+            },
+            {
+                "key": "image-gallery-interval",
+                "type": "number",
+                "label": "Gallery interval in seconds",
+                "required": false,
+                "options": {
+                    "default": 60
+                }
+            }
+        ]
     }
-  ],
-  "image": "wcs-logo.png",
-  "searchTags": [],
-  "dist": {
-    "basePath": "dist",
-    "files": ["events-today.min.js"],
-    "scripts": []
-  },
-  "configuration": {
-    "tagName": "events-today",
-    "options": [
-      {
-        "key": "event-location",
-        "type": "text",
-        "label": "Location of the events: NOI, EC",
-        "required": true,
-        "options": {
-          "default": "NOI"
-        }
-      },
-      {
-        "key": "room",
-        "type": "text",
-        "label": "Room",
-        "required": false,
-        "options": {
-          "default": ""
-        }
-      },
-      {
-        "key": "image-gallery-url",
-        "type": "text",
-        "label": "Gallery image s3 bucket URL",
-        "required": false,
-        "options": {
-          "default": ""
-        }
-      },
-      {
-        "key": "image-gallery-interval",
-        "type": "Number",
-        "label": "Gallery interval in seconds",
-        "required": false,
-        "options": {
-          "default": 60
-        }
-      }
-    ]
-  }
 }
