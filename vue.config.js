@@ -12,14 +12,18 @@ module.exports = {
           test: /\.(webp|png|svg)$/,
           loader: "url-loader",
           options: {
-            limit: false,
+            esModule: false,
+            limit: 1000, // 1kB
+            name: '[name].[ext]',
           },
         },
         {
           test: /\.(woff|woff2|eot|ttf)$/,
           loader: "url-loader",
           options: {
-            limit: false,
+            esModule: false,
+            limit: 1000, // 1kB
+            name: '[name].[ext]',
           },
         },
       ],

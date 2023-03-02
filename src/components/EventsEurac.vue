@@ -2,7 +2,7 @@
   <body>
     <header>
       <img
-        :src="require('@/assets/img/eurac.webp')"
+        :src="require('@/assets/img/eurac_logo_white_WEB_neg.png')"
         class="eurac-logo"
         alt="eurac-logo"
       />
