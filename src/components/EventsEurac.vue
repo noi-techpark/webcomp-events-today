@@ -1,7 +1,9 @@
 <template>
   <body>
     <header>
-      <a href='https://svgshare.com/s/qnx' ><img src='https://svgshare.com/i/qnx.svg' class="eurac-logo"/></a>
+      <a href="https://svgshare.com/s/qnx"
+        ><img src="https://svgshare.com/i/qnx.svg" class="eurac-logo"
+      /></a>
       <h1 class="title">
         <span class="date">{{ currentDate() }}</span>
         <span class="time">{{ timestamp }}</span>
@@ -384,7 +386,7 @@ strong {
   margin-bottom: 200px;
   vertical-align: super;
 }
-.picframe img{
+.picframe img {
   height: none !important;
 }
 .nopadding {
