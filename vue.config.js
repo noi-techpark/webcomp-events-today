@@ -12,14 +12,14 @@ module.exports = {
           test: /\.(webp|png|svg)$/,
           loader: "url-loader",
           options: {
-            limit: false
+            limit: false,
           },
         },
         {
           test: /\.(woff|woff2|eot|ttf)$/,
           loader: "url-loader",
           options: {
-            limit: false
+            limit: false,
           },
         },
       ],
