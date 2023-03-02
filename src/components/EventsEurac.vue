@@ -399,12 +399,6 @@ strong {
   position: fixed;
   top: 0;
   left: 0;
-  min-height: 100%;
-  min-width: 400px;
-
-  /* Set up proportionate scaling */
-
-  height: auto;
 }
 @media screen and (min-width: 320px) and (max-width: 812px) {
   h1 {
