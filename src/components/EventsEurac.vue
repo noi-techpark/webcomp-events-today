@@ -413,6 +413,7 @@ strong {
   }
   header {
     padding: 30px;
+    padding-bottom: 0px;
   }
   header .pull-left,
   header .pull-right {
