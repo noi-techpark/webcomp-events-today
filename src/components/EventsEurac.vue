@@ -2,7 +2,7 @@
   <body>
     <header>
       <img
-        :src="require('@/assets/img/eurac_logo_white_WEB_neg.png')"
+        :src="require('@/assets/img/eurac.webp')"
         class="eurac-logo"
         alt="eurac-logo"
       />
@@ -75,6 +75,7 @@
 </template>
 
 <script>
+
 export default {
   name: "EventsToday",
   props: {

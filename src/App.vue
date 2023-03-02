@@ -15,7 +15,7 @@ export default {
   props: {
     eventLocation: {
       type: String,
-      default: "NOI",
+      default: "EC",
     },
     room: { type: String, default: "" },
     imageGalleryUrl: {

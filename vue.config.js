@@ -8,7 +8,20 @@ module.exports = {
     },
     module: {
       rules: [
-        { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: "url-loader" },
+        {
+          test: /\.(webp|png|svg)$/,
+          loader: "url-loader",
+          options: {
+            limit: false
+          },
+        },
+        {
+          test: /\.(woff|woff2|eot|ttf)$/,
+          loader: "url-loader",
+          options: {
+            limit: false
+          },
+        },
       ],
     },
   },
