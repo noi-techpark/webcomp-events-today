@@ -401,9 +401,6 @@ strong {
   left: 0;
   object-fit: cover;
   object-position: 0 0;
-
-  /* object-position: 35% 25%; */
-  object-fit: fill;
 }
 @media screen and (min-width: 320px) and (max-width: 812px) {
   h1 {
@@ -452,6 +449,7 @@ strong {
     padding-bottom: 20px;
   }
   .imageGallery {
+    object-fit: fill;
   }
 }
 
