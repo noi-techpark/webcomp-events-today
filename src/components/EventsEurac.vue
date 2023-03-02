@@ -399,6 +399,8 @@ strong {
   position: fixed;
   top: 0;
   left: 0;
+  object-fit: cover;
+  object-position: 0 0;
 }
 @media screen and (min-width: 320px) and (max-width: 812px) {
   h1 {
@@ -446,7 +448,11 @@ strong {
     margin-right: 130px;
     padding-bottom: 20px;
   }
+  .imageGallery{
+
+  }
 }
+
 @media screen and (min-width: 320px) and (max-width: 812px) and (orientation: portrait) {
   .starts-in,
   .description {
