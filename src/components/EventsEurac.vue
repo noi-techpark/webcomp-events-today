@@ -1,12 +1,7 @@
 <template>
   <body>
     <header>
-      <img
-        :src="require('@/assets/img/eurac_logo_white_WEB_neg.png')"
-        class="eurac-logo"
-        alt="eurac-logo"
-      />
-
+      <a href='https://svgshare.com/s/qnx' ><img src='https://svgshare.com/i/qnx.svg' class="eurac-logo"/></a>
       <h1 class="title">
         <span class="date">{{ currentDate() }}</span>
         <span class="time">{{ timestamp }}</span>
@@ -67,7 +62,7 @@
           </div>
         </div>
         <div v-else>
-          <img :src="this.currentImage" alt="image" />
+          <img :src="this.currentImage" alt="image" class="imageGallery" />
         </div>
       </div>
     </div>
@@ -389,9 +384,20 @@ strong {
   margin-bottom: 200px;
   vertical-align: super;
 }
+.picframe img{
+  height: none !important;
+}
 .nopadding {
   padding: 0 !important;
   margin: 0 !important;
+}
+.imageGallery {
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 @media screen and (min-width: 320px) and (max-width: 812px) {
   h1 {

@@ -14,7 +14,7 @@ module.exports = {
           options: {
             esModule: false,
             limit: 1000, // 1kB
-            name: '[name].[ext]',
+            name: "[name].[ext]",
           },
         },
         {
@@ -23,7 +23,7 @@ module.exports = {
           options: {
             esModule: false,
             limit: 1000, // 1kB
-            name: '[name].[ext]',
+            name: "[name].[ext]",
           },
         },
       ],
