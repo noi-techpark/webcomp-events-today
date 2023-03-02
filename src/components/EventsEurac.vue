@@ -394,12 +394,17 @@ strong {
   margin: 0 !important;
 }
 .imageGallery {
+  width: 100%;
   height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+  min-width: 400px;
 
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  /* Set up proportionate scaling */
+
+  height: auto;
 }
 @media screen and (min-width: 320px) and (max-width: 812px) {
   h1 {

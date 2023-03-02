@@ -24,7 +24,7 @@ export default {
     },
     imageGalleryInterval: {
       type: Number,
-      default: 2,
+      default: 60,
     },
   },
   components: {
