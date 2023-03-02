@@ -17,6 +17,7 @@ export default {
       type: String,
       default: "EC",
     },
+    room: { type: String, default: "" },
     imageGalleryUrl: {
       type: String,
       default: "",
@@ -25,7 +26,6 @@ export default {
       type: Number,
       default: 2,
     },
-    room: { type: String, default: "" },
   },
   components: {
     EventsToday,

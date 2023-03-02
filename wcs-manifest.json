@@ -44,6 +44,15 @@
                 }
             },
             {
+                "key": "room",
+                "type": "text",
+                "label": "Room",
+                "required": false,
+                "options": {
+                    "default": ""
+                }
+            },
+            {
                 "key": "imageGalleryUrl",
                 "type": "text",
                 "label": "imageGalleryUrl",
@@ -53,9 +62,9 @@
                 }
             },
             {
-                "key": "room",
-                "type": "text",
-                "label": "Room",
+                "key": "imageGalleryInterval",
+                "type": "number",
+                "label": "imageGalleryInterval",
                 "required": false,
                 "options": {
                     "default": ""
