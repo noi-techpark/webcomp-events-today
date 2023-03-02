@@ -1,7 +1,7 @@
 <template>
   <body>
     <header>
-      <a href="https://svgshare.com/s/qnx"
+      <a href="https://www.eurac.edu/en"
         ><img src="https://svgshare.com/i/qnx.svg" class="eurac-logo"
       /></a>
       <h1 class="title">
