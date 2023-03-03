@@ -359,7 +359,7 @@ a.room {
 .eurac-logo {
   width: 200px;
   padding-left: 38px;
-  padding-top: 40px;
+  padding-top: 30px;
 }
 strong {
   font-weight: 600;
@@ -407,7 +407,7 @@ strong {
     font-size: 2.6em;
   }
   h1.title {
-    padding-top: 0px;
+    padding-top: 55px;
   }
   h2 {
     width: 300px;
