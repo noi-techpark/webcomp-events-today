@@ -407,7 +407,7 @@ strong {
     font-size: 2.6em;
   }
   h1.title {
-    padding-top: 62px;
+    padding-top: 58px;
   }
   h2 {
     width: 300px;
@@ -445,7 +445,7 @@ strong {
     font-size: 12px;
   }
   .eurac-logo {
-    padding-left: 0px;
+    padding-left: 6px;
     margin-right: 130px;
     padding-bottom: 20px;
   }
