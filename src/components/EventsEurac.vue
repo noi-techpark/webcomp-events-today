@@ -407,7 +407,7 @@ strong {
     font-size: 2.6em;
   }
   h1.title {
-    padding-top: 55px;
+    padding-top: 62px;
   }
   h2 {
     width: 300px;
