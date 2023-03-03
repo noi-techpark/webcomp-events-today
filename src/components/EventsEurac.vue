@@ -435,6 +435,7 @@ strong {
 
   .slideshow-container {
     height: max-content;
+    padding-top: 0px;
   }
   .date {
     font-size: 20px;
@@ -449,7 +450,7 @@ strong {
     padding-bottom: 20px;
   }
   .imageGallery {
-    object-fit: fill;
+    position: inherit;
   }
 }
 
