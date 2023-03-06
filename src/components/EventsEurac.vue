@@ -250,7 +250,6 @@ export default {
 
 <style>
 @import "~bootstrap/dist/css/bootstrap.min.css";
-@import url("https://fast.fonts.net/lt/1.css?apiType=css&c=b533ee80-f4dd-41cf-bfa3-5e741d873eca&fontids=5665482,5665597");
 
 @font-face {
   font-family: "Milo W02 Bold Italic";
