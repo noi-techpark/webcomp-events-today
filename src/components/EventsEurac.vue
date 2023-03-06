@@ -91,7 +91,6 @@ export default {
     };
   },
   created: function () {
-    // this.events = this.listBucket();
     this.fetchData();
     setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
     setInterval(this.getNow, 1000);
@@ -141,8 +140,8 @@ export default {
           throw new Error(`HTTP error! Status: ${response.status}`);
 
         response.json().then((json) => {
-          var items = json.Items;
-          for (var i = 0; i <= items.length - 1; ++i) {
+          let items = json.Items;
+          for (let i = 0; i <= items.length - 1; ++i) {
             let element = items[i];
 
             let startDate = new Date(element.StartDate);
@@ -151,8 +150,8 @@ export default {
             let roomsBooked = element.RoomBooked;
             let roomsSet = new Set();
 
-            for (let i = 0; i < roomsBooked.length; i++)
-              roomsSet.add(roomsBooked[i].SpaceDescRoomMapping);
+            for (const room of roomsBooked)
+              roomsSet.add(room.SpaceDescRoomMapping);
 
             let rooms = Array.from(roomsSet);
 
@@ -188,7 +187,7 @@ export default {
       });
     },
     formatTime(startDate, endDate) {
-      return new String(
+      return String(
         startDate.getHours() +
           ":" +
           String(startDate.getMinutes()).padStart(2, "0") +
@@ -199,7 +198,7 @@ export default {
       );
     },
     formatDate(date) {
-      var options = {
+      let options = {
         year: "2-digit",
         month: "short",
         day: "numeric",
