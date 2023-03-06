@@ -184,7 +184,7 @@ export default {
 <style>
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "../assets/source-sans-pro/style.css";
-@import "../assets/milo-pro/style.css";
+
 .full-height {
   height: 100%;
 }

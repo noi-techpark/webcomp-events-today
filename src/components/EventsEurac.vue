@@ -13,7 +13,7 @@
     <div class="slideshow-container full-height">
       <div class="content container-fluid">
         <div class="line-separation"></div>
-        <div v-if="this.events.length > 0" class="lines">
+        <div v-if="!this.eventsLoaded || this.events.length > 0" class="lines">
           <div
             class="row line line-separation"
             v-for="event in events"
@@ -87,6 +87,7 @@ export default {
       currentImageIndex: 0,
       currentImage:
         "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/0.png",
+      eventsLoaded: false,
     };
   },
   created: function () {
@@ -169,6 +170,7 @@ export default {
 
             this.events.push(event);
           }
+          this.eventsLoaded = true;
         });
       });
     },
@@ -249,8 +251,22 @@ export default {
 
 <style>
 @import "~bootstrap/dist/css/bootstrap.min.css";
-@import "../assets/source-sans-pro/style.css";
-@import "../assets/milo-pro/style.css";
+@import url("https://fast.fonts.net/lt/1.css?apiType=css&c=b533ee80-f4dd-41cf-bfa3-5e741d873eca&fontids=5665482,5665597");
+
+@font-face {
+  font-family: "Milo W02 Bold Italic";
+  src: url("https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/5665482/d4d5c4ab-b2e3-4507-bb9b-89023c1278f0.woff2")
+      format("woff2"),
+    url("https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/5665482/5d241ebe-57b4-48c6-9b9b-dda1a28e162d.woff")
+      format("woff");
+}
+@font-face {
+  font-family: "Milo W02 Bold";
+  src: url("https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/5665597/bd48150e-a098-4765-9595-7cbe13c00371.woff2")
+      format("woff2"),
+    url("https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/5665597/76cd1cf3-403d-4429-bab3-9963925e6c14.woff")
+      format("woff");
+}
 
 .full-height {
   height: 100%;
@@ -315,9 +331,9 @@ h2 small {
   margin: 20px;
 }
 body {
+  font-family: "Milo W02", sans-serif !important;
   width: 100%;
   text-align: center;
-  font-family: "Source Sans Pro", sans-serif !important;
   color: white;
   font-size: 8px !important;
   margin: 0;
@@ -329,7 +345,6 @@ body > div {
   width: 100%;
 }
 .location {
-  font-family: "Source Sans Pro", sans-serif !important;
   color: #fff;
   background-color: #666b6c;
   padding: 15px 10px;
