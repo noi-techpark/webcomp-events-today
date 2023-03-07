@@ -91,6 +91,15 @@ export default {
     };
   },
   created: function () {
+    let fontFaceSheet = new CSSStyleSheet();
+    fontFaceSheet.replaceSync(`@font-face {
+      font-family: "Milo Bold";
+      src: url('https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/5665597/76cd1cf3-403d-4429-bab3-9963925e6c14.woff') format('woff');
+    }`);
+    document.adoptedStyleSheets = [
+      ...document.adoptedStyleSheets,
+      fontFaceSheet,
+    ];
     this.fetchData();
     setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
     setInterval(this.getNow, 1000);
@@ -250,22 +259,23 @@ export default {
 
 <style>
 @import "~bootstrap/dist/css/bootstrap.min.css";
+/* @import url(https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/style.css); */
 
-@font-face {
-  font-family: "Milo W02 Bold Italic";
-  src: url("https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/5665482/d4d5c4ab-b2e3-4507-bb9b-89023c1278f0.woff2")
-      format("woff2"),
-    url("https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/5665482/5d241ebe-57b4-48c6-9b9b-dda1a28e162d.woff")
-      format("woff");
-}
-@font-face {
-  font-family: "Milo W02 Bold";
-  src: url("https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/5665597/bd48150e-a098-4765-9595-7cbe13c00371.woff2")
-      format("woff2"),
-    url("https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/5665597/76cd1cf3-403d-4429-bab3-9963925e6c14.woff")
-      format("woff");
+body {
+  font-family: "Milo Bold", sans-serif;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 8px !important;
+  margin: 0;
+  min-height: 100vh;
+  height: 100%;
+  padding-bottom: 20px;
 }
 
+body > div {
+  width: 100%;
+}
 .full-height {
   height: 100%;
 }
@@ -327,20 +337,6 @@ h2 small {
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   margin-right: 20px;
   margin: 20px;
-}
-body {
-  font-family: "Milo W02", sans-serif !important;
-  width: 100%;
-  text-align: center;
-  color: white;
-  font-size: 8px !important;
-  margin: 0;
-  min-height: 100vh;
-  height: 100%;
-  padding-bottom: 20px;
-}
-body > div {
-  width: 100%;
 }
 .location {
   color: #fff;
