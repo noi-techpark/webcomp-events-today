@@ -91,15 +91,6 @@ export default {
     };
   },
   created: function () {
-    let fontFaceSheet = new CSSStyleSheet();
-    fontFaceSheet.replaceSync(`@font-face {
-      font-family: "Milo Bold";
-      src: url('https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/5665597/76cd1cf3-403d-4429-bab3-9963925e6c14.woff') format('woff');
-    }`);
-    document.adoptedStyleSheets = [
-      ...document.adoptedStyleSheets,
-      fontFaceSheet,
-    ];
     this.fetchData();
     setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
     setInterval(this.getNow, 1000);
@@ -259,7 +250,6 @@ export default {
 
 <style>
 @import "~bootstrap/dist/css/bootstrap.min.css";
-/* @import url(https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/style.css); */
 
 body {
   font-family: "Milo Bold", sans-serif;
