@@ -67,6 +67,24 @@
                 "options": {
                     "default": 60
                 }
+            },
+            {
+                "key": "font-url",
+                "type": "text",
+                "label": "URL to a valid font css file",
+                "required": false,
+                "options": {
+                    "default": "https://fonts.testingmachine.eu/source-sans-pro/style.css"
+                }
+            },
+            {
+                "key": "font-name",
+                "type": "text",
+                "label": "Name of the font loaded from the font URL",
+                "required": false,
+                "options": {
+                    "default": "Source Sans Pro"
+                }
             }
         ]
     }

@@ -1,5 +1,7 @@
 <template>
-  <body>
+  <body
+    v-bind:style="{ 'font-family': this.options.fontName + ', sans-serif' }"
+  >
     <header>
       <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
       <iframe
@@ -235,9 +237,9 @@ h1.title {
   overflow: hidden;
 }
 body {
+  /* font-family: "Source Sans Pro", sans-serif; */
   width: 100%;
   text-align: center;
-  font-family: "Source Sans Pro", sans-serif !important;
   color: #000;
   font-size: 16px;
   margin: 0;
@@ -249,7 +251,6 @@ body > div {
   width: 100%;
 }
 .location {
-  font-family: "Source Sans Pro", sans-serif !important;
   color: #fff;
   background-color: #000;
   padding: 10px 26px;

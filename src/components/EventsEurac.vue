@@ -1,5 +1,7 @@
 <template>
-  <body>
+  <body
+    v-bind:style="{ 'font-family': this.options.fontName + ', sans-serif' }"
+  >
     <header>
       <a href="https://www.eurac.edu/en"
         ><img src="https://svgshare.com/i/qnx.svg" class="eurac-logo"
@@ -252,7 +254,6 @@ export default {
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
 body {
-  font-family: "Milo Bold", sans-serif;
   width: 100%;
   text-align: center;
   color: white;

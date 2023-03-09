@@ -4,6 +4,7 @@
       eventLocation: eventLocation,
       room: room,
       imageGalleryInterval: imageGalleryInterval,
+      fontName: fontName,
     }"
   />
 </template>
@@ -26,32 +27,30 @@ export default {
       type: Number,
       default: 60,
     },
-  },
-  data: function () {
-    return {
-      // add new fonts here
-      fontUrls: [
-        "https://fonts.testingmachine.eu/source-sans-pro/style.css",
-        "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/style.css",
-      ],
-    };
+    fontUrl: {
+      type: String,
+      default: "https://fonts.testingmachine.eu/source-sans-pro/style.css",
+    },
+    fontName: {
+      type: String,
+      default: "Source Sans Pro",
+    },
   },
   components: {
     EventsToday,
   },
   created: function () {
-    for (const fontUrl of this.fontUrls) {
-      // load from css from url
-      this.fetchFont(fontUrl).then((font) => {
-        // inject font after creation, because @font-face is not supported by shadow DOM
-        let fontFaceSheet = new CSSStyleSheet();
-        fontFaceSheet.replaceSync(font);
-        document.adoptedStyleSheets = [
-          ...document.adoptedStyleSheets,
-          fontFaceSheet,
-        ];
-      });
-    }
+    console.log("font name", this.fontName);
+
+    this.fetchFont(this.fontUrl).then((font) => {
+      // inject font after creation, because @font-face is not supported by shadow DOM
+      let fontFaceSheet = new CSSStyleSheet();
+      fontFaceSheet.replaceSync(font);
+      document.adoptedStyleSheets = [
+        ...document.adoptedStyleSheets,
+        fontFaceSheet,
+      ];
+    });
   },
   methods: {
     async fetchFont(url) {

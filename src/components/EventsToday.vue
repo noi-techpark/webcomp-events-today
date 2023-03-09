@@ -5,6 +5,7 @@
         :options="{
           eventLocation: this.options.eventLocation,
           room: this.options.room,
+          fontName: this.options.fontName,
         }"
       />
     </div>
@@ -14,6 +15,7 @@
           eventLocation: this.options.eventLocation,
           room: this.options.room,
           imageGalleryInterval: this.options.imageGalleryInterval,
+          fontName: this.options.fontName,
         }"
       />
     </div>
