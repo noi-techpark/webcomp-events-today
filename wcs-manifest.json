@@ -1,5 +1,6 @@
 {
     "title": "events-today",
+    "shortName": "events-today",
     "description": "A simple web component to see NOI events",
     "descriptionAbstract": "events simple webcomp",
     "license": "AGPL-3.0-or-later",
