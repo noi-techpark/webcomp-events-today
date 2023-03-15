@@ -35,7 +35,7 @@
         "options": [{
                 "key": "event-location",
                 "type": "text",
-                "label": "Location of the events: NOI, EC",
+                "label": "Location of the events: NOI (NOI Techpark), EC (Eurac)",
                 "required": true,
                 "options": {
                     "default": "NOI"
