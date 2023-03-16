@@ -15,6 +15,7 @@
           eventLocation: this.options.eventLocation,
           room: this.options.room,
           imageGalleryInterval: this.options.imageGalleryInterval,
+          imageGalleryUrl: this.options.imageGalleryUrl,
           fontName: this.options.fontName,
         }"
       />

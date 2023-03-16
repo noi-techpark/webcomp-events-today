@@ -85,14 +85,15 @@ export default {
   data: function () {
     return {
       events: [],
+      images: [],
       timestamp: "",
       currentImageIndex: 0,
-      currentImage:
-        "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/0.png",
+      currentImage: "",
       eventsLoaded: false,
     };
   },
   created: function () {
+    this.loadImages();
     this.fetchData();
     setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
     setInterval(this.getNow, 1000);
@@ -100,10 +101,12 @@ export default {
   methods: {
     nextImage() {
       this.currentImageIndex++;
-      if (this.currentImageIndex > 4) {
+      if (this.currentImageIndex > this.images.length - 1) {
         this.currentImageIndex = 0;
       }
-      this.currentImage = `https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/${this.currentImageIndex}.png`;
+      this.currentImage = `${this.options.imageGalleryUrl}/${
+        this.images[this.currentImageIndex]
+      }`;
     },
     async fetchData() {
       const baseURL = "https://tourism.api.opendatahub.com/v1/EventShort?";
@@ -175,17 +178,32 @@ export default {
         });
       });
     },
-    listBucket() {
+    loadImages() {
       const parser = new DOMParser();
+      const imagesList = [];
 
-      fetch(
-        "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery",
-        {
-          method: "GET",
-        }
-      ).then((response) => {
-        const xmlDoc = parser.parseFromString(response, "text/xml");
-        console.log(xmlDoc);
+      fetch(this.options.imageGalleryUrl, {
+        method: "GET",
+      }).then((response) => {
+        response.text().then((text) => {
+          // parse xml
+          const xmlDoc = parser.parseFromString(text, "text/xml");
+
+          // search for images
+          const keys = xmlDoc.getElementsByTagName("Key");
+          const imageFormats = ["png", "jpg", "jpeg"];
+          for (const key of keys) {
+            const value = key.innerHTML;
+            if (imageFormats.some((format) => value.includes(format)))
+              imagesList.push(value);
+          }
+
+          // save images
+          this.images = imagesList;
+
+          // assign next image
+          this.nextImage();
+        });
       });
     },
     formatTime(startDate, endDate) {

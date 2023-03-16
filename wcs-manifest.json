@@ -62,7 +62,7 @@
         "label": "Gallery image s3 bucket URL",
         "required": false,
         "options": {
-          "default": "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/0.png"
+          "default": "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery"
         }
       },
       {

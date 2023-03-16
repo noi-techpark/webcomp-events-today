@@ -4,6 +4,7 @@
       eventLocation: eventLocation,
       room: room,
       imageGalleryInterval: imageGalleryInterval,
+      imageGalleryUrl: imageGalleryUrl,
       fontName: fontName,
     }"
   />
@@ -21,7 +22,8 @@ export default {
     room: { type: String, default: "" },
     imageGalleryUrl: {
       type: String,
-      default: "",
+      default:
+        "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery",
     },
     imageGalleryInterval: {
       type: Number,
