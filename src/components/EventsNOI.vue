@@ -1,5 +1,7 @@
 <template>
-  <body v-bind:style="{ 'font-family': this.options.fontName + ', sans-serif' }">
+  <body
+    v-bind:style="{ 'font-family': this.options.fontName + ', sans-serif' }"
+  >
     <header>
       <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
       <img :src="require('@/assets/icons/NOI_logo_bn.svg')" class="noi-logo" />
@@ -22,17 +24,29 @@
                 <small> {{ event.companyName }} </small>
               </h2>
             </div>
-            <div class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5" style="justify-content: flex-end">
+            <div
+              class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
+              style="justify-content: flex-end"
+            >
               <div class="location">
                 <span v-for="(room, index) in event.rooms" :key="room.key">
-                  <a v-if="index < 3" class="room" href="https://maps.noi.bz.it/en/" target="_blank">{{ room }}</a>
+                  <a
+                    v-if="index < 3"
+                    class="room"
+                    href="https://maps.noi.bz.it/en/"
+                    target="_blank"
+                    >{{ room }}</a
+                  >
                   <span v-else>...</span>
-                  <span v-if="
-                    index >= 0 &&
-                    index < 2 &&
-                    event.rooms.length >= 2 &&
-                    index != event.rooms.length - 1
-                  ">,</span>
+                  <span
+                    v-if="
+                      index >= 0 &&
+                      index < 2 &&
+                      event.rooms.length >= 2 &&
+                      index != event.rooms.length - 1
+                    "
+                    >,</span
+                  >
                 </span>
               </div>
               <div class="starts-in">
@@ -79,10 +93,10 @@ export default {
         params.set(
           "rawfilter",
           "in(RoomBooked.[*].SpaceDescRoomMapping," +
-          '"' +
-          this.options.room +
-          '"' +
-          ")"
+            '"' +
+            this.options.room +
+            '"' +
+            ")"
         );
       }
       fetch(baseURL + params, {
@@ -122,12 +136,12 @@ export default {
     formatTime(startDate, endDate) {
       return new String(
         startDate.getHours() +
-        ":" +
-        String(startDate.getMinutes()).padStart(2, "0") +
-        " - " +
-        endDate.getHours() +
-        ":" +
-        String(endDate.getMinutes()).padStart(2, "0")
+          ":" +
+          String(startDate.getMinutes()).padStart(2, "0") +
+          " - " +
+          endDate.getHours() +
+          ":" +
+          String(endDate.getMinutes()).padStart(2, "0")
       );
     },
     formatDate(date) {
@@ -221,7 +235,7 @@ h1.title {
   height: 17vh;
 }
 
-.line>div {
+.line > div {
   height: 100%;
   display: flex;
   align-items: center;
@@ -240,7 +254,7 @@ body {
   padding-bottom: 20px;
 }
 
-body>div {
+body > div {
   width: 100%;
 }
 
@@ -332,7 +346,7 @@ strong {
     margin: 0 40px;
   }
 
-  .line>div {
+  .line > div {
     display: block;
   }
 
@@ -378,4 +392,5 @@ strong {
   body {
     font-size: 8px;
   }
-}</style>
+}
+</style>
