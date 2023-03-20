@@ -53,7 +53,7 @@
                 }
             },
             {
-                "key": "maxEvents",
+                "key": "max-events",
                 "type": "number",
                 "label": "Max number of events to display",
                 "required": false,
