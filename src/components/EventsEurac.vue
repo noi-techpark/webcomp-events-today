@@ -14,7 +14,6 @@
 
     <div class="slideshow-container full-height">
       <div class="content container-fluid">
-        <div class="line-separation"></div>
         <div v-if="!this.eventsLoaded || this.events.length > 0" class="lines">
           <div
             class="row line line-separation"
@@ -343,9 +342,10 @@ h2 small {
   display: flex;
 }
 .line-separation {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
   margin-right: 20px;
-  margin: 20px;
+  margin-left: 20px;
+  padding-top: 20px;
 }
 .location {
   color: #fff;
