@@ -4,7 +4,9 @@
   >
     <header>
       <a href="https://www.eurac.edu/en"
-        ><img src="https://svgshare.com/i/qnx.svg" class="eurac-logo"
+        ><img
+          :src="require('@/assets/img/eurac_logo_white_WEB_neg.png')"
+          class="eurac-logo"
       /></a>
       <h1 class="title">
         <span class="date">{{ currentDate() }}</span>
@@ -66,6 +68,14 @@
         </div>
         <div v-else>
           <img :src="this.currentImage" alt="image" class="imageGallery" />
+        </div>
+        <div class="footer">
+          <a href="https://opendatahub.com" target="_blank" class="footer-text"
+            >powered by Open Data Hub
+            <img
+              :src="require('@/assets/icons/NOI_OPENDATAHUB_NEW_WH.svg')"
+              height="35px"
+          /></a>
         </div>
       </div>
     </div>
@@ -284,34 +294,41 @@ body {
 body > div {
   width: 100%;
 }
+
 .full-height {
   height: 100%;
 }
+
 .content {
   padding: 0;
 }
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #414649;
 }
+
 h1 {
   font-size: 5em;
   padding: 25px;
   margin: 0;
 }
+
 h1.title {
   padding: 5px;
   font-size: 5em;
   padding-top: 60px;
 }
+
 h2 {
   font-size: 2.6em;
   line-height: 1.5 !important;
   margin: 0 !important;
   width: 400px;
 }
+
 h2 small {
   font-size: 55%;
   color: white;
@@ -323,12 +340,14 @@ h2 small {
   text-transform: uppercase;
   padding: 5px;
 }
+
 .slideshow-container {
   position: relative;
   padding: 15px;
   background-color: #414649;
   min-height: 85vh;
 }
+
 .line {
   background-color: #414649;
   margin: 0;
@@ -336,17 +355,20 @@ h2 small {
   position: relative;
   display: block;
 }
+
 .line > div {
   height: 80%;
   overflow-wrap: break-word;
   display: flex;
 }
+
 .line-separation {
   border-top: 1px solid rgba(255, 255, 255, 0.25);
   margin-right: 20px;
   margin-left: 20px;
   padding-top: 20px;
 }
+
 .location {
   color: #fff;
   background-color: #666b6c;
@@ -359,29 +381,37 @@ h2 small {
   justify-content: flex-end !important;
   margin-bottom: 20px;
 }
+
 .location a {
   color: #000000;
 }
+
 .description {
   text-align: left;
 }
+
 a {
   color: #000;
 }
+
 a:hover {
   text-decoration: none !important;
 }
+
 a.room {
   color: #ffffff;
 }
+
 .eurac-logo {
   width: 200px;
   padding-left: 38px;
   padding-top: 30px;
 }
+
 strong {
   font-weight: 600;
 }
+
 .starts-in {
   font-size: 2.4em;
   justify-content: right;
@@ -389,13 +419,16 @@ strong {
   padding-top: 5px;
   width: 200px;
 }
+
 .starts-in strong {
   font-size: 1.25em;
 }
+
 .date {
   padding-right: 60px;
   font-size: 37px;
 }
+
 .time {
   font-size: 16px;
   padding-right: 30px;
@@ -404,13 +437,16 @@ strong {
   margin-bottom: 200px;
   vertical-align: super;
 }
+
 .picframe img {
   height: none !important;
 }
+
 .nopadding {
   padding: 0 !important;
   margin: 0 !important;
 }
+
 .imageGallery {
   width: 100%;
   height: 100%;
@@ -420,33 +456,54 @@ strong {
   object-fit: cover;
   object-position: 0 0;
 }
+
+.footer {
+  position: absolute;
+  padding: 10px 26px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: right;
+  z-index: 100001;
+}
+.footer-text {
+  color: white;
+}
+
 @media screen and (min-width: 320px) and (max-width: 812px) {
   h1 {
     font-size: 2.6em;
   }
+
   h1.title {
     padding-top: 58px;
   }
+
   h2 {
     width: 300px;
   }
+
   header {
     padding: 30px;
     padding-bottom: 0px;
   }
+
   header .pull-left,
   header .pull-right {
     float: none !important;
   }
+
   .line {
     font-size: 8px;
     padding: 0;
     height: auto;
   }
+
   body {
     overflow: auto;
     padding-top: 2vh;
   }
+
   .clock {
     font-size: 1em;
   }
@@ -455,18 +512,22 @@ strong {
     height: max-content;
     padding-top: 0px;
   }
+
   .date {
     font-size: 20px;
   }
+
   .time {
     padding-right: 0px !important;
     font-size: 12px;
   }
+
   .eurac-logo {
     padding-left: 6px;
     margin-right: 130px;
     padding-bottom: 20px;
   }
+
   .imageGallery {
     position: inherit;
   }
@@ -477,6 +538,7 @@ strong {
   .description {
     text-align: center;
   }
+
   .slideshow-container {
     height: max-content;
   }
@@ -487,21 +549,25 @@ strong {
     font-size: 10px;
   }
 }
+
 @media screen and (max-width: 1441px) and (max-height: 901px) and (orientation: landscape) {
   body {
     font-size: 12px;
   }
 }
+
 @media screen and (max-width: 1280px) and (min-height: 1024px) and (orientation: landscape) {
   body {
     font-size: 16px;
   }
 }
+
 @media screen and (max-width: 1600px) and (min-height: 900px) and (orientation: landscape) {
   body {
     font-size: 14px;
   }
 }
+
 @media screen and (max-width: 992px) and (min-width: 812px) and (orientation: landscape) {
   body {
     font-size: 8px;
