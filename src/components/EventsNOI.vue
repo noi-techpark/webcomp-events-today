@@ -1,14 +1,8 @@
 <template>
-  <body
-    v-bind:style="{ 'font-family': this.options.fontName + ', sans-serif' }"
-  >
+  <body v-bind:style="{ 'font-family': this.options.fontName + ', sans-serif' }">
     <header>
       <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
-      <iframe
-        class="noi-logo"
-        src="https://svgshare.com/f/oT_"
-        frameborder="0"
-      ></iframe>
+      <img :src="require('@/assets/icons/NOI_logo_bn.svg')" class="noi-logo" />
     </header>
     <div class="slideshow-container full-height">
       <div class="content container-fluid">
@@ -28,29 +22,17 @@
                 <small> {{ event.companyName }} </small>
               </h2>
             </div>
-            <div
-              class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
-              style="justify-content: flex-end"
-            >
+            <div class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5" style="justify-content: flex-end">
               <div class="location">
                 <span v-for="(room, index) in event.rooms" :key="room.key">
-                  <a
-                    v-if="index < 3"
-                    class="room"
-                    href="https://maps.noi.bz.it/en/"
-                    target="_blank"
-                    >{{ room }}</a
-                  >
+                  <a v-if="index < 3" class="room" href="https://maps.noi.bz.it/en/" target="_blank">{{ room }}</a>
                   <span v-else>...</span>
-                  <span
-                    v-if="
-                      index >= 0 &&
-                      index < 2 &&
-                      event.rooms.length >= 2 &&
-                      index != event.rooms.length - 1
-                    "
-                    >,</span
-                  >
+                  <span v-if="
+                    index >= 0 &&
+                    index < 2 &&
+                    event.rooms.length >= 2 &&
+                    index != event.rooms.length - 1
+                  ">,</span>
                 </span>
               </div>
               <div class="starts-in">
@@ -97,10 +79,10 @@ export default {
         params.set(
           "rawfilter",
           "in(RoomBooked.[*].SpaceDescRoomMapping," +
-            '"' +
-            this.options.room +
-            '"' +
-            ")"
+          '"' +
+          this.options.room +
+          '"' +
+          ")"
         );
       }
       fetch(baseURL + params, {
@@ -140,12 +122,12 @@ export default {
     formatTime(startDate, endDate) {
       return new String(
         startDate.getHours() +
-          ":" +
-          String(startDate.getMinutes()).padStart(2, "0") +
-          " - " +
-          endDate.getHours() +
-          ":" +
-          String(endDate.getMinutes()).padStart(2, "0")
+        ":" +
+        String(startDate.getMinutes()).padStart(2, "0") +
+        " - " +
+        endDate.getHours() +
+        ":" +
+        String(endDate.getMinutes()).padStart(2, "0")
       );
     },
     formatDate(date) {
@@ -189,38 +171,46 @@ export default {
 .full-height {
   height: 100%;
 }
+
 .content {
   padding: 0;
 }
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 h1 {
   font-size: 5em;
   padding: 25px;
   margin: 0;
 }
+
 h2 {
   font-size: 2.3em;
 }
+
 h2 small {
   font-size: 65%;
   line-height: 1;
   font-weight: bold;
   color: #8c8c8c;
 }
+
 h1.title {
   padding: 5px;
   font-size: 5em;
 }
+
 .slideshow-container {
   position: relative;
   padding: 20px;
   background-color: #000;
   min-height: 85vh;
 }
+
 .line {
   background-color: white;
   margin: 0;
@@ -230,12 +220,14 @@ h1.title {
   display: block;
   height: 17vh;
 }
-.line > div {
+
+.line>div {
   height: 100%;
   display: flex;
   align-items: center;
   overflow: hidden;
 }
+
 body {
   /* font-family: "Source Sans Pro", sans-serif; */
   width: 100%;
@@ -247,9 +239,11 @@ body {
   height: 100%;
   padding-bottom: 20px;
 }
-body > div {
+
+body>div {
   width: 100%;
 }
+
 .location {
   color: #fff;
   background-color: #000;
@@ -260,103 +254,128 @@ body > div {
   font-weight: bold;
   max-width: 50%;
 }
+
 .location a {
   color: #000000;
 }
+
 .description {
   text-align: left;
 }
+
 a {
   color: #000;
   text-decoration: underline;
 }
+
 a.room {
   color: #ffffff;
 }
+
 .noi-logo {
-  width: 275px;
+  width: 155px;
+  margin: 20px;
 }
+
 strong {
   font-weight: 600;
 }
+
 .starts-in {
   text-align: right;
   font-size: 2em;
   line-height: 1;
   justify-content: right;
 }
+
 .starts-in strong {
   font-size: 1.25em;
 }
+
 @media screen and (min-width: 320px) and (max-width: 812px) {
   h1 {
     font-size: 2.6em;
   }
+
   header {
     display: block;
   }
+
   header .pull-left,
   header .pull-right {
     float: none !important;
   }
+
   .line {
     font-size: 12px;
     padding: 0;
     height: auto;
   }
+
   body {
     overflow: auto;
     padding-top: 2vh;
   }
+
   .clock {
     font-size: 1em;
   }
+
   .slideshow-container {
     height: max-content;
   }
 }
+
 @media screen and (min-width: 320px) and (max-width: 812px) and (orientation: portrait) {
   .location {
     max-width: none;
     margin: 0 40px;
   }
-  .line > div {
+
+  .line>div {
     display: block;
   }
+
   .starts-in {
     padding: 15px;
   }
+
   .starts-in,
   .description {
     text-align: center;
   }
+
   .slideshow-container {
     height: max-content;
   }
 }
+
 @media screen and (min-width: 992px) and (max-height: 901px) and (orientation: landscape) {
   body {
     font-size: 10px;
   }
 }
+
 @media screen and (max-width: 1441px) and (max-height: 901px) and (orientation: landscape) {
   body {
     font-size: 12px;
   }
 }
+
 @media screen and (max-width: 1280px) and (min-height: 1024px) and (orientation: landscape) {
   body {
     font-size: 16px;
   }
 }
+
 @media screen and (max-width: 1600px) and (min-height: 900px) and (orientation: landscape) {
   body {
     font-size: 14px;
   }
 }
+
 @media screen and (max-width: 992px) and (min-width: 812px) and (orientation: landscape) {
   body {
     font-size: 8px;
   }
-}
-</style>
+}</style>
