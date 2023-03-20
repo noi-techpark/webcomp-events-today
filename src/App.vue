@@ -3,6 +3,7 @@
     :options="{
       eventLocation: eventLocation,
       room: room,
+      maxEvents: maxEvents,
       imageGalleryInterval: imageGalleryInterval,
       imageGalleryUrl: imageGalleryUrl,
       fontName: fontName,
@@ -20,6 +21,7 @@ export default {
       default: "NOI",
     },
     room: { type: String, default: "" },
+    maxEvents: { type: Number, default: 100 },
     imageGalleryUrl: {
       type: String,
       default:

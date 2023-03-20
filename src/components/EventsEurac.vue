@@ -94,7 +94,7 @@ export default {
   },
   created: function () {
     this.loadImages();
-    this.fetchData();
+    this.fetchData(setInterval(300000));
     setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
     setInterval(this.getNow, 1000);
   },
@@ -119,7 +119,7 @@ export default {
         ["enddate", endDate.getTime()],
         ["eventlocation", this.options.eventLocation],
         ["room", this.options.room],
-        ["pagesize", 999],
+        ["pagesize", this.options.maxEvents ? this.options.maxEvents : 999],
         ["datetimeformat", "uxtimestamp"],
         ["onlyactive", true],
         ["sortorder", "ASC"],
@@ -275,7 +275,7 @@ body {
   width: 100%;
   text-align: center;
   color: white;
-  font-size: 8px !important;
+  font-size: 10px !important;
   margin: 0;
   min-height: 100vh;
   height: 100%;
@@ -350,11 +350,11 @@ h2 small {
 .location {
   color: #fff;
   background-color: #666b6c;
-  padding: 15px 10px;
+  padding: 10px 7px;
   font-size: 2em;
   font-weight: bold;
-  width: 120px;
-  height: 120px;
+  width: 125px;
+  height: 130px;
   margin-top: 6px;
   justify-content: flex-end !important;
   margin-bottom: 20px;
@@ -394,10 +394,10 @@ strong {
 }
 .date {
   padding-right: 60px;
-  font-size: 30px;
+  font-size: 37px;
 }
 .time {
-  font-size: 15px;
+  font-size: 16px;
   padding-right: 30px;
   color: #a2a7a6;
   font-weight: bold;

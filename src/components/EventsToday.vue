@@ -14,6 +14,7 @@
         :options="{
           eventLocation: this.options.eventLocation,
           room: this.options.room,
+          maxEvents: this.options.maxEvents,
           imageGalleryInterval: this.options.imageGalleryInterval,
           imageGalleryUrl: this.options.imageGalleryUrl,
           fontName: this.options.fontName,
