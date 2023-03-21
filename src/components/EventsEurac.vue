@@ -72,9 +72,7 @@
         <div class="footer">
           <a href="https://opendatahub.com" target="_blank" class="footer-text"
             >powered by Open Data Hub
-            <img
-              :src="require('@/assets/icons/NOI_OPENDATAHUB_NEW_WH.svg')"
-              height="35px"
+            <img :src="require('@/assets/icons/odh.png')" height="35px"
           /></a>
         </div>
       </div>
