@@ -5,7 +5,7 @@
     <header>
       <a href="https://www.eurac.edu/en"
         ><img
-          :src="require('@/assets/img/eurac_logo_white_WEB_neg.png')"
+          :src="require('@/assets/icons/eurac_logo_white_WEB_neg.png')"
           class="eurac-logo"
       /></a>
       <h1 class="title">
@@ -72,7 +72,9 @@
         <div class="footer">
           <a href="https://opendatahub.com" target="_blank" class="footer-text"
             >powered by Open Data Hub
-            <img :src="require('@/assets/icons/odh.png')" height="35px"
+            <img
+              :src="require('@/assets/icons/NOI_OPENDATAHUB_NEW_WH-01.png')"
+              height="35px"
           /></a>
         </div>
       </div>
@@ -456,8 +458,8 @@ strong {
 }
 
 .footer {
-  position: absolute;
-  padding: 10px 26px;
+  padding: 10px 13px;
+  padding-top: 20px;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -554,7 +556,7 @@ strong {
   }
 }
 
-@media screen and (max-width: 1280px) and (min-height: 1024px) and (orientation: landscape) {
+@media screxen and (max-width: 1280px) and (min-height: 1024px) and (orientation: landscape) {
   body {
     font-size: 16px;
   }

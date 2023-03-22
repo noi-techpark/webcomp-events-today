@@ -5,6 +5,7 @@
         :options="{
           eventLocation: this.options.eventLocation,
           room: this.options.room,
+          maxEvents: this.options.maxEvents,
           fontName: this.options.fontName,
         }"
       />

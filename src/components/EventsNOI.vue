@@ -4,7 +4,10 @@
   >
     <header>
       <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
-      <img :src="require('@/assets/icons/NOI_logo_bn.svg')" class="noi-logo" />
+      <img
+        :src="require('@/assets/icons/NOI_2_BK_borderless.png')"
+        class="noi-logo"
+      />
     </header>
     <div class="slideshow-container full-height">
       <div class="content container-fluid">
@@ -63,6 +66,14 @@
             </div>
           </div>
         </div>
+        <div class="footer">
+          <a href="https://opendatahub.com" target="_blank" class="footer-text"
+            >powered by Open Data Hub
+            <img
+              :src="require('@/assets/icons/NOI_OPENDATAHUB_NEW_WH-01.png')"
+              height="35px"
+          /></a>
+        </div>
       </div>
     </div>
   </body>
@@ -84,7 +95,7 @@ export default {
         ["startdate", new Date().getTime()],
         ["eventlocation", this.options.eventLocation],
         ["room", this.options.room],
-        ["pagesize", 999],
+        ["pagesize", this.options.maxEvents ? this.options.maxEvents : 999],
         ["datetimeformat", "uxtimestamp"],
         ["onlyactive", true],
         ["sortorder", "ASC"],
@@ -304,6 +315,17 @@ strong {
 
 .starts-in strong {
   font-size: 1.25em;
+}
+.footer {
+  padding-top: 20px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: right;
+  z-index: 100001;
+}
+.footer-text {
+  color: white;
 }
 
 @media screen and (min-width: 320px) and (max-width: 812px) {
