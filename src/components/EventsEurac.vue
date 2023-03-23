@@ -375,7 +375,7 @@ h2 small {
   padding: 10px 7px;
   font-size: 2em;
   font-weight: bold;
-  width: 125px;
+  width: 135px;
   height: 130px;
   margin-top: 6px;
   justify-content: flex-end !important;
@@ -458,7 +458,7 @@ strong {
 }
 
 .footer {
-  padding: 10px 13px;
+  padding: 10px 17px;
   padding-top: 20px;
   bottom: 0;
   left: 0;
