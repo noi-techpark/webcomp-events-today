@@ -459,7 +459,7 @@ strong {
 
 .footer {
   position: absolute;
-  padding: 10px 30px;
+  padding: 0px 30px;
   padding-top: 20px;
   bottom: 0;
   left: 0;

@@ -18,7 +18,7 @@ export default {
   props: {
     eventLocation: {
       type: String,
-      default: "NOI",
+      default: "EC",
     },
     room: { type: String, default: "" },
     maxEvents: { type: Number, default: 100 },
