@@ -1,18 +1,18 @@
 const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
-    chainWebpack: (config) => {
-        config.module.rule("images").set("parser", {
-            dataUrlCondition: {
-                maxSize: 300 * 1024,
-            },
-        });
+  chainWebpack: (config) => {
+    config.module.rule("images").set("parser", {
+      dataUrlCondition: {
+        maxSize: 300 * 1024,
+      },
+    });
+  },
+  productionSourceMap: false,
+  css: {
+    loaderOptions: {
+      css: {
+        import: true,
+      },
     },
-    productionSourceMap: false,
-    css: {
-        loaderOptions: {
-            css: {
-                import: true,
-            },
-        },
-    },
+  },
 });
