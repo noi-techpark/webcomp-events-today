@@ -326,7 +326,7 @@ h2 {
   font-size: 2.6em;
   line-height: 1.5 !important;
   margin: 0 !important;
-  width: 400px;
+  width: 512px;
 }
 
 h2 small {
