@@ -375,7 +375,7 @@ h2 small {
   padding: 10px 7px;
   font-size: 2em;
   font-weight: bold;
-  width: 135px;
+  width: 140px;
   height: 130px;
   margin-top: 6px;
   justify-content: flex-end !important;
