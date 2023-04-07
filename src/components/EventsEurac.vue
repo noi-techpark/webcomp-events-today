@@ -427,7 +427,6 @@ a:hover {
   color: #ffffff;
   bottom: 90px;
   right: 10px;
-
 }
 
 #seminar {
@@ -582,11 +581,11 @@ strong {
     margin-bottom: 20px;
   }
   #seminar {
-  font-size: 30px;
-  bottom: 72px;
-  right: 10px;
-  position: absolute;
-}
+    font-size: 30px;
+    bottom: 72px;
+    right: 10px;
+    position: absolute;
+  }
 
   .date {
     font-size: 20px;
