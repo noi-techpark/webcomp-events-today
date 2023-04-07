@@ -45,12 +45,12 @@
               </h2>
             </div>
             <div
-              class="col-sm-2 col-xs-4 col-lg-5 col-lg-offset-0 col-md-5 nopadding"
+              class="col-sm-2 col-xs-3 col-lg-5 col-lg-offset-0 col-md-5 nopadding"
               style="justify-content: flex-end"
             >
               <div class="location">
                 <span v-for="(room, index) in event.rooms" :key="room.key">
-                  <a v-if="index < 3" class="room">{{ room }}</a>
+                  <a v-if="index < 3" class="room">{{ splitRooms(room) }}</a>
                   <span v-else>...</span>
                   <span
                     v-if="
@@ -124,8 +124,8 @@ export default {
       endDate.setUTCHours(24, 0, 0, 0);
 
       const params = new URLSearchParams([
-        ["startdate", new Date().getTime()],
-        ["enddate", endDate.getTime()],
+        ["startdate", new Date().getTime() + 86400000 * 4],
+        ["enddate", endDate.getTime() + 86400000 * 4],
         ["eventlocation", this.options.eventLocation],
         ["room", this.options.room],
         ["pagesize", this.options.maxEvents ? this.options.maxEvents : 999],
@@ -263,6 +263,18 @@ export default {
         })
         .replace(",", "");
     },
+    splitRooms(room) {
+      let result = "";
+      let roomName = room;
+      if (roomName.includes("Seminar")) {
+        let parts = roomName.split(" ");
+        result += `Seminar\nS ${parts[1]}`;
+      } else {
+        result += `${roomName.split(",").join(",\n")}, `;
+      }
+
+      return result.slice(0, -2); // Remove the last comma and space
+    },
     getNow: function () {
       const today = new Date();
       const time =
@@ -282,9 +294,9 @@ export default {
 
 body {
   width: 100%;
-  text-align: center;
+  text-align: right;
   color: white;
-  font-size: 10px !important;
+  font-size: 18px !important;
   margin: 0;
   min-height: 100vh;
   height: 100%;
@@ -324,13 +336,14 @@ h1.title {
 
 h2 {
   font-size: 2.6em;
-  line-height: 1.5 !important;
+  line-height: 1.1 !important;
   margin: 0 !important;
-  width: 512px;
+  width: 575px;
+  letter-spacing: 0.01em;
 }
 
 h2 small {
-  font-size: 55%;
+  font-size: 22px;
   color: white;
   background-color: #666b6c;
   padding: 5px 15px;
@@ -339,6 +352,7 @@ h2 small {
   height: 100px;
   text-transform: uppercase;
   padding: 5px;
+  letter-spacing: 0.06em;
 }
 
 .slideshow-container {
@@ -373,8 +387,10 @@ h2 small {
   color: #fff;
   background-color: #666b6c;
   padding: 10px 7px;
-  font-size: 2em;
+  letter-spacing: 0em;
+  line-height: auto;
   font-weight: bold;
+  font-size: 24px;
   width: 140px;
   height: 130px;
   margin-top: 6px;
@@ -403,21 +419,23 @@ a.room {
 }
 
 .eurac-logo {
-  width: 200px;
+  width: 306px;
   padding-left: 38px;
-  padding-top: 30px;
+  padding-top: 35px;
 }
 
 strong {
   font-weight: 600;
+  font-size: 36px;
 }
 
 .starts-in {
-  font-size: 2.4em;
+  font-size: 32px;
   justify-content: right;
-  padding-right: 65px;
-  padding-top: 5px;
+  padding-right: 40px;
+  padding-top: 7px;
   width: 200px;
+  color: #b2b5b6;
 }
 
 .starts-in strong {
@@ -426,13 +444,14 @@ strong {
 
 .date {
   padding-right: 60px;
-  font-size: 37px;
+  font-size: 64px;
+  text-transform: uppercase;
 }
 
 .time {
-  font-size: 16px;
+  font-size: 24px;
   padding-right: 30px;
-  color: #a2a7a6;
+  color: #b2b5b6;
   font-weight: bold;
   margin-bottom: 200px;
   vertical-align: super;
@@ -467,6 +486,7 @@ strong {
   text-align: right;
   z-index: 100001;
 }
+
 .footer-text {
   color: white;
 }
@@ -481,7 +501,20 @@ strong {
   }
 
   h2 {
-    width: 300px;
+    font-size: 2.6em;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+    width: 575px;
+    letter-spacing: 0.01em;
+    padding-top: 10px;
+  }
+
+  h2 small {
+    font-size: 15px;
+  }
+
+  strong {
+    font-size: 20px;
   }
 
   header {
@@ -500,6 +533,10 @@ strong {
     height: auto;
   }
 
+  .line-separation {
+    padding-top: 20px;
+  }
+
   body {
     overflow: auto;
     padding-top: 2vh;
@@ -514,6 +551,18 @@ strong {
     padding-top: 0px;
   }
 
+  .location {
+    color: #fff;
+    background-color: #666b6c;
+    padding: 10px 7px;
+    font-size: 2em;
+    font-weight: 700;
+    width: 140px;
+    height: 130px;
+    margin-top: 6px;
+    margin-bottom: 20px;
+  }
+
   .date {
     font-size: 20px;
   }
@@ -523,14 +572,27 @@ strong {
     font-size: 12px;
   }
 
+  .starts-in {
+    font-size: 20px;
+  }
+
   .eurac-logo {
     padding-left: 6px;
     margin-right: 130px;
-    padding-bottom: 20px;
+    width: 200px;
   }
 
   .imageGallery {
     position: inherit;
+  }
+
+  .date {
+    font-size: 20px;
+    padding-right: 28px;
+  }
+
+  .footer-text {
+    font-size: 10px;
   }
 }
 
