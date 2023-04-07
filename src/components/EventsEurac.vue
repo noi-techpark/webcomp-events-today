@@ -50,10 +50,10 @@
             >
               <div class="location">
                 <span v-for="(room, index) in event.rooms" :key="room.key">
-                  <div v-if="index < 3" class="room">
+                  <div v-if="index < 2" class="room">
                     {{ getRoomName(room, index, event.rooms.length) }}
                   </div>
-                  <div v-if="index < 3" id="seminar">
+                  <div v-if="index < 2" id="seminar">
                     {{ getBigRoomName(room) }}
                   </div>
                 </span>
@@ -120,8 +120,8 @@ export default {
       endDate.setUTCHours(24, 0, 0, 0);
 
       const params = new URLSearchParams([
-        ["startdate", new Date().getTime() + 86400000 * 10],
-        ["enddate", endDate.getTime() + 86400000 * 10],
+        ["startdate", new Date().getTime()],
+        ["enddate", endDate.getTime()],
         ["eventlocation", this.options.eventLocation],
         ["room", this.options.room],
         ["pagesize", this.options.maxEvents ? this.options.maxEvents : 999],
@@ -261,12 +261,16 @@ export default {
     },
     getRoomName(room, index, length) {
       // Seminar room special rule
-      if (room.includes("Seminar")) return "Seminar";
+      if (room.includes("Seminar") && !room.includes("Seminar 2 and 3 unified"))
+        return "Seminar";
       if (length > 1 && index < length - 1) return room + ",";
       return room;
     },
     getBigRoomName(room) {
-      if (room.includes("Seminar")) {
+      if (
+        room.includes("Seminar") &&
+        !room.includes("Seminar 2 and 3 unified")
+      ) {
         let seminarRooms = room.split(" ");
         // Seminar 2
         if (seminarRooms.length == 2) {
@@ -274,13 +278,7 @@ export default {
         }
         // Seminar 2 and 3 unified
         else {
-          let onlyNumbers = room.replace(/\D/g, "");
-          return onlyNumbers
-            .split("")
-            .map(function (n) {
-              return "S" + n + "\r";
-            })
-            .join("");
+          return room;
         }
       }
 
@@ -403,7 +401,7 @@ h2 small {
   font-weight: bold;
   font-size: 24px;
   width: 140px;
-  height: 130px;
+  height: 147px;
   margin-top: 6px;
   justify-content: flex-end !important;
   margin-bottom: 20px;
@@ -427,10 +425,16 @@ a:hover {
 
 .room {
   color: #ffffff;
+  bottom: 90px;
+  right: 10px;
+
 }
 
 #seminar {
-  font-size: 38px;
+  font-size: 60px;
+  bottom: 48px;
+  right: 10px;
+  position: absolute;
 }
 
 .eurac-logo {
@@ -577,6 +581,12 @@ strong {
     margin-top: 6px;
     margin-bottom: 20px;
   }
+  #seminar {
+  font-size: 30px;
+  bottom: 72px;
+  right: 10px;
+  position: absolute;
+}
 
   .date {
     font-size: 20px;
