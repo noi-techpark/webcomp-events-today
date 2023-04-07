@@ -50,18 +50,14 @@
             >
               <div class="location">
                 <span v-for="(room, index) in event.rooms" :key="room.key">
-                  <a v-if="index < 3" class="room">{{ splitRooms(room) }}</a>
-                  <span v-else>...</span>
-                  <span
-                    v-if="
-                      index >= 0 &&
-                      index < 2 &&
-                      event.rooms.length >= 2 &&
-                      index != event.rooms.length - 1
-                    "
-                    >,</span
-                  >
+                  <div v-if="index < 3" class="room">
+                    {{ getRoomName(room, index, event.rooms.length) }}
+                  </div>
+                  <div v-if="index < 3" id="seminar">
+                    {{ getBigRoomName(room) }}
+                  </div>
                 </span>
+                <span v-if="event.rooms.length > 2">...</span>
               </div>
             </div>
           </div>
@@ -124,8 +120,8 @@ export default {
       endDate.setUTCHours(24, 0, 0, 0);
 
       const params = new URLSearchParams([
-        ["startdate", new Date().getTime() + 86400000 * 4],
-        ["enddate", endDate.getTime() + 86400000 * 4],
+        ["startdate", new Date().getTime() + 86400000 * 10],
+        ["enddate", endDate.getTime() + 86400000 * 10],
         ["eventlocation", this.options.eventLocation],
         ["room", this.options.room],
         ["pagesize", this.options.maxEvents ? this.options.maxEvents : 999],
@@ -263,17 +259,32 @@ export default {
         })
         .replace(",", "");
     },
-    splitRooms(room) {
-      let result = "";
-      let roomName = room;
-      if (roomName.includes("Seminar")) {
-        let parts = roomName.split(" ");
-        result += `Seminar\nS ${parts[1]}`;
-      } else {
-        result += `${roomName.split(",").join(",\n")}, `;
+    getRoomName(room, index, length) {
+      // Seminar room special rule
+      if (room.includes("Seminar")) return "Seminar";
+      if (length > 1 && index < length - 1) return room + ",";
+      return room;
+    },
+    getBigRoomName(room) {
+      if (room.includes("Seminar")) {
+        let seminarRooms = room.split(" ");
+        // Seminar 2
+        if (seminarRooms.length == 2) {
+          return "S" + seminarRooms[1];
+        }
+        // Seminar 2 and 3 unified
+        else {
+          let onlyNumbers = room.replace(/\D/g, "");
+          return onlyNumbers
+            .split("")
+            .map(function (n) {
+              return "S" + n + "\r";
+            })
+            .join("");
+        }
       }
 
-      return result.slice(0, -2); // Remove the last comma and space
+      return "";
     },
     getNow: function () {
       const today = new Date();
@@ -414,8 +425,12 @@ a:hover {
   text-decoration: none !important;
 }
 
-a.room {
+.room {
   color: #ffffff;
+}
+
+#seminar {
+  font-size: 38px;
 }
 
 .eurac-logo {
