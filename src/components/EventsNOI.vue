@@ -19,7 +19,7 @@
                   <strong> {{ event.shortName }} </strong>
                 </a>
                 <br />
-                <small> {{ event.shortName }}</small>
+                <small> {{ event.companyName }}</small>
               </h2>
               <h2 v-else>
                 <strong> {{ event.shortName }} </strong>
