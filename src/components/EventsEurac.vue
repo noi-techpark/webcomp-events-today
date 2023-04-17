@@ -15,7 +15,12 @@
     </header>
 
     <div class="slideshow-container full-height">
-      <div class="content container-fluid">
+      <div
+        class="content container-fluid"
+        v-bind:style="{
+          'margin-top': events.length === 1 ? '200px' : '',
+        }"
+      >
         <div v-if="!this.eventsLoaded || this.events.length > 0" class="lines">
           <div
             class="row line line-separation"
@@ -41,7 +46,15 @@
                 <small> {{ event.companyName }} </small>
 
                 <br />
-                <strong> {{ event.shortName }} </strong>
+                <strong
+                  v-bind:style="{
+                    'font-size': events.length === 1 ? '72px' : '',
+                    'line-height': events.length === 1 ? '1.2em' : '',
+                    'letter-spacing': events.length === 1 ? '0.01em' : '',
+                  }"
+                >
+                  {{ event.shortName }}
+                </strong>
               </h2>
             </div>
             <div
@@ -49,15 +62,16 @@
               style="justify-content: flex-end"
             >
               <div class="location">
-                <span v-for="(room, index) in event.rooms" :key="room.key">
-                  <div v-if="index < 2" class="room">
-                    {{ getRoomName(room, index, event.rooms.length) }}
-                  </div>
-                  <div v-if="index < 2" id="seminar">
-                    {{ getBigRoomName(room) }}
-                  </div>
-                </span>
-                <span v-if="event.rooms.length > 2">...</span>
+                <div class="rooms">
+                  <span v-for="(room, index) in event.rooms" :key="room.key">
+                    <div v-if="index < 2" class="room">
+                      {{ getRoomName(room, index, event.rooms.length) }}
+                    </div>
+                    <div v-if="index < 2" id="seminar">
+                      {{ getBigRoomName(room) }}
+                    </div>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -259,9 +273,14 @@ export default {
         })
         .replace(",", "");
     },
+
     getRoomName(room, index, length) {
       // Seminar room special rule
-      if (room.includes("Seminar") && !room.includes("Seminar 2 and 3 unified"))
+      if (
+        room.includes("Seminar") &&
+        !room.includes("Seminar 2 and 3 unified") &&
+        !room.includes("Seminar 1, 2 and 3 unified")
+      )
         return "Seminar";
       if (length > 1 && index < length - 1) return room + ",";
       return room;
@@ -269,7 +288,8 @@ export default {
     getBigRoomName(room) {
       if (
         room.includes("Seminar") &&
-        !room.includes("Seminar 2 and 3 unified")
+        !room.includes("Seminar 2 and 3 unified") &&
+        !room.includes("Seminar 1, 2 and 3 unified")
       ) {
         let seminarRooms = room.split(" ");
         // Seminar 2
@@ -303,6 +323,7 @@ export default {
 
 body {
   width: 100%;
+  line-height: 1.3 !important;
   text-align: right;
   color: white;
   font-size: 18px !important;
@@ -323,7 +344,12 @@ body > div {
 .content {
   padding: 0;
 }
-
+.singleEvent {
+  margin-top: 300px;
+  font-size: 72px;
+  line-height: 1.2em;
+  letter-spacing: 0.01em;
+}
 header {
   display: flex;
   justify-content: space-between;
@@ -363,7 +389,12 @@ h2 small {
   padding: 5px;
   letter-spacing: 0.06em;
 }
-
+.my-class {
+  margin-top: 300px;
+  font-size: 72px;
+  line-height: 1.2em;
+  letter-spacing: 0.01em;
+}
 .slideshow-container {
   position: relative;
   padding: 15px;
@@ -395,13 +426,17 @@ h2 small {
 .location {
   color: #fff;
   background-color: #666b6c;
-  padding: 10px 7px;
+  padding: 19px 7px;
+
   letter-spacing: 0em;
   line-height: auto;
+  position: relative;
   font-weight: bold;
   font-size: 24px;
-  width: 140px;
-  height: 147px;
+
+  width: 154px;
+  height: 169px;
+
   margin-top: 6px;
   justify-content: flex-end !important;
   margin-bottom: 20px;
@@ -409,6 +444,21 @@ h2 small {
 
 .location a {
   color: #000000;
+}
+
+.rooms {
+  margin-top: 30px;
+}
+
+.room {
+  color: #ffffff;
+}
+
+#seminar {
+  font-size: 60px;
+
+  line-height: 100%;
+  right: 10px;
 }
 
 .description {
@@ -423,21 +473,8 @@ a:hover {
   text-decoration: none !important;
 }
 
-.room {
-  color: #ffffff;
-  bottom: 90px;
-  right: 10px;
-}
-
-#seminar {
-  font-size: 60px;
-  bottom: 48px;
-  right: 10px;
-  position: absolute;
-}
-
 .eurac-logo {
-  width: 306px;
+  width: 263px;
   padding-left: 38px;
   padding-top: 35px;
 }
@@ -575,16 +612,13 @@ strong {
     padding: 10px 7px;
     font-size: 2em;
     font-weight: 700;
-    width: 140px;
-    height: 130px;
+    width: 124px;
+    height: 134px;
     margin-top: 6px;
     margin-bottom: 20px;
   }
   #seminar {
-    font-size: 30px;
-    bottom: 72px;
-    right: 10px;
-    position: absolute;
+    font-size: 20px;
   }
 
   .date {
