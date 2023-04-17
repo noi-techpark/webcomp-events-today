@@ -390,12 +390,7 @@ h2 small {
   padding: 5px;
   letter-spacing: 0.06em;
 }
-.my-class {
-  margin-top: 300px;
-  font-size: 72px;
-  line-height: 1.2em;
-  letter-spacing: 0.01em;
-}
+
 .slideshow-container {
   position: relative;
   padding: 15px;
@@ -570,7 +565,7 @@ strong {
   }
 
   strong {
-    font-size: 20px;
+    font-size: 36px !important;
   }
 
   header {
