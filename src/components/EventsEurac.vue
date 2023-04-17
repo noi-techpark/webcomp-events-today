@@ -15,13 +15,14 @@
     </header>
 
     <div class="slideshow-container full-height">
-      <div
-        class="content container-fluid"
-        v-bind:style="{
-          'margin-top': events.length === 1 ? '200px' : '',
-        }"
-      >
-        <div v-if="!this.eventsLoaded || this.events.length > 0" class="lines">
+      <div class="content container-fluid">
+        <div
+          v-if="!this.eventsLoaded || this.events.length > 0"
+          class="lines"
+          v-bind:style="{
+            'margin-top': events.length === 1 ? '200px' : '',
+          }"
+        >
           <div
             class="row line line-separation"
             v-for="event in events"
