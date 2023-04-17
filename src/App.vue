@@ -12,13 +12,12 @@
 </template>
 <script>
 import EventsToday from "./components/EventsToday.vue";
-
 export default {
   name: "App",
   props: {
     eventLocation: {
       type: String,
-      default: "EC",
+      default: "NOI",
     },
     room: { type: String, default: "" },
     maxEvents: { type: Number, default: 100 },
@@ -33,12 +32,11 @@ export default {
     },
     fontUrl: {
       type: String,
-      default:
-        "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/style.css",
+      default: "https://fonts.testingmachine.eu/source-sans-pro/style.css",
     },
     fontName: {
       type: String,
-      default: "Milo Bold",
+      default: "Source Sans Pro",
     },
   },
   components: {
@@ -46,7 +44,6 @@ export default {
   },
   created: function () {
     console.log("font name", this.fontName);
-
     this.fetchFont(this.fontUrl).then((font) => {
       // inject font after creation, because @font-face is not supported by shadow DOM
       let fontFaceSheet = new CSSStyleSheet();
