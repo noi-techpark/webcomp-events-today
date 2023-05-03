@@ -28,7 +28,7 @@
             v-for="event in events"
             :key="event.key"
           >
-            <div class="col-xs-8 col-sm-10 col-lg-7 col-md-7 description">
+            <div class="col-xs-8 col-sm-10 col-lg-10 col-md-10 description">
               <div class="starts-in">
                 <div>
                   <small>
@@ -43,7 +43,7 @@
                 <br />
                 <small> {{ event.shortName }}</small>
               </h2>
-              <h2 v-else>
+              <h2>
                 <small> {{ event.companyName }} </small>
 
                 <br />
@@ -58,10 +58,7 @@
                 </strong>
               </h2>
             </div>
-            <div
-              class="col-sm-2 col-xs-3 col-lg-5 col-lg-offset-0 col-md-5 nopadding"
-              style="justify-content: flex-end"
-            >
+            <div class="nopadding" style="justify-content: flex-end">
               <div class="location">
                 <div class="rooms">
                   <span v-for="(room, index) in event.rooms" :key="room.key">
@@ -345,12 +342,6 @@ body > div {
 .content {
   padding: 0;
 }
-.singleEvent {
-  margin-top: 300px;
-  font-size: 72px;
-  line-height: 1.2em;
-  letter-spacing: 0.01em;
-}
 header {
   display: flex;
   justify-content: space-between;
@@ -369,12 +360,11 @@ h1.title {
   font-size: 5em;
   padding-top: 60px;
 }
-
 h2 {
   font-size: 2.6em;
   line-height: 1.1 !important;
   margin: 0 !important;
-  width: 575px;
+  width: 1163px;
   letter-spacing: 0.01em;
 }
 
@@ -485,7 +475,7 @@ strong {
   justify-content: right;
   padding-right: 40px;
   padding-top: 7px;
-  width: 200px;
+  width: 220px;
   color: #b2b5b6;
 }
 
