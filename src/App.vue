@@ -17,10 +17,10 @@ export default {
   props: {
     eventLocation: {
       type: String,
-      default: "NOI",
+      default: "EC",
     },
     room: { type: String, default: "" },
-    maxEvents: { type: Number, default: 100 },
+    maxEvents: { type: Number, default: 2 },
     imageGalleryUrl: {
       type: String,
       default:
@@ -32,11 +32,12 @@ export default {
     },
     fontUrl: {
       type: String,
-      default: "https://fonts.testingmachine.eu/source-sans-pro/style.css",
+      default:
+        "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/style.css",
     },
     fontName: {
       type: String,
-      default: "Source Sans Pro",
+      default: "Milo Bold",
     },
   },
   components: {

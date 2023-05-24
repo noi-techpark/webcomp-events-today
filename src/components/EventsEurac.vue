@@ -2,17 +2,19 @@
   <body
     v-bind:style="{ 'font-family': this.options.fontName + ', sans-serif' }"
   >
-    <header>
-      <a href="https://www.eurac.edu/en"
-        ><img
-          :src="require('@/assets/icons/eurac_logo_white_WEB_neg.png')"
-          class="eurac-logo"
-      /></a>
+    <div id="header">
+      <div>
+        <a href="https://www.eurac.edu/en"
+          ><img
+            id="eurac-logo"
+            :src="require('@/assets/icons/eurac_logo_white_WEB_neg.png')"
+        /></a>
+      </div>
       <div id="current-date-time">
         <span id="date">{{ currentDate() }}</span>
         <span id="time">{{ timestamp }}</span>
       </div>
-    </header>
+    </div>
     <div id="content">
       <div
         v-if="!this.eventsLoaded || this.events.length > 0"
@@ -22,34 +24,33 @@
         }"
       >
         <div
-          class="row line line-separation"
+          id="event-row"
+          class="line line-separation"
           v-for="event in events"
           :key="event.key"
         >
-          <div class="col-xs-8 col-sm-10 col-lg-10 col-md-10 description">
-            <div id="event-time">
-              {{ event.time }}
+          <div id="event-time">
+            {{ event.time }}
+          </div>
+
+          <div id="event-details">
+            <div id="company">
+              {{ event.companyName }}
             </div>
 
-            <div id="event-details">
-              <div id="company">
-                {{ event.companyName }}
-              </div>
-
-              <div id="event-name">
-                <strong
-                  v-bind:style="{
-                    'font-size': events.length === 1 ? '72px' : '',
-                    'line-height': events.length === 1 ? '1.2em' : '',
-                    'letter-spacing': events.length === 1 ? '0.01em' : '',
-                  }"
-                >
-                  {{ event.shortName }}
-                </strong>
-              </div>
+            <div id="event-name">
+              <strong
+                v-bind:style="{
+                  'font-size': events.length === 1 ? '72px' : '',
+                  'line-height': events.length === 1 ? '1.2em' : '',
+                  'letter-spacing': events.length === 1 ? '0.01em' : '',
+                }"
+              >
+                {{ event.shortName }}
+              </strong>
             </div>
           </div>
-          <div class="nopadding" style="justify-content: flex-end">
+          <div class="nopadding">
             <div class="location">
               <div class="rooms">
                 <span v-for="(room, index) in event.rooms" :key="room.key">
@@ -68,14 +69,14 @@
       <div v-else>
         <img :src="this.currentImage" alt="image" class="imageGallery" />
       </div>
-      <div id="footer">
-        <a href="https://opendatahub.com" target="_blank" id="footer-text"
-          >powered by Open Data Hub
-          <img
-            :src="require('@/assets/icons/NOI_OPENDATAHUB_NEW_WH-01.png')"
-            height="35px"
-        /></a>
-      </div>
+    </div>
+    <div id="footer">
+      <a href="https://opendatahub.com" target="_blank"
+        ><span id="footer-text">powered by Open Data Hub</span>
+        <img
+          :src="require('@/assets/icons/NOI_OPENDATAHUB_NEW_WH-01.png')"
+          height="35px"
+      /></a>
     </div>
   </body>
 </template>
@@ -121,9 +122,12 @@ export default {
       const endDate = new Date();
       endDate.setUTCHours(24, 0, 0, 0);
 
+      const day = 60 * 40 * 24 * 1000;
+      const increment = 0;
+
       const params = new URLSearchParams([
         ["startdate", new Date().getTime()],
-        ["enddate", endDate.getTime()],
+        ["enddate", endDate.getTime() + increment * day],
         ["eventlocation", this.options.eventLocation],
         ["room", this.options.room],
         ["pagesize", this.options.maxEvents ? this.options.maxEvents : 999],
@@ -165,7 +169,7 @@ export default {
             // remove rooms with comment "x"
             roomsBooked = roomsBooked.filter(
               (roomBooked) =>
-                !"Comment" in roomBooked ||
+                !("Comment" in roomBooked) ||
                 roomBooked["Comment"].toLowerCase() != "x"
             );
 
@@ -314,8 +318,6 @@ export default {
 </script>
 
 <style>
-@import "~bootstrap/dist/css/bootstrap.min.css";
-
 body {
   color: white;
   line-height: 1.3 !important;
@@ -323,29 +325,26 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #414649;
 }
 
-header {
+/**********************
+HEADER 
+**********************/
+
+#header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #414649;
+  justify-content: space-between;
+  padding: 30px;
 }
 
-#content {
-  flex: 1;
-  position: relative;
-  padding: 15px;
-  background-color: #414649;
+#eurac-logo {
+  width: 263px;
 }
 
 #current-date-time {
-  font-size: 5em;
-  padding: 25px;
-  margin: 0;
-  padding: 5px;
-  font-size: 5em;
-  padding-top: 60px;
+  font-size: 64px;
 }
 
 #date {
@@ -359,21 +358,43 @@ header {
   padding-right: 30px;
   color: #b2b5b6;
   font-weight: bold;
-  margin-bottom: 200px;
   vertical-align: super;
 }
 
+/**********************
+CONTENT
+**********************/
+
+#content {
+  flex: 1;
+  position: relative;
+  padding: 30px;
+}
+
+#event-row {
+  display: flex;
+  flex-direction: row;
+}
+
 #event-details {
+  flex: 1;
   padding-top: 7px;
   max-width: 75%;
+}
+
+#description {
+  text-align: left;
+  height: 80%;
+  overflow-wrap: break-word;
+  display: flex;
 }
 
 #company {
   font-size: 22px;
   color: white;
   background-color: #666b6c;
-  max-width: 100%;
-  height: 40px;
+  max-width: 80%;
+  height: 28px;
   text-transform: uppercase;
   padding: 5px;
   letter-spacing: 0.06em;
@@ -386,23 +407,16 @@ header {
 
 #event-name {
   font-size: 41.6;
+  max-width: 80%;
   line-height: 1.1 !important;
-  margin: 0 !important;
   letter-spacing: 0.01em;
 }
 
 .line {
-  background-color: #414649;
   margin: 0;
   margin-bottom: 15px;
   position: relative;
   display: block;
-}
-
-.line > div {
-  height: 80%;
-  overflow-wrap: break-word;
-  display: flex;
 }
 
 .line-separation {
@@ -427,10 +441,6 @@ header {
 
   width: 154px;
   height: 169px;
-
-  margin-top: 6px;
-  justify-content: flex-end !important;
-  margin-bottom: 20px;
 }
 
 .location a {
@@ -452,22 +462,12 @@ header {
   right: 10px;
 }
 
-.description {
-  text-align: left;
-}
-
 a {
   color: #000;
 }
 
 a:hover {
   text-decoration: none !important;
-}
-
-.eurac-logo {
-  width: 263px;
-  padding-left: 38px;
-  padding-top: 35px;
 }
 
 strong {
@@ -503,19 +503,21 @@ strong {
   object-position: 0 0;
 }
 
+/**********************
+FOOTER
+**********************/
+
 #footer {
-  position: absolute;
-  padding: 0px 30px;
-  padding-top: 20px;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: right;
+  display: flex;
+  padding: 30px;
   z-index: 100001;
+  justify-content: flex-end;
 }
 
 #footer-text {
   color: white;
+  align-items: center;
+  margin-right: 10px;
 }
 
 @media screen and (min-width: 320px) and (max-width: 812px) {
@@ -544,12 +546,12 @@ strong {
     font-size: 36px !important;
   }
 
-  header {
+  #header {
     padding: 30px;
     padding-bottom: 0px;
   }
 
-  header .pull-left,
+  #header .pull-left,
   header .pull-right {
     float: none !important;
   }
@@ -581,13 +583,10 @@ strong {
   .location {
     color: #fff;
     background-color: #666b6c;
-    padding: 10px 7px;
     font-size: 2em;
     font-weight: 700;
     width: 124px;
-    height: 134px;
-    margin-top: 6px;
-    margin-bottom: 20px;
+    height: 124px;
   }
 
   #company {
@@ -619,9 +618,8 @@ strong {
     font-size: 20px;
   }
 
-  .eurac-logo {
+  #eurac-logo {
     padding-left: 6px;
-    margin-right: 130px;
     width: 200px;
   }
 
@@ -641,7 +639,7 @@ strong {
 
 @media screen and (min-width: 320px) and (max-width: 812px) and (orientation: portrait) {
   .starts-in,
-  .description {
+  #description {
     text-align: center;
   }
 
