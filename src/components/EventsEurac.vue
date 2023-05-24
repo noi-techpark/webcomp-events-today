@@ -162,6 +162,13 @@ export default {
             let roomsBooked = element.RoomBooked;
             let roomsSet = new Set();
 
+            // remove rooms with comment "x"
+            roomsBooked = roomsBooked.filter(
+              (roomBooked) =>
+                !"Comment" in roomBooked ||
+                roomBooked["Comment"].toLowerCase() != "x"
+            );
+
             for (const room of roomsBooked)
               roomsSet.add(room.SpaceDescRoomMapping);
 
@@ -330,7 +337,6 @@ header {
   position: relative;
   padding: 15px;
   background-color: #414649;
-  /* min-height: 80vh; */
 }
 
 #current-date-time {
