@@ -8,46 +8,35 @@
           :src="require('@/assets/icons/eurac_logo_white_WEB_neg.png')"
           class="eurac-logo"
       /></a>
-      <h1 class="title">
-        <span class="date">{{ currentDate() }}</span>
-        <span class="time">{{ timestamp }}</span>
-      </h1>
+      <div id="current-date-time">
+        <span id="date">{{ currentDate() }}</span>
+        <span id="time">{{ timestamp }}</span>
+      </div>
     </header>
-
-    <div class="slideshow-container full-height">
-      <div class="content container-fluid">
+    <div id="slideshow-container">
+      <div
+        v-if="!this.eventsLoaded || this.events.length > 0"
+        class="lines"
+        v-bind:style="{
+          'margin-top': events.length === 1 ? '200px' : '',
+        }"
+      >
         <div
-          v-if="!this.eventsLoaded || this.events.length > 0"
-          class="lines"
-          v-bind:style="{
-            'margin-top': events.length === 1 ? '200px' : '',
-          }"
+          class="row line line-separation"
+          v-for="event in events"
+          :key="event.key"
         >
-          <div
-            class="row line line-separation"
-            v-for="event in events"
-            :key="event.key"
-          >
-            <div class="col-xs-8 col-sm-10 col-lg-10 col-md-10 description">
-              <div class="starts-in">
-                <div>
-                  <small>
-                    {{ event.time }}
-                  </small>
-                </div>
-              </div>
-              <h2 v-if="event.webAddress != null && event.webAddress != ''">
-                <a :href="event.webAddress" target="_blank">
-                  <small> {{ event.shortName }} </small>
-                </a>
-                <br />
-                <small> {{ event.shortName }}</small>
-              </h2>
-              <h2>
-                <div id="company">
-                  <small> {{ event.companyName }} </small>
-                </div>
+          <div class="col-xs-8 col-sm-10 col-lg-10 col-md-10 description">
+            <div id="event-time">
+              {{ event.time }}
+            </div>
 
+            <div id="event-details">
+              <div id="company">
+                {{ event.companyName }}
+              </div>
+
+              <div id="event-name">
                 <br />
                 <strong
                   v-bind:style="{
@@ -58,35 +47,35 @@
                 >
                   {{ event.shortName }}
                 </strong>
-              </h2>
+              </div>
             </div>
-            <div class="nopadding" style="justify-content: flex-end">
-              <div class="location">
-                <div class="rooms">
-                  <span v-for="(room, index) in event.rooms" :key="room.key">
-                    <div v-if="index < 2" class="room">
-                      {{ getRoomName(room, index, event.rooms.length) }}
-                    </div>
-                    <div v-if="index < 2" id="seminar">
-                      {{ getBigRoomName(room) }}
-                    </div>
-                  </span>
-                </div>
+          </div>
+          <div class="nopadding" style="justify-content: flex-end">
+            <div class="location">
+              <div class="rooms">
+                <span v-for="(room, index) in event.rooms" :key="room.key">
+                  <div v-if="index < 2" class="room">
+                    {{ getRoomName(room, index, event.rooms.length) }}
+                  </div>
+                  <div v-if="index < 2" id="seminar">
+                    {{ getBigRoomName(room) }}
+                  </div>
+                </span>
               </div>
             </div>
           </div>
         </div>
-        <div v-else>
-          <img :src="this.currentImage" alt="image" class="imageGallery" />
-        </div>
-        <div class="footer">
-          <a href="https://opendatahub.com" target="_blank" class="footer-text"
-            >powered by Open Data Hub
-            <img
-              :src="require('@/assets/icons/NOI_OPENDATAHUB_NEW_WH-01.png')"
-              height="35px"
-          /></a>
-        </div>
+      </div>
+      <div v-else>
+        <img :src="this.currentImage" alt="image" class="imageGallery" />
+      </div>
+      <div class="footer">
+        <a href="https://opendatahub.com" target="_blank" class="footer-text"
+          >powered by Open Data Hub
+          <img
+            :src="require('@/assets/icons/NOI_OPENDATAHUB_NEW_WH-01.png')"
+            height="35px"
+        /></a>
       </div>
     </div>
   </body>
@@ -323,27 +312,12 @@ export default {
 
 body {
   width: 100%;
-  line-height: 1.3 !important;
-  text-align: right;
   color: white;
+  line-height: 1.3 !important;
   font-size: 18px !important;
-  margin: 0;
   min-height: 100vh;
-  height: 100%;
-  padding-bottom: 20px;
 }
 
-body > div {
-  width: 100%;
-}
-
-.full-height {
-  height: 100%;
-}
-
-.content {
-  padding: 0;
-}
 header {
   display: flex;
   justify-content: space-between;
@@ -351,43 +325,63 @@ header {
   background-color: #414649;
 }
 
-h1 {
-  font-size: 5em;
-  padding: 25px;
-  margin: 0;
-}
-
-h1.title {
-  padding: 5px;
-  font-size: 5em;
-  padding-top: 60px;
-}
-h2 {
-  font-size: 2.6em;
-  line-height: 1.1 !important;
-  margin: 0 !important;
-  width: 1163px;
-  letter-spacing: 0.01em;
-}
-
-h2 small {
-  font-size: 22px;
-  color: white;
-  background-color: #666b6c;
-  padding: 5px 15px;
-  max-width: 50%;
-  width: 100px;
-  height: 100px;
-  text-transform: uppercase;
-  padding: 5px;
-  letter-spacing: 0.06em;
-}
-
-.slideshow-container {
+#slideshow-container {
   position: relative;
   padding: 15px;
   background-color: #414649;
   min-height: 85vh;
+}
+
+#current-date-time {
+  font-size: 5em;
+  padding: 25px;
+  margin: 0;
+  padding: 5px;
+  font-size: 5em;
+  padding-top: 60px;
+}
+
+#date {
+  padding-right: 60px;
+  font-size: 64px;
+  text-transform: uppercase;
+}
+
+#time {
+  font-size: 24px;
+  padding-right: 30px;
+  color: #b2b5b6;
+  font-weight: bold;
+  margin-bottom: 200px;
+  vertical-align: super;
+}
+
+#event-details {
+  padding-top: 7px;
+  max-width: 75%;
+}
+
+#company {
+  font-size: 22px;
+  color: white;
+  background-color: #666b6c;
+  max-width: 100%;
+  height: 40px;
+  text-transform: uppercase;
+  padding: 5px;
+  letter-spacing: 0.06em;
+
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#event-name {
+  font-size: 41.6;
+  line-height: 1.1 !important;
+  margin: 0 !important;
+  letter-spacing: 0.01em;
 }
 
 .line {
@@ -422,6 +416,8 @@ h2 small {
   font-weight: bold;
   font-size: 24px;
 
+  text-align: center;
+
   width: 154px;
   height: 169px;
 
@@ -453,18 +449,6 @@ h2 small {
   text-align: left;
 }
 
-#company {
-  display: inline-block;
-  width: 100%;
-  overflow: hidden; /* make sure it hides the content that overflows */
-  white-space: nowrap; /* don't break the line */
-  text-overflow: ellipsis;
-
-  font-size: 22px;
-  color: white;
-  letter-spacing: 0.06em;
-}
-
 a {
   color: #000;
 }
@@ -484,32 +468,13 @@ strong {
   font-size: 36px;
 }
 
-.starts-in {
-  font-size: 32px;
+#event-time {
+  font-size: 26px;
   justify-content: right;
   padding-right: 40px;
   padding-top: 7px;
   width: 220px;
   color: #b2b5b6;
-}
-
-.starts-in strong {
-  font-size: 1.25em;
-}
-
-.date {
-  padding-right: 60px;
-  font-size: 64px;
-  text-transform: uppercase;
-}
-
-.time {
-  font-size: 24px;
-  padding-right: 30px;
-  color: #b2b5b6;
-  font-weight: bold;
-  margin-bottom: 200px;
-  vertical-align: super;
 }
 
 .picframe img {
@@ -601,7 +566,7 @@ strong {
     font-size: 1em;
   }
 
-  .slideshow-container {
+  #slideshow-container {
     height: max-content;
     padding-top: 0px;
   }
@@ -617,6 +582,19 @@ strong {
     margin-top: 6px;
     margin-bottom: 20px;
   }
+
+  #company {
+    display: flex;
+    width: 60%;
+    overflow: visible;
+    white-space: break-spaces;
+    text-overflow: initial;
+
+    font-size: 22px;
+    color: white;
+    letter-spacing: 0.06em;
+  }
+
   #seminar {
     font-size: 20px;
   }
@@ -630,7 +608,7 @@ strong {
     font-size: 12px;
   }
 
-  .starts-in {
+  .event-time {
     font-size: 20px;
   }
 
@@ -660,7 +638,7 @@ strong {
     text-align: center;
   }
 
-  .slideshow-container {
+  #slideshow-container {
     height: max-content;
   }
 }
