@@ -13,7 +13,7 @@
         <span id="time">{{ timestamp }}</span>
       </div>
     </header>
-    <div id="slideshow-container">
+    <div id="content">
       <div
         v-if="!this.eventsLoaded || this.events.length > 0"
         class="lines"
@@ -37,7 +37,6 @@
               </div>
 
               <div id="event-name">
-                <br />
                 <strong
                   v-bind:style="{
                     'font-size': events.length === 1 ? '72px' : '',
@@ -69,8 +68,8 @@
       <div v-else>
         <img :src="this.currentImage" alt="image" class="imageGallery" />
       </div>
-      <div class="footer">
-        <a href="https://opendatahub.com" target="_blank" class="footer-text"
+      <div id="footer">
+        <a href="https://opendatahub.com" target="_blank" id="footer-text"
           >powered by Open Data Hub
           <img
             :src="require('@/assets/icons/NOI_OPENDATAHUB_NEW_WH-01.png')"
@@ -311,10 +310,11 @@ export default {
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
 body {
-  width: 100%;
   color: white;
   line-height: 1.3 !important;
   font-size: 18px !important;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 }
 
@@ -325,11 +325,12 @@ header {
   background-color: #414649;
 }
 
-#slideshow-container {
+#content {
+  flex: 1;
   position: relative;
   padding: 15px;
   background-color: #414649;
-  min-height: 85vh;
+  /* min-height: 80vh; */
 }
 
 #current-date-time {
@@ -496,7 +497,7 @@ strong {
   object-position: 0 0;
 }
 
-.footer {
+#footer {
   position: absolute;
   padding: 0px 30px;
   padding-top: 20px;
@@ -507,7 +508,7 @@ strong {
   z-index: 100001;
 }
 
-.footer-text {
+#footer-text {
   color: white;
 }
 
@@ -566,7 +567,7 @@ strong {
     font-size: 1em;
   }
 
-  #slideshow-container {
+  #content {
     height: max-content;
     padding-top: 0px;
   }
@@ -638,7 +639,7 @@ strong {
     text-align: center;
   }
 
-  #slideshow-container {
+  #content {
     height: max-content;
   }
 }
