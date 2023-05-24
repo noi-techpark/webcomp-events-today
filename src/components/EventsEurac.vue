@@ -38,13 +38,15 @@
               </div>
               <h2 v-if="event.webAddress != null && event.webAddress != ''">
                 <a :href="event.webAddress" target="_blank">
-                  <strong> {{ event.shortName }} </strong>
+                  <small> {{ event.shortName }} </small>
                 </a>
                 <br />
                 <small> {{ event.shortName }}</small>
               </h2>
               <h2>
-                <small> {{ event.companyName }} </small>
+                <div id="company">
+                  <small> {{ event.companyName }} </small>
+                </div>
 
                 <br />
                 <strong
@@ -449,6 +451,18 @@ h2 small {
 
 .description {
   text-align: left;
+}
+
+#company {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden; /* make sure it hides the content that overflows */
+  white-space: nowrap; /* don't break the line */
+  text-overflow: ellipsis;
+
+  font-size: 22px;
+  color: white;
+  letter-spacing: 0.06em;
 }
 
 a {
