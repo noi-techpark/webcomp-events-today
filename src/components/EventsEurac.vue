@@ -34,7 +34,7 @@
             </div>
 
             <div id="event-name">
-              {{ event.name }}
+              {{ event.name[currentLanguage] }}
             </div>
           </div>
           <div id="event-location">
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+'use strict';
+
 export default {
   name: "EventsToday",
   props: {
@@ -82,14 +84,16 @@ export default {
       currentImageIndex: 0,
       currentImage: "",
       eventsLoaded: false,
+      languages: ["en", "de", "it"],
+      currentLanguage: "en",
     };
   },
   created: function () {
-    console.log(this.options.eventRotationInterval);
     this.loadImages();
     this.getNow();
     this.fetchData();
-    // create cron jobs
+    // create cron job
+    setInterval(this.rotateLanguage, this.options.languageRotationInterval * 1000);
     setInterval(this.getNow, 1000);
     setInterval(this.fetchData, 300000);
     setInterval(this.rotateEvents, this.options.eventRotationInterval * 1000);
@@ -150,9 +154,8 @@ export default {
         let endDate = new Date(element.RoomEndDate);
 
         let event = {
-          name: element.EventDescriptionEN,
+          name: element.EventTitle,
           companyName: element.CompanyName,
-          eventText: element.EventTextIT,
           webAddress: element.WebAddress,
           rooms: element.SpaceDesc,
           time: this.formatTime(startDate, endDate),
@@ -161,7 +164,6 @@ export default {
       }
       this.events = this.allEvents.slice(0, this.options.maxEvents);
       this.eventsLoaded = true;
-      console.log("events loaded");
     },
     rotateEvents() {
       // don't rotate if ma event is set to 1 or events are less than max events
@@ -170,13 +172,16 @@ export default {
         this.allEvents.length <= this.options.maxEvents
       )
         return;
-
       const lastEvent = this.events.pop();
       let index = this.allEvents.indexOf(lastEvent) + 1;
-
       if (index >= this.allEvents.length) index = 0;
-
       this.events = this.allEvents.slice(index, index + this.options.maxEvents);
+    },
+    rotateLanguage() {
+      let index = this.languages.indexOf(this.currentLanguage) + 1;
+      
+      if (index >= this.languages.length) index = 0;
+      this.currentLanguage = this.languages[index];
     },
     loadImages() {
       const parser = new DOMParser();

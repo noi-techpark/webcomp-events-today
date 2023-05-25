@@ -5,6 +5,7 @@
       room: room,
       maxEvents: maxEvents,
       eventRotationInterval: eventRotationInterval,
+      languageRotationInterval: languageRotationInterval,
       imageGalleryInterval: imageGalleryInterval,
       imageGalleryUrl: imageGalleryUrl,
       fontName: fontName,
@@ -25,6 +26,10 @@ export default {
     eventRotationInterval: {
       type: Number,
       default: 60,
+    },
+    languageRotationInterval: {
+      type: Number,
+      default: 10,
     },
     imageGalleryUrl: {
       type: String,

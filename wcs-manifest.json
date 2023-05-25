@@ -5,13 +5,16 @@
     "descriptionAbstract": "events simple webcomp",
     "license": "AGPL-3.0-or-later",
     "repositoryUrl": "https://github.com/noi-techpark/webcomp-events-today.git",
-    "copyrightHolders": [{
-        "name": "NOI",
-        "email": "info@noi.bz.it",
-        "organization": "NOI S.p.A",
-        "organizationUrl": "https://noi.bz.it"
-    }],
-    "authors": [{
+    "copyrightHolders": [
+        {
+            "name": "NOI",
+            "email": "info@noi.bz.it",
+            "organization": "NOI S.p.A",
+            "organizationUrl": "https://noi.bz.it"
+        }
+    ],
+    "authors": [
+        {
             "name": "Sergio Evola",
             "email": "evola.sergio97@gmail.com",
             "organization": "NOI S.p.A",
@@ -28,18 +31,24 @@
     "searchTags": [],
     "dist": {
         "basePath": "dist",
-        "files": ["events-today.min.js"],
+        "files": [
+            "events-today.min.js"
+        ],
         "scripts": []
     },
     "configuration": {
         "tagName": "events-today",
-        "options": [{
+        "options": [
+            {
                 "key": "event-location",
                 "type": "select",
                 "label": "Location of the events: NOI (NOI Techpark), EC (Eurac)",
                 "required": true,
                 "options": {
-                    "values": ["NOI", "EC"],
+                    "values": [
+                        "NOI",
+                        "EC"
+                    ],
                     "default": "NOI"
                 }
             },
@@ -68,6 +77,15 @@
                 "required": false,
                 "options": {
                     "default": 60
+                }
+            },
+            {
+                "key": "language-rotation-interval",
+                "type": "number",
+                "label": "Language rotation interval in seconds. Supported languages are 'en','de' and 'it'",
+                "required": false,
+                "options": {
+                    "default": 10
                 }
             },
             {
