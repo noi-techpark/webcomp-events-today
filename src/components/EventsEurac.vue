@@ -1,5 +1,6 @@
 <template>
-  <body
+  <div
+    id="base"
     v-bind:style="{ 'font-family': this.options.fontName + ', sans-serif' }"
   >
     <div id="header">
@@ -49,7 +50,7 @@
         </div>
       </div>
       <div v-else>
-        <img :src="this.currentImage" alt="image" class="imageGallery" />
+        <img :src="this.currentImage" alt="image gallery" id="image-gallery" />
       </div>
     </div>
     <div id="footer">
@@ -60,7 +61,7 @@
           height="35px"
       /></a>
     </div>
-  </body>
+  </div>
 </template>
 
 <script>
@@ -257,15 +258,14 @@ export default {
 </script>
 
 <style>
-body {
+#base {
   color: white;
-  line-height: 1.3 !important;
-  font-size: 18px !important;
+  font-size: 18px;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 85vh;
   background-color: #414649;
-  padding: 35px;
+  padding: 55px;
 }
 
 /**********************
@@ -397,11 +397,7 @@ CONTENT
   text-align: right;
 }
 
-.picframe img {
-  height: none !important;
-}
-
-.imageGallery {
+#image-gallery {
   width: 100%;
   height: 100%;
   position: fixed;
