@@ -16,13 +16,7 @@
       </div>
     </div>
     <div id="content">
-      <div
-        v-if="!this.eventsLoaded || this.events.length > 0"
-        class="lines"
-        v-bind:style="{
-          'margin-top': events.length === 1 ? '200px' : '',
-        }"
-      >
+      <div v-if="!this.eventsLoaded || this.events.length > 0">
         <div
           id="event-row"
           class="line line-separation"
@@ -298,6 +292,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   background-color: #414649;
+  padding: 35px;
 }
 
 /**********************
@@ -308,7 +303,7 @@ HEADER
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30px;
+  margin-bottom: 30px;
 }
 
 #eurac-logo {
@@ -327,7 +322,7 @@ HEADER
 
 #time {
   font-size: 24px;
-  padding-right: 30px;
+  /* padding-right: 30px; */
   color: #b2b5b6;
   font-weight: bold;
   vertical-align: super;
@@ -339,19 +334,21 @@ CONTENT
 
 #content {
   flex: 1;
-  position: relative;
-  padding: 30px;
+  align-items: flex-end;
 }
 
 #event-row {
   display: flex;
   flex-direction: row;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 #event-details {
   flex: 1;
-  padding-top: 7px;
-  max-width: 75%;
+  /* padding-top: 7px; */
+  /* max-width: 75%; */
 }
 
 #description {
@@ -392,20 +389,6 @@ CONTENT
   -webkit-box-orient: vertical;
 }
 
-.line {
-  margin: 0;
-  margin-bottom: 15px;
-  position: relative;
-  display: block;
-}
-
-.line-separation {
-  border-top: 1px solid rgba(255, 255, 255, 0.25);
-  margin-right: 20px;
-  margin-left: 20px;
-  padding-top: 20px;
-}
-
 #event-location {
   display: flex;
   justify-content: flex-end;
@@ -437,23 +420,10 @@ CONTENT
   text-align: right;
 }
 
-a {
-  color: #000;
-}
-
-a:hover {
-  text-decoration: none !important;
-}
-
-strong {
-  font-weight: 600;
-  font-size: 36px;
-}
 
 #event-time {
   font-size: 26px;
   justify-content: right;
-  padding-top: 7px;
   flex: 0 0 200px;
   color: #b2b5b6;
 }
@@ -480,7 +450,6 @@ FOOTER
   display: flex;
   color: #ffffff;
   text-decoration: none;
-  padding: 30px;
   z-index: 100001;
   justify-content: flex-end;
   align-items: center;
