@@ -50,17 +50,15 @@
               </strong>
             </div>
           </div>
-          <div class="nopadding">
-            <div class="location">
-              <div class="rooms">
-                <span v-for="(room, index) in event.rooms" :key="room.key">
-                  <div v-if="index < 2" class="room">
-                    {{ getRoomName(room, index, event.rooms.length) }}
-                  </div>
-                  <div v-if="index < 2" id="seminar">
-                    {{ getBigRoomName(room) }}
-                  </div>
-                </span>
+          <div v-for="(room, index) in event.rooms" :key="room.key">
+            <div id="event-location">
+              <div>
+                <div v-if="index < 2" id="room">
+                  {{ getRoomName(room, index, event.rooms.length) }}
+                </div>
+                <div v-if="index < 2" id="seminar">
+                  {{ getBigRoomName(room) }}
+                </div>
               </div>
             </div>
           </div>
@@ -123,7 +121,7 @@ export default {
       endDate.setUTCHours(24, 0, 0, 0);
 
       const day = 60 * 40 * 24 * 1000;
-      const increment = 0;
+      const increment = 5;
 
       const params = new URLSearchParams([
         ["startdate", new Date().getTime()],
@@ -426,40 +424,30 @@ CONTENT
   padding-top: 20px;
 }
 
-.location {
-  color: #fff;
+#event-location {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+
   background-color: #666b6c;
-  padding: 19px 7px;
 
-  letter-spacing: 0em;
-  line-height: auto;
-  position: relative;
   font-weight: bold;
-  font-size: 24px;
 
-  text-align: center;
+  width: 190px;
+  height: 190px;
 
-  width: 154px;
-  height: 169px;
+  padding: 20px;
 }
 
-.location a {
-  color: #000000;
-}
-
-.rooms {
-  margin-top: 30px;
-}
-
-.room {
+#room {
   color: #ffffff;
+  font-size: 24px;
+  line-height: 16px;
 }
 
 #seminar {
   font-size: 60px;
-
-  line-height: 100%;
-  right: 10px;
+  line-height: 34px;
 }
 
 a {
@@ -486,11 +474,6 @@ strong {
 
 .picframe img {
   height: none !important;
-}
-
-.nopadding {
-  padding: 0 !important;
-  margin: 0 !important;
 }
 
 .imageGallery {
