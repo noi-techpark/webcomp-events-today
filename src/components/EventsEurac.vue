@@ -76,6 +76,7 @@ export default {
   data: function () {
     return {
       events: [],
+      allEvents: [],
       images: [],
       timestamp: "",
       currentImageIndex: 0,
@@ -84,11 +85,15 @@ export default {
     };
   },
   created: function () {
+    console.log(this.options.eventRotationInterval);
     this.loadImages();
-    this.fetchData(setInterval(300000));
-    setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
     this.getNow();
+    this.fetchData();
+    // create cron jobs
     setInterval(this.getNow, 1000);
+    setInterval(this.fetchData, 300000);
+    setInterval(this.rotateEvents, this.options.eventRotationInterval * 1000);
+    setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
   },
   methods: {
     nextImage() {
@@ -120,6 +125,7 @@ export default {
         ["datetimeformat", "uxtimestamp"],
         ["onlyactive", true],
         ["sortorder", "ASC"],
+        ["origin", "webcomp-events-today-eurac"],
       ]);
 
       if (this.options.room != "" && this.options.room != null) {
@@ -151,10 +157,26 @@ export default {
           rooms: element.SpaceDesc,
           time: this.formatTime(startDate, endDate),
         };
-
-        this.events.push(event);
+        this.allEvents.push(event);
       }
+      this.events = this.allEvents.slice(0, this.options.maxEvents);
       this.eventsLoaded = true;
+      console.log("events loaded");
+    },
+    rotateEvents() {
+      // don't rotate if ma event is set to 1 or events are less than max events
+      if (
+        this.options.maxEvents < 2 ||
+        this.allEvents.length <= this.options.maxEvents
+      )
+        return;
+
+      const lastEvent = this.events.pop();
+      let index = this.allEvents.indexOf(lastEvent) + 1;
+
+      if (index >= this.allEvents.length) index = 0;
+
+      this.events = this.allEvents.slice(index, index + this.options.maxEvents);
     },
     loadImages() {
       const parser = new DOMParser();
@@ -410,135 +432,40 @@ FOOTER
   margin-right: 10px;
 }
 
-@media screen and (min-width: 320px) and (max-width: 812px) {
-  /* #header {
-    padding: 30px;
-    padding-bottom: 0px;
-  }
+/* @media screen and (min-width: 320px) and (max-width: 812px) {
 
-  #header .pull-left,
-  header .pull-right {
-    float: none !important;
-  }
-
-  .line {
-    font-size: 8px;
-    padding: 0;
-    height: auto;
-  }
-
-  .line-separation {
-    padding-top: 20px;
-  }
-
-  body {
-    overflow: auto;
-    padding-top: 2vh;
-  }
-
-  .clock {
-    font-size: 1em;
-  }
-
-  #content {
-    height: max-content;
-    padding-top: 0px;
-  }
-
-  .location {
-    color: #fff;
-    background-color: #666b6c;
-    font-size: 2em;
-    font-weight: 700;
-    width: 124px;
-    height: 124px;
-  }
-
-  #company {
-    display: flex;
-    width: 60%;
-    overflow: visible;
-    white-space: break-spaces;
-    text-overflow: initial;
-
-    font-size: 22px;
-    color: white;
-    letter-spacing: 0.06em;
-  }
-
-  #seminar {
-    font-size: 20px;
-  }
-
-  .date {
-    font-size: 20px;
-  }
-
-  .time {
-    padding-right: 0px !important;
-    font-size: 12px;
-  }
-
-  .event-time {
-    font-size: 20px;
-  }
-
-  #eurac-logo {
-    padding-left: 6px;
-    width: 200px;
-  }
-
-  .imageGallery {
-    position: inherit;
-  }
-
-  .date {
-    font-size: 20px;
-    padding-right: 28px;
-  }
-
-  .footer-text {
-    font-size: 10px;
-  } */
 }
 
 @media screen and (min-width: 320px) and (max-width: 812px) and (orientation: portrait) {
-  .starts-in,
-  #event-detail {
-    text-align: center;
-  }
 
-  #content {
-    height: max-content;
-  }
-}
+} */
 
 @media screen and (min-width: 992px) and (max-height: 901px) and (orientation: landscape) {
-  body {
+  #base {
     font-size: 10px;
   }
 }
 
 @media screen and (max-width: 1441px) and (max-height: 901px) and (orientation: landscape) {
-  body {
+  #base {
     font-size: 12px;
   }
 }
 
-@media screxen and (max-width: 1280px) and (min-height: 1024px) and (orientation: landscape) {
-  body {
+@media screen and (max-width: 1280px) and (min-height: 1024px) and (orientation: landscape) {
+  #base {
     font-size: 16px;
   }
 }
 
 @media screen and (max-width: 1600px) and (min-height: 900px) and (orientation: landscape) {
-  body {
+  #base {
     font-size: 14px;
   }
 }
 
 @media screen and (max-width: 992px) and (min-width: 812px) and (orientation: landscape) {
-  body {
+   {
     font-size: 8px;
   }
 }

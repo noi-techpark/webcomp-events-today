@@ -99,6 +99,7 @@ export default {
         ["datetimeformat", "uxtimestamp"],
         ["onlyactive", true],
         ["sortorder", "ASC"],
+        ["origin", "webcomp-events-today-noi"],
       ]);
       if (this.options.room != "" && this.options.room != null) {
         params.set(

@@ -4,6 +4,7 @@
       eventLocation: eventLocation,
       room: room,
       maxEvents: maxEvents,
+      eventRotationInterval: eventRotationInterval,
       imageGalleryInterval: imageGalleryInterval,
       imageGalleryUrl: imageGalleryUrl,
       fontName: fontName,
@@ -21,6 +22,10 @@ export default {
     },
     room: { type: String, default: "" },
     maxEvents: { type: Number, default: 4 },
+    eventRotationInterval: {
+      type: Number,
+      default: 60,
+    },
     imageGalleryUrl: {
       type: String,
       default:

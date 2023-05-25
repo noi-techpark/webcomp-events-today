@@ -58,7 +58,16 @@
                 "label": "Max number of events to display",
                 "required": false,
                 "options": {
-                    "default": 100
+                    "default": 4
+                }
+            },
+            {
+                "key": "event-rotation-interval",
+                "type": "number",
+                "label": "Event rotation interval in seconds, if not all events are visible on screen. Will be ignored if max-events os set to 1",
+                "required": false,
+                "options": {
+                    "default": 60
                 }
             },
             {
