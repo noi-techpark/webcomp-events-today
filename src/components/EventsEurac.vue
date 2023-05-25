@@ -65,7 +65,7 @@
 </template>
 
 <script>
-'use strict';
+"use strict";
 
 export default {
   name: "EventsToday",
@@ -93,7 +93,10 @@ export default {
     this.getNow();
     this.fetchData();
     // create cron job
-    setInterval(this.rotateLanguage, this.options.languageRotationInterval * 1000);
+    setInterval(
+      this.rotateLanguage,
+      this.options.languageRotationInterval * 1000
+    );
     setInterval(this.getNow, 1000);
     setInterval(this.fetchData, 300000);
     setInterval(this.rotateEvents, this.options.eventRotationInterval * 1000);
@@ -182,7 +185,7 @@ export default {
     },
     rotateLanguage() {
       let index = this.languages.indexOf(this.currentLanguage) + 1;
-      
+
       if (index >= this.languages.length) index = 0;
       this.currentLanguage = this.languages[index];
     },
