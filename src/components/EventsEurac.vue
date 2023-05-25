@@ -39,15 +39,7 @@
             </div>
 
             <div id="event-name">
-              <strong
-                v-bind:style="{
-                  'font-size': events.length === 1 ? '72px' : '',
-                  'line-height': events.length === 1 ? '1.2em' : '',
-                  'letter-spacing': events.length === 1 ? '0.01em' : '',
-                }"
-              >
-                {{ event.name }}
-              </strong>
+              {{ event.name }}
             </div>
           </div>
           <div id="event-location">
@@ -119,6 +111,8 @@ export default {
       const endDate = new Date();
       endDate.setUTCHours(24, 0, 0, 0);
 
+      // to show more events during development
+      // set increment to 0 before pushing
       const day = 60 * 40 * 24 * 1000;
       const increment = 0;
 
@@ -384,10 +378,17 @@ CONTENT
 }
 
 #event-name {
-  font-size: 41.6;
+  font-size: 41.6px;
   max-width: 80%;
   line-height: 1.1 !important;
   letter-spacing: 0.01em;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .line {
