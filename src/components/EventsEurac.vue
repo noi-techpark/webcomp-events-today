@@ -117,7 +117,6 @@ export default {
         ["enddate", endDate.getTime() + increment * day],
         ["eventlocation", this.options.eventLocation],
         ["room", this.options.room],
-        ["pagesize", this.options.maxEvents ? this.options.maxEvents : 4],
         ["datetimeformat", "uxtimestamp"],
         ["onlyactive", true],
         ["sortorder", "ASC"],
@@ -133,64 +132,51 @@ export default {
             ")"
         );
       }
-      fetch(baseURL + params, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((response) => {
-        if (!response.ok)
-          throw new Error(`HTTP error! Status: ${response.status}`);
+      const xhttp = new XMLHttpRequest();
+      xhttp.open("GET", baseURL + params, false);
+      xhttp.send();
 
-        response.json().then((items) => {
-          for (let i = 0; i <= items.length - 1; ++i) {
-            let element = items[i];
+      const items = JSON.parse(xhttp.response);
+      for (let i = 0; i <= items.length - 1; ++i) {
+        let element = items[i];
 
-            let startDate = new Date(element.RoomStartDate);
-            let endDate = new Date(element.RoomEndDate);
+        let startDate = new Date(element.RoomStartDate);
+        let endDate = new Date(element.RoomEndDate);
 
-            let event = {
-              name: element.EventDescriptionEN,
-              companyName: element.CompanyName,
-              eventText: element.EventTextIT,
-              webAddress: element.WebAddress,
-              rooms: element.SpaceDesc,
-              time: this.formatTime(startDate, endDate),
-            };
+        let event = {
+          name: element.EventDescriptionEN,
+          companyName: element.CompanyName,
+          eventText: element.EventTextIT,
+          webAddress: element.WebAddress,
+          rooms: element.SpaceDesc,
+          time: this.formatTime(startDate, endDate),
+        };
 
-            this.events.push(event);
-          }
-          this.eventsLoaded = true;
-        });
-      });
+        this.events.push(event);
+      }
+      this.eventsLoaded = true;
     },
     loadImages() {
       const parser = new DOMParser();
       const imagesList = [];
 
-      fetch(this.options.imageGalleryUrl, {
-        method: "GET",
-      }).then((response) => {
-        response.text().then((text) => {
-          // parse xml
-          const xmlDoc = parser.parseFromString(text, "text/xml");
+      const xhttp = new XMLHttpRequest();
+      xhttp.open("GET", this.options.imageGalleryUrl, false);
+      xhttp.send();
 
-          // search for images
-          const keys = xmlDoc.getElementsByTagName("Key");
-          const imageFormats = ["png", "jpg", "jpeg"];
-          for (const key of keys) {
-            const value = key.innerHTML;
-            if (imageFormats.some((format) => value.includes(format)))
-              imagesList.push(value);
-          }
-
-          // save images
-          this.images = imagesList;
-
-          // assign next image
-          this.nextImage();
-        });
-      });
+      const xmlDoc = parser.parseFromString(xhttp.response, "text/xml");
+      // search for images
+      const keys = xmlDoc.getElementsByTagName("Key");
+      const imageFormats = ["png", "jpg", "jpeg"];
+      for (const key of keys) {
+        const value = key.innerHTML;
+        if (imageFormats.some((format) => value.includes(format)))
+          imagesList.push(value);
+      }
+      // save images
+      this.images = imagesList;
+      // assign next image
+      this.nextImage();
     },
     formatTime(startDate, endDate) {
       return String(
@@ -211,7 +197,8 @@ export default {
           year: "numeric",
           day: "numeric",
         })
-        .replace(",", "");
+        .replace(",", "")
+        .toUpperCase();
     },
 
     getRoomName(room) {
@@ -250,8 +237,7 @@ export default {
         ":" +
         (today.getMinutes() < 10 ? "0" : "") +
         today.getMinutes();
-      const dateTime = time;
-      this.timestamp = dateTime;
+      this.timestamp = time;
     },
   },
 };
@@ -265,7 +251,7 @@ export default {
   flex-direction: column;
   min-height: 85vh;
   background-color: #414649;
-  padding: 55px;
+  padding: 65px;
 }
 
 /**********************
@@ -290,7 +276,6 @@ HEADER
 #date {
   padding-right: 60px;
   font-size: 64px;
-  text-transform: uppercase;
 }
 
 #time {
