@@ -147,6 +147,9 @@ export default {
       xhttp.send();
 
       const items = JSON.parse(xhttp.response);
+
+      this.allEvents = [];
+
       for (let i = 0; i <= items.length - 1; ++i) {
         let element = items[i];
 
