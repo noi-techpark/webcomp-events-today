@@ -86,6 +86,7 @@ export default {
     this.loadImages();
     this.fetchData(setInterval(300000));
     setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
+    this.getNow();
     setInterval(this.getNow, 1000);
   },
   methods: {
@@ -153,7 +154,6 @@ export default {
               eventText: element.EventTextIT,
               webAddress: element.WebAddress,
               rooms: element.SpaceDesc,
-              startDate: this.formatDate(startDate),
               time: this.formatTime(startDate, endDate),
             };
 
@@ -201,33 +201,6 @@ export default {
           ":" +
           String(endDate.getMinutes()).padStart(2, "0")
       );
-    },
-    formatDate(date) {
-      let options = {
-        year: "2-digit",
-        month: "short",
-        day: "numeric",
-      };
-
-      let day = date.getDate();
-
-      let formatStartDate = date.toLocaleDateString("it-it", options);
-
-      if (day >= 10)
-        formatStartDate =
-          formatStartDate.charAt(0) +
-          formatStartDate.charAt(1) +
-          formatStartDate.charAt(2) +
-          formatStartDate.charAt(3).toUpperCase() +
-          formatStartDate.slice(4);
-      else
-        formatStartDate =
-          formatStartDate.charAt(0) +
-          formatStartDate.charAt(1) +
-          formatStartDate.charAt(2).toUpperCase() +
-          formatStartDate.slice(3);
-
-      return formatStartDate;
     },
     currentDate() {
       const current = new Date();
