@@ -20,7 +20,7 @@ export default {
       default: "EC",
     },
     room: { type: String, default: "" },
-    maxEvents: { type: Number, default: 2 },
+    maxEvents: { type: Number, default: 4 },
     imageGalleryUrl: {
       type: String,
       default:
@@ -44,7 +44,6 @@ export default {
     EventsToday,
   },
   created: function () {
-    console.log("font name", this.fontName);
     this.fetchFont(this.fontUrl).then((font) => {
       // inject font after creation, because @font-face is not supported by shadow DOM
       let fontFaceSheet = new CSSStyleSheet();

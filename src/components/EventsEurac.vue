@@ -46,19 +46,17 @@
                   'letter-spacing': events.length === 1 ? '0.01em' : '',
                 }"
               >
-                {{ event.shortName }}
+                {{ event.name }}
               </strong>
             </div>
           </div>
-          <div v-for="(room, index) in event.rooms" :key="room.key">
-            <div id="event-location">
-              <div>
-                <div v-if="index < 2" id="room">
-                  {{ getRoomName(room, index, event.rooms.length) }}
-                </div>
-                <div v-if="index < 2" id="seminar">
-                  {{ getBigRoomName(room) }}
-                </div>
+          <div id="event-location">
+            <div>
+              <div id="room">
+                {{ getRoomName(event.rooms) }}
+              </div>
+              <div id="seminar">
+                {{ getBigRoomName(event.rooms) }}
               </div>
             </div>
           </div>
@@ -115,20 +113,21 @@ export default {
       }`;
     },
     async fetchData() {
-      const baseURL = "https://tourism.api.opendatahub.com/v1/EventShort?";
+      const baseURL =
+        "https://tourism.api.opendatahub.com/v1/EventShort/GetbyRoomBooked?";
 
       const endDate = new Date();
       endDate.setUTCHours(24, 0, 0, 0);
 
       const day = 60 * 40 * 24 * 1000;
-      const increment = 5;
+      const increment = 0;
 
       const params = new URLSearchParams([
         ["startdate", new Date().getTime()],
         ["enddate", endDate.getTime() + increment * day],
         ["eventlocation", this.options.eventLocation],
         ["room", this.options.room],
-        ["pagesize", this.options.maxEvents ? this.options.maxEvents : 999],
+        ["pagesize", this.options.maxEvents ? this.options.maxEvents : 4],
         ["datetimeformat", "uxtimestamp"],
         ["onlyactive", true],
         ["sortorder", "ASC"],
@@ -153,37 +152,19 @@ export default {
         if (!response.ok)
           throw new Error(`HTTP error! Status: ${response.status}`);
 
-        response.json().then((json) => {
-          let items = json.Items;
+        response.json().then((items) => {
           for (let i = 0; i <= items.length - 1; ++i) {
             let element = items[i];
 
-            let startDate = new Date(element.StartDate);
-            let endDate = new Date(element.EndDate);
-
-            let roomsBooked = element.RoomBooked;
-            let roomsSet = new Set();
-
-            // remove rooms with comment "x"
-            roomsBooked = roomsBooked.filter(
-              (roomBooked) =>
-                !("Comment" in roomBooked) ||
-                roomBooked["Comment"].toLowerCase() != "x"
-            );
-
-            for (const room of roomsBooked)
-              roomsSet.add(room.SpaceDescRoomMapping);
-
-            let rooms = Array.from(roomsSet);
-
-            if (rooms.length > 3) rooms = rooms.splice(0, 4);
+            let startDate = new Date(element.RoomStartDate);
+            let endDate = new Date(element.RoomEndDate);
 
             let event = {
-              shortName: element.Shortname,
+              name: element.EventDescriptionEN,
               companyName: element.CompanyName,
               eventText: element.EventTextIT,
               webAddress: element.WebAddress,
-              rooms: rooms,
+              rooms: element.SpaceDesc,
               startDate: this.formatDate(startDate),
               time: this.formatTime(startDate, endDate),
             };
@@ -271,7 +252,7 @@ export default {
         .replace(",", "");
     },
 
-    getRoomName(room, index, length) {
+    getRoomName(room) {
       // Seminar room special rule
       if (
         room.includes("Seminar") &&
@@ -279,7 +260,6 @@ export default {
         !room.includes("Seminar 1, 2 and 3 unified")
       )
         return "Seminar";
-      if (length > 1 && index < length - 1) return room + ",";
       return room;
     },
     getBigRoomName(room) {
@@ -433,8 +413,8 @@ CONTENT
 
   font-weight: bold;
 
-  width: 190px;
-  height: 190px;
+  width: 110px;
+  height: 110px;
 
   padding: 20px;
 }
@@ -442,12 +422,16 @@ CONTENT
 #room {
   color: #ffffff;
   font-size: 24px;
-  line-height: 16px;
+  /* line-height: 16px; */
+
+  text-align: right;
 }
 
 #seminar {
   font-size: 60px;
-  line-height: 34px;
+  line-height: 44px;
+
+  text-align: right;
 }
 
 a {
