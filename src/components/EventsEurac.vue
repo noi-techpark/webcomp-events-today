@@ -303,11 +303,11 @@ HEADER
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
 }
 
 #eurac-logo {
-  width: 263px;
+  width: 206px;
 }
 
 #current-date-time {
@@ -322,7 +322,6 @@ HEADER
 
 #time {
   font-size: 24px;
-  /* padding-right: 30px; */
   color: #b2b5b6;
   font-weight: bold;
   vertical-align: super;
@@ -347,11 +346,16 @@ CONTENT
 
 #event-details {
   flex: 1;
-  /* padding-top: 7px; */
-  /* max-width: 75%; */
 }
 
-#description {
+#event-time {
+  font-size: 26px;
+  justify-content: right;
+  flex: 0 0 240px;
+  color: #b2b5b6;
+}
+
+#event-detail {
   text-align: left;
   height: 80%;
   overflow-wrap: break-word;
@@ -418,14 +422,6 @@ CONTENT
   line-height: 44px;
 
   text-align: right;
-}
-
-
-#event-time {
-  font-size: 26px;
-  justify-content: right;
-  flex: 0 0 200px;
-  color: #b2b5b6;
 }
 
 .picframe img {
@@ -554,7 +550,7 @@ FOOTER
 
 @media screen and (min-width: 320px) and (max-width: 812px) and (orientation: portrait) {
   .starts-in,
-  #description {
+  #event-detail {
     text-align: center;
   }
 
