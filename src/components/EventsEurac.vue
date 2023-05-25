@@ -365,7 +365,7 @@ CONTENT
   font-size: 22px;
   color: white;
   background-color: #666b6c;
-  max-width: 80%;
+  max-width: 80vw;
   height: 28px;
   text-transform: uppercase;
   padding: 5px;
@@ -379,7 +379,8 @@ CONTENT
 
 #event-name {
   font-size: 41.6px;
-  max-width: 80%;
+  max-width: 80vw;
+  min-width: 30vw;
   line-height: 1.1 !important;
   letter-spacing: 0.01em;
 
@@ -414,6 +415,7 @@ CONTENT
 
   font-weight: bold;
 
+  flex: 0 0 110px;
   width: 110px;
   height: 110px;
 
@@ -451,9 +453,8 @@ strong {
 #event-time {
   font-size: 26px;
   justify-content: right;
-  padding-right: 40px;
   padding-top: 7px;
-  width: 220px;
+  flex: 0 0 200px;
   color: #b2b5b6;
 }
 
@@ -475,46 +476,23 @@ strong {
 FOOTER
 **********************/
 
-#footer {
+#footer > a {
   display: flex;
+  color: #ffffff;
+  text-decoration: none;
   padding: 30px;
   z-index: 100001;
   justify-content: flex-end;
+  align-items: center;
 }
 
 #footer-text {
   color: white;
-  align-items: center;
   margin-right: 10px;
 }
 
 @media screen and (min-width: 320px) and (max-width: 812px) {
-  h1 {
-    font-size: 2.6em;
-  }
-
-  h1.title {
-    padding-top: 58px;
-  }
-
-  h2 {
-    font-size: 2.6em;
-    line-height: 1.5 !important;
-    margin: 0 !important;
-    width: 575px;
-    letter-spacing: 0.01em;
-    padding-top: 10px;
-  }
-
-  h2 small {
-    font-size: 15px;
-  }
-
-  strong {
-    font-size: 36px !important;
-  }
-
-  #header {
+  /* #header {
     padding: 30px;
     padding-bottom: 0px;
   }
@@ -602,7 +580,7 @@ FOOTER
 
   .footer-text {
     font-size: 10px;
-  }
+  } */
 }
 
 @media screen and (min-width: 320px) and (max-width: 812px) and (orientation: portrait) {
