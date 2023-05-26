@@ -43,11 +43,11 @@ export default {
     fontUrl: {
       type: String,
       default:
-        "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery/milo-pro/style.css",
+        "https://fonts.testingmachine.eu/source-sans-pro/style.css",
     },
     fontName: {
       type: String,
-      default: "Milo Bold",
+      default: "Source Sans Pro",
     },
   },
   components: {
