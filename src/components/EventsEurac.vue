@@ -98,7 +98,8 @@ export default {
       this.options.languageRotationInterval * 1000
     );
     setInterval(this.getNow, 1000);
-    setInterval(this.fetchData, 300000);
+    // every 20 minutes + 10 seconds to prevent event loading while rotating events
+    setInterval(this.fetchData, 20 * 60 * 1000 + 1000 * 10);
     setInterval(this.rotateEvents, this.options.eventRotationInterval * 1000);
     setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
   },
@@ -168,7 +169,10 @@ export default {
         };
         this.allEvents.push(event);
       }
-      this.events = this.allEvents.slice(0, this.options.maxEvents);
+      // assign events only if not loaded yet, otherwise use rotateEvents to assign
+      if (!this.eventsLoaded) {
+        this.events = this.allEvents.slice(0, this.options.maxEvents);
+      }
       this.eventsLoaded = true;
     },
     rotateEvents() {
@@ -376,6 +380,7 @@ CONTENT
   font-size: 41.6px;
   line-height: 1.1 !important;
   letter-spacing: 0.01em;
+  margin-top: 10px;
 
   overflow: hidden;
   text-overflow: ellipsis;
