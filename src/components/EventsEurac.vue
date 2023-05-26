@@ -357,7 +357,6 @@ CONTENT
   font-size: 22px;
   color: white;
   background-color: #666b6c;
-  max-width: 80vw;
   height: 28px;
   text-transform: uppercase;
   padding: 5px;
@@ -367,12 +366,11 @@ CONTENT
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  max-width: 55vw;
 }
 
 #event-name {
   font-size: 41.6px;
-  max-width: 80vw;
-  min-width: 30vw;
   line-height: 1.1 !important;
   letter-spacing: 0.01em;
 
@@ -382,6 +380,7 @@ CONTENT
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  max-width: 55vw;
 }
 
 #event-location {
