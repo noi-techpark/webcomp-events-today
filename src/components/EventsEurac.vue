@@ -122,7 +122,7 @@ export default {
       // to show more events during development
       // set increment to 0 before pushing
       const day = 60 * 40 * 24 * 1000;
-      const increment = 0;
+      const increment = 10;
 
       const params = new URLSearchParams([
         ["startdate", new Date().getTime()],
@@ -282,9 +282,12 @@ export default {
   font-size: 18px;
   display: flex;
   flex-direction: column;
-  min-height: 85vh;
+  min-height: 93vh;
   background-color: #414649;
-  padding: 65px;
+  padding-top: 65px;
+  padding-left: 65px;
+  padding-right: 65px;
+  padding-bottom: 25px;
 }
 
 /**********************
@@ -392,9 +395,9 @@ CONTENT
 
   font-weight: bold;
 
-  flex: 0 0 110px;
-  width: 110px;
-  height: 110px;
+  flex: 0 0 130px;
+  width: 130px;
+  height: 130px;
 
   padding: 20px;
 }
@@ -427,6 +430,10 @@ CONTENT
 /**********************
 FOOTER
 **********************/
+
+#footer {
+  margin-top: 25px;
+}
 
 #footer > a {
   display: flex;
