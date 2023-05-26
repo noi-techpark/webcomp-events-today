@@ -123,7 +123,7 @@ export default {
       // to show more events during development
       // set increment to 0 before pushing
       const day = 60 * 40 * 24 * 1000;
-      const increment = 10;
+      const increment = 0;
 
       const params = new URLSearchParams([
         ["startdate", new Date().getTime()],
@@ -410,7 +410,6 @@ CONTENT
 #room {
   color: #ffffff;
   font-size: 24px;
-  /* line-height: 16px; */
 
   text-align: right;
 }
@@ -454,41 +453,50 @@ FOOTER
   margin-right: 10px;
 }
 
-/* @media screen and (min-width: 320px) and (max-width: 812px) {
-
-}
-
-@media screen and (min-width: 320px) and (max-width: 812px) and (orientation: portrait) {
-
-} */
-
-@media screen and (min-width: 992px) and (max-height: 901px) and (orientation: landscape) {
-  #base {
-    font-size: 10px;
+/**********************
+SMALL
+**********************/
+@media only screen and (max-width: 932px) {
+  #current-date-time {
+    font-size: 54px;
   }
-}
 
-@media screen and (max-width: 1441px) and (max-height: 901px) and (orientation: landscape) {
-  #base {
-    font-size: 12px;
+  #event-time {
+    font-size: 22px;
+    flex: 0 0 80px;
   }
-}
 
-@media screen and (max-width: 1280px) and (min-height: 1024px) and (orientation: landscape) {
-  #base {
-    font-size: 16px;
+  #company {
+    font-size: 20px;
+    height: 28px;
+    text-transform: uppercase;
+    padding: 5px;
+    letter-spacing: 0.06em;
+
+    max-width: 35vw;
   }
-}
 
-@media screen and (max-width: 1600px) and (min-height: 900px) and (orientation: landscape) {
-  #base {
-    font-size: 14px;
+  #event-name {
+    font-size: 38px;
+    line-height: 1.1 !important;
+    letter-spacing: 0.01em;
+    max-width: 55vw;
   }
-}
 
-@media screen and (max-width: 992px) and (min-width: 812px) and (orientation: landscape) {
-   {
-    font-size: 8px;
+  #event-location {
+    flex: 0 0 90px;
+    width: 90px;
+    height: 90px;
+    padding: 15px;
+  }
+
+  #room {
+    font-size: 18px;
+  }
+
+  #seminar {
+    font-size: 50px;
+    line-height: 34px;
   }
 }
 </style>
