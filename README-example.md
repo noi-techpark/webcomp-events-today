@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 # Replace all `ToDo` notes in this file to create the README of your webcomponent!
 
 # ToDo: Project Name

@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
 
 # Events Today
 Events Today is a web component that displays a list of events that are happening. It fetches data from the [EventShort API](https://tourism.opendatahub.bz.it/swagger/index.html#/EventShort)  and displays the events in a simple, easy-to-read format.<br>
