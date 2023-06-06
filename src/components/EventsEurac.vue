@@ -22,7 +22,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <span id="time">{{ timestamp }}</span>
       </div>
     </div>
-    <div id="content">
+    <div id="content" :class="contentClass">
       <div v-if="!this.eventsLoaded || this.events.length > 0">
         <div
           id="event-row"
@@ -98,6 +98,12 @@ export default {
       return {
         "event-name-single": this.options.maxEvents == 1,
         "event-name-multiple": this.options.maxEvents > 1,
+      };
+    },
+    contentClass() {
+      return {
+        "content-align-bottom":
+          this.options.maxEvents < 4 || this.allEvents.length < 4,
       };
     },
   },
@@ -344,7 +350,11 @@ CONTENT
 
 #content {
   flex: 1;
-  align-items: flex-end;
+}
+
+.content-align-bottom {
+  display: flex;
+  align-items: end;
 }
 
 #event-row {
@@ -357,6 +367,7 @@ CONTENT
 
 #event-details {
   flex: 1;
+  width: 80vw;
 }
 
 #event-time {
@@ -364,13 +375,6 @@ CONTENT
   justify-content: right;
   flex: 0 0 240px;
   color: #b2b5b6;
-}
-
-#event-detail {
-  text-align: left;
-  height: 80%;
-  overflow-wrap: break-word;
-  display: flex;
 }
 
 #company {
@@ -447,6 +451,7 @@ CONTENT
 #seminar {
   font-size: 60px;
   line-height: 44px;
+  margin-top: 10px;
 
   text-align: right;
 }
