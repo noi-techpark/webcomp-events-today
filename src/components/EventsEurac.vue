@@ -38,8 +38,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <div id="company">
               {{ event.companyName }}
             </div>
-
-            <div id="event-name">
+            <div id="event-name" :class="eventNameClass">
               {{ event.name[currentLanguage] }}
             </div>
           </div>
@@ -93,6 +92,14 @@ export default {
       languages: ["en", "de", "it"],
       currentLanguage: "en",
     };
+  },
+  computed: {
+    eventNameClass() {
+      return {
+        "event-name-single": this.options.maxEvents == 1,
+        "event-name-multiple": this.options.maxEvents > 1,
+      };
+    },
   },
   created: function () {
     this.loadImages();
@@ -370,20 +377,30 @@ CONTENT
   font-size: 22px;
   color: white;
   background-color: #666b6c;
-  height: 28px;
   text-transform: uppercase;
-  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   letter-spacing: 0.06em;
 
+  max-width: 55vw;
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 55vw;
+  line-height: 33px;
 }
 
 #event-name {
-  font-size: 41.6px;
+  line-height: 1.1 !important;
+  letter-spacing: 0.01em;
+  margin-top: 10px;
+  max-width: 55vw;
+}
+
+.event-name-multiple {
+  font-size: 32px;
   line-height: 1.1 !important;
   letter-spacing: 0.01em;
   margin-top: 10px;
@@ -395,6 +412,13 @@ CONTENT
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   max-width: 55vw;
+}
+
+.event-name-single {
+  font-size: 74px;
+  line-height: 1.1 !important;
+  letter-spacing: 0.01em;
+  margin-top: 10px;
 }
 
 #event-location {
@@ -474,7 +498,6 @@ SMALL
 
   #company {
     font-size: 20px;
-    height: 28px;
     text-transform: uppercase;
     padding: 5px;
     letter-spacing: 0.06em;
