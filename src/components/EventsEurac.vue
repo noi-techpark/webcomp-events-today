@@ -22,7 +22,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <span id="time">{{ timestamp }}</span>
       </div>
     </div>
-    <div id="content">
+    <div id="content" :class="contentClass">
       <div v-if="!this.eventsLoaded || this.events.length > 0">
         <div
           id="event-row"
@@ -38,8 +38,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <div id="company">
               {{ event.companyName }}
             </div>
-
-            <div id="event-name">
+            <div id="event-name" :class="eventNameClass">
               {{ event.name[currentLanguage] }}
             </div>
           </div>
@@ -93,6 +92,20 @@ export default {
       languages: ["en", "de", "it"],
       currentLanguage: "en",
     };
+  },
+  computed: {
+    eventNameClass() {
+      return {
+        "event-name-single": this.options.maxEvents == 1,
+        "event-name-multiple": this.options.maxEvents > 1,
+      };
+    },
+    contentClass() {
+      return {
+        "content-align-bottom":
+          this.options.maxEvents < 4 || this.allEvents.length < 4,
+      };
+    },
   },
   created: function () {
     this.loadImages();
@@ -337,7 +350,11 @@ CONTENT
 
 #content {
   flex: 1;
-  align-items: flex-end;
+}
+
+.content-align-bottom {
+  display: flex;
+  align-items: end;
 }
 
 #event-row {
@@ -350,6 +367,7 @@ CONTENT
 
 #event-details {
   flex: 1;
+  width: 80vw;
 }
 
 #event-time {
@@ -359,31 +377,34 @@ CONTENT
   color: #b2b5b6;
 }
 
-#event-detail {
-  text-align: left;
-  height: 80%;
-  overflow-wrap: break-word;
-  display: flex;
-}
-
 #company {
   font-size: 22px;
   color: white;
   background-color: #666b6c;
-  height: 28px;
   text-transform: uppercase;
-  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   letter-spacing: 0.06em;
 
+  max-width: 55vw;
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 55vw;
+  line-height: 33px;
 }
 
 #event-name {
-  font-size: 41.6px;
+  line-height: 1.1 !important;
+  letter-spacing: 0.01em;
+  margin-top: 10px;
+  max-width: 55vw;
+}
+
+.event-name-multiple {
+  font-size: 32px;
   line-height: 1.1 !important;
   letter-spacing: 0.01em;
   margin-top: 10px;
@@ -395,6 +416,13 @@ CONTENT
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   max-width: 55vw;
+}
+
+.event-name-single {
+  font-size: 74px;
+  line-height: 1.1 !important;
+  letter-spacing: 0.01em;
+  margin-top: 10px;
 }
 
 #event-location {
@@ -423,6 +451,7 @@ CONTENT
 #seminar {
   font-size: 60px;
   line-height: 44px;
+  margin-top: 10px;
 
   text-align: right;
 }
@@ -474,7 +503,6 @@ SMALL
 
   #company {
     font-size: 20px;
-    height: 28px;
     text-transform: uppercase;
     padding: 5px;
     letter-spacing: 0.06em;
