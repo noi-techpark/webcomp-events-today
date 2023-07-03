@@ -258,6 +258,9 @@ export default {
     },
 
     getRoomName(room) {
+      // show room set in options, if set
+      if (this.options.room) room = this.options.room;
+
       // Seminar room special rule
       if (
         room.includes("Seminar") &&
@@ -268,6 +271,9 @@ export default {
       return room;
     },
     getBigRoomName(room) {
+      // show room set in options, if set
+      if (this.options.room) room = this.options.room;
+
       if (
         room.includes("Seminar") &&
         !room.includes("Seminar 2 and 3 unified") &&
