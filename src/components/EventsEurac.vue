@@ -148,23 +148,21 @@ export default {
         ["startdate", new Date().getTime()],
         ["enddate", endDate.getTime() + increment * day],
         ["eventlocation", this.options.eventLocation],
-        ["room", this.options.room],
+        // ["room", this.options.room],
         ["datetimeformat", "uxtimestamp"],
         ["onlyactive", true],
         ["sortorder", "ASC"],
         ["origin", "webcomp-events-today-eurac"],
       ]);
 
-      if (this.options.room != "" && this.options.room != null) {
-        params.set(
-          "rawfilter",
-          "in(RoomBooked.[*].SpaceDescRoomMapping," +
-            '"' +
-            this.options.room +
-            '"' +
-            ")"
-        );
-      }
+      // raw filter currently not working for EventShort/GetbyRoomBooked
+      // removing manually after fetching
+      // if (this.options.room != null && this.options.room !== "") {
+      //   params.set(
+      //     "rawfilter",
+      //     "eq(SpaceDesc," + '"' + this.options.room + '"' + ")"
+      //   );
+      // }
       const xhttp = new XMLHttpRequest();
       xhttp.open("GET", baseURL + params, false);
       xhttp.send();
@@ -176,17 +174,26 @@ export default {
       for (let i = 0; i <= items.length - 1; ++i) {
         let element = items[i];
 
-        let startDate = new Date(element.RoomStartDate);
-        let endDate = new Date(element.RoomEndDate);
+        console.log(this.options.room);
+        // manually filter for rooms, can be removed if raw filter works for EventShort/GetbyRoomBooked
+        if (
+          this.options.room == null ||
+          this.options.room === "" ||
+          element.SpaceDescList.indexOf(this.options.room) > -1
+        ) {
+          console.log(element);
+          let startDate = new Date(element.RoomStartDate);
+          let endDate = new Date(element.RoomEndDate);
 
-        let event = {
-          name: element.EventTitle,
-          companyName: element.CompanyName,
-          webAddress: element.WebAddress,
-          rooms: element.SpaceDesc,
-          time: this.formatTime(startDate, endDate),
-        };
-        this.allEvents.push(event);
+          let event = {
+            name: element.EventTitle,
+            companyName: element.CompanyName,
+            webAddress: element.WebAddress,
+            rooms: element.SpaceDesc,
+            time: this.formatTime(startDate, endDate),
+          };
+          this.allEvents.push(event);
+        }
       }
       // assign events only if not loaded yet, otherwise use rotateEvents to assign
       if (!this.eventsLoaded) {
