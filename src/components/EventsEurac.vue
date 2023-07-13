@@ -132,7 +132,6 @@ export default {
       }`;
     },
     async fetchData() {
-      console.log("Fetching data...");
       const baseURL =
         "https://tourism.api.opendatahub.com/v1/EventShort/GetbyRoomBooked?";
 
