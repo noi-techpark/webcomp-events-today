@@ -89,6 +89,7 @@ export default {
       currentImageIndex: 0,
       currentImage: "",
       eventsLoaded: false,
+      activePage: 0,
       languages: ["en", "de", "it"],
       currentLanguage: "en",
     };
@@ -117,8 +118,6 @@ export default {
       this.options.languageRotationInterval * 1000
     );
     setInterval(this.getNow, 1000);
-    // every 20 minutes + 10 seconds to prevent event loading while rotating events
-    setInterval(this.fetchData, 20 * 60 * 1000 + 1000 * 10);
     setInterval(this.rotateEvents, this.options.eventRotationInterval * 1000);
     setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
   },
@@ -133,6 +132,7 @@ export default {
       }`;
     },
     async fetchData() {
+      console.log("Fetching data...");
       const baseURL =
         "https://tourism.api.opendatahub.com/v1/EventShort/GetbyRoomBooked?";
 
@@ -174,14 +174,12 @@ export default {
       for (let i = 0; i <= items.length - 1; ++i) {
         let element = items[i];
 
-        console.log(this.options.room);
         // manually filter for rooms, can be removed if raw filter works for EventShort/GetbyRoomBooked
         if (
           this.options.room == null ||
           this.options.room === "" ||
           element.SpaceDescList.indexOf(this.options.room) > -1
         ) {
-          console.log(element);
           let startDate = new Date(element.RoomStartDate);
           let endDate = new Date(element.RoomEndDate);
 
@@ -195,23 +193,34 @@ export default {
           this.allEvents.push(event);
         }
       }
-      // assign events only if not loaded yet, otherwise use rotateEvents to assign
-      if (!this.eventsLoaded) {
+      if (!this.eventsLoaded)
         this.events = this.allEvents.slice(0, this.options.maxEvents);
-      }
       this.eventsLoaded = true;
     },
     rotateEvents() {
-      // don't rotate if ma event is set to 1 or events are less than max events
+      // first update also events
+      this.fetchData();
+
+      // don't rotate if max event is set to 1 or events are less than max events
       if (
         this.options.maxEvents < 2 ||
         this.allEvents.length <= this.options.maxEvents
-      )
+      ) {
         return;
-      const lastEvent = this.events.pop();
-      let index = this.allEvents.indexOf(lastEvent) + 1;
-      if (index >= this.allEvents.length) index = 0;
-      this.events = this.allEvents.slice(index, index + this.options.maxEvents);
+      }
+
+      // rotate all events
+      const maxPage = Math.ceil(this.allEvents.length / this.options.maxEvents);
+      this.activePage++;
+
+      if (this.activePage >= maxPage) {
+        this.activePage = 0;
+      }
+
+      this.events = this.allEvents.slice(
+        this.activePage * this.options.maxEvents,
+        this.activePage * this.options.maxEvents + this.options.maxEvents
+      );
     },
     rotateLanguage() {
       let index = this.languages.indexOf(this.currentLanguage) + 1;
