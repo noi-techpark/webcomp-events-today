@@ -23,7 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </div>
     </div>
     <div id="content" :class="contentClass">
-      <div v-if="this.events.length > 0">
+      <div v-if="this.allEvents.length > 0">
         <div
           id="event-row"
           class="line line-separation"
@@ -111,6 +111,7 @@ export default {
     this.loadImages();
     this.getNow();
     this.fetchData();
+    this.rotateEvents();
     // create cron job
     setInterval(
       this.rotateLanguage,
@@ -192,6 +193,7 @@ export default {
         }
       }
     },
+
     rotateEvents() {
       // first update also events
       this.fetchData();
