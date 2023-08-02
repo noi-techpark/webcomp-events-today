@@ -23,7 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </div>
     </div>
     <div id="content" :class="contentClass">
-      <div v-if="!this.eventsLoaded || this.events.length > 0">
+      <div v-if="this.events.length > 0">
         <div
           id="event-row"
           class="line line-separation"
@@ -88,7 +88,6 @@ export default {
       timestamp: "",
       currentImageIndex: 0,
       currentImage: "",
-      eventsLoaded: false,
       activePage: 0,
       languages: ["en", "de", "it"],
       currentLanguage: "en",
@@ -192,9 +191,6 @@ export default {
           this.allEvents.push(event);
         }
       }
-      if (!this.eventsLoaded)
-        this.events = this.allEvents.slice(0, this.options.maxEvents);
-      this.eventsLoaded = true;
     },
     rotateEvents() {
       // first update also events
@@ -205,6 +201,7 @@ export default {
         this.options.maxEvents < 2 ||
         this.allEvents.length <= this.options.maxEvents
       ) {
+        this.events = this.allEvents.slice(0, this.options.maxEvents);
         return;
       }
 
