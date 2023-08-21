@@ -391,7 +391,7 @@ CONTENT
 }
 
 #event-time {
-  font-size: 26px;
+  font-size: 32px;
   justify-content: right;
   flex: 0 0 240px;
   color: #b2b5b6;
@@ -409,23 +409,23 @@ CONTENT
   letter-spacing: 0.06em;
 
   max-width: 55vw;
+  line-height: 33px;
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: 33px;
 }
 
 #event-name {
-  line-height: 1.1 !important;
+  line-height: 120% !important;
   letter-spacing: 0.01em;
   margin-top: 10px;
   max-width: 55vw;
 }
 
 .event-name-multiple {
-  font-size: 32px;
-  line-height: 1.1 !important;
+  font-size: 36px;
+  line-height: 120% !important;
   letter-spacing: 0.01em;
   margin-top: 10px;
 
@@ -439,8 +439,8 @@ CONTENT
 }
 
 .event-name-single {
-  font-size: 74px;
-  line-height: 1.1 !important;
+  font-size: 72px;
+  line-height: 120% !important;
   letter-spacing: 0.01em;
   margin-top: 10px;
 }
