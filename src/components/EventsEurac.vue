@@ -424,7 +424,7 @@ CONTENT
 }
 
 .event-name-multiple {
-  font-size: 36px;
+  font-size: 42px;
   line-height: 120% !important;
   letter-spacing: 0.01em;
   margin-top: 10px;
