@@ -41,6 +41,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <div id="event-name" :class="eventNameClass">
               {{ event.name[currentLanguage] }}
             </div>
+            <div id="event-subtitle">
+              {{ event.subtitle[currentLanguage] }}
+            </div>
           </div>
           <div id="event-location">
             <div>
@@ -184,6 +187,7 @@ export default {
 
           let event = {
             name: element.EventTitle,
+            subtitle: this.getSubtitle(element),
             companyName: element.CompanyName,
             webAddress: element.WebAddress,
             rooms: element.SpaceDesc,
@@ -192,6 +196,18 @@ export default {
           this.allEvents.push(event);
         }
       }
+    },
+    // check for every language, if description is not empty ant not the same as the title
+    getSubtitle(event) {
+      let subTitle = {};
+      this.languages.forEach((language) => {
+        subTitle[language] =
+          event.EventDescription[language].length == 0 ||
+          event.EventDescription[language] === event.EventTitle[language]
+            ? ""
+            : event.EventDescription[language];
+      });
+      return subTitle;
     },
 
     rotateEvents() {
@@ -420,6 +436,23 @@ CONTENT
   line-height: 120% !important;
   letter-spacing: 0.01em;
   margin-top: 10px;
+  max-width: 55vw;
+}
+
+#event-subtitle {
+  font-family: Milo Pro, sans-serif;
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+
+  margin-top: 10px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   max-width: 55vw;
 }
 
