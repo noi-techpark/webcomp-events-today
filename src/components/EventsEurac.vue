@@ -39,10 +39,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               {{ event.companyName }}
             </div>
             <div id="event-name" :class="eventNameClass">
-              {{ event.name[currentLanguage] }}
+              {{ devMode ? lorem : event.name[currentLanguage] }}
             </div>
-            <div id="event-subtitle">
-              {{ event.subtitle[currentLanguage] }}
+            <div id="event-subtitle" :class="eventSubtitleClass">
+              {{ devMode ? lorem : event.subTitle[currentLanguage] }}
             </div>
           </div>
           <div id="event-location">
@@ -94,6 +94,10 @@ export default {
       activePage: 0,
       languages: ["en", "de", "it"],
       currentLanguage: "en",
+      // set true to have 'Lorem ipsum' text as title and subtitle
+      devMode: false,
+      lorem:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     };
   },
   computed: {
@@ -101,6 +105,12 @@ export default {
       return {
         "event-name-single": this.options.maxEvents == 1,
         "event-name-multiple": this.options.maxEvents > 1,
+      };
+    },
+    eventSubtitleClass() {
+      return {
+        "event-subtitle-single": this.options.maxEvents == 1,
+        "event-subtitle-multiple": this.options.maxEvents > 1,
       };
     },
     contentClass() {
@@ -133,6 +143,18 @@ export default {
       this.currentImage = `${this.options.imageGalleryUrl}/${
         this.images[this.currentImageIndex]
       }`;
+    },
+    // check for every language, if description is not empty ant not the same as the title
+    getSubtitle(event) {
+      let subTitle = {};
+      this.languages.forEach((language) => {
+        subTitle[language] =
+          event.EventDescription[language].length === 0 ||
+          event.EventDescription[language] === event.EventTitle[language]
+            ? ""
+            : event.EventDescription[language];
+      });
+      return subTitle;
     },
     async fetchData() {
       const baseURL =
@@ -187,7 +209,7 @@ export default {
 
           let event = {
             name: element.EventTitle,
-            subtitle: this.getSubtitle(element),
+            subTitle: this.getSubtitle(element),
             companyName: element.CompanyName,
             webAddress: element.WebAddress,
             rooms: element.SpaceDesc,
@@ -197,19 +219,6 @@ export default {
         }
       }
     },
-    // check for every language, if description is not empty ant not the same as the title
-    getSubtitle(event) {
-      let subTitle = {};
-      this.languages.forEach((language) => {
-        subTitle[language] =
-          event.EventDescription[language].length == 0 ||
-          event.EventDescription[language] === event.EventTitle[language]
-            ? ""
-            : event.EventDescription[language];
-      });
-      return subTitle;
-    },
-
     rotateEvents() {
       // first update also events
       this.fetchData();
@@ -436,22 +445,11 @@ CONTENT
   line-height: 120% !important;
   letter-spacing: 0.01em;
   margin-top: 10px;
-  max-width: 55vw;
-}
-
-#event-subtitle {
-  font-family: Milo Pro, sans-serif;
-  font-size: 32px;
-  font-weight: 300;
-  letter-spacing: 0.01em;
-
-  margin-top: 10px;
 
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: initial;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   max-width: 55vw;
 }
@@ -462,13 +460,7 @@ CONTENT
   letter-spacing: 0.01em;
   margin-top: 10px;
 
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: initial;
-  display: -webkit-box;
   -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  max-width: 55vw;
 }
 
 .event-name-single {
@@ -476,6 +468,32 @@ CONTENT
   line-height: 120% !important;
   letter-spacing: 0.01em;
   margin-top: 10px;
+
+  -webkit-line-clamp: 4;
+}
+
+#event-subtitle {
+  font-family: Milo Pro, sans-serif;
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  margin-top: 10px;
+}
+
+.event-subtitle-multiple {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  max-width: 55vw;
+  -webkit-line-clamp: 2;
+}
+
+.event-subtitle-single {
+  /**********************
+  Currently not needed
+  **********************/
 }
 
 #event-location {
