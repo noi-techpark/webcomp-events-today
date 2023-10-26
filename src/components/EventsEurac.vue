@@ -38,11 +38,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <div id="company">
               {{ event.companyName }}
             </div>
-            <div id="event-name" :class="eventNameClass">
-              {{ devMode ? lorem : event.name[currentLanguage] }}
+            <div id="event-name" :class="eventNameClass(event)">
+              {{ event.name[currentLanguage] }}
             </div>
-            <div id="event-subtitle" :class="eventSubtitleClass">
-              {{ devMode ? lorem : event.subTitle[currentLanguage] }}
+            <div id="event-subtitle" :class="eventSubtitleClass(event)">
+              {{ event.subTitle[currentLanguage] }}
             </div>
           </div>
           <div id="event-location">
@@ -95,24 +95,12 @@ export default {
       languages: ["en", "de", "it"],
       currentLanguage: "en",
       // set true to have 'Lorem ipsum' text as title and subtitle
-      devMode: false,
+      devMode: true,
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     };
   },
   computed: {
-    eventNameClass() {
-      return {
-        "event-name-single": this.options.maxEvents == 1,
-        "event-name-multiple": this.options.maxEvents > 1,
-      };
-    },
-    eventSubtitleClass() {
-      return {
-        "event-subtitle-single": this.options.maxEvents == 1,
-        "event-subtitle-multiple": this.options.maxEvents > 1,
-      };
-    },
     contentClass() {
       return {
         "content-align-bottom":
@@ -135,6 +123,26 @@ export default {
     setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
   },
   methods: {
+    eventNameClass(event) {
+      console.log(event.subTitle[this.currentLanguage].length);
+      console.log(event.subTitle);
+
+      return {
+        "event-name-single": this.options.maxEvents == 1,
+        "event-name-multiple": this.options.maxEvents > 1,
+        "one-line-clamp": event.subTitle[this.currentLanguage].length > 0,
+        "two-line-clamp": event.subTitle[this.currentLanguage].length === 0,
+      };
+    },
+    eventSubtitleClass(event) {
+      console.log(event.subTitle);
+      return {
+        "event-subtitle-single": this.options.maxEvents == 1,
+        "event-subtitle-multiple": this.options.maxEvents > 1,
+        "one-line-clamp": event.subTitle[this.currentLanguage].length > 0,
+        "two-line-clamp": event.subTitle[this.currentLanguage].length === 0,
+      };
+    },
     nextImage() {
       this.currentImageIndex++;
       if (this.currentImageIndex > this.images.length - 1) {
@@ -166,7 +174,7 @@ export default {
       // to show more events during development
       // set increment to 0 before pushing
       const day = 60 * 40 * 24 * 1000;
-      const increment = 0;
+      const increment = 20;
 
       const params = new URLSearchParams([
         ["startdate", new Date().getTime()],
@@ -208,8 +216,12 @@ export default {
           let endDate = new Date(element.RoomEndDate);
 
           let event = {
-            name: element.EventTitle,
-            subTitle: this.getSubtitle(element),
+            name: this.devMode
+              ? { en: this.lorem, it: this.lorem, de: this.lorem }
+              : element.EventTitle,
+            subTitle: this.devMode
+              ? { en: this.lorem, it: this.lorem, de: this.lorem }
+              : this.getSubtitle(element),
             companyName: element.CompanyName,
             webAddress: element.WebAddress,
             rooms: element.SpaceDesc,
@@ -459,8 +471,6 @@ CONTENT
   line-height: 120% !important;
   letter-spacing: 0.01em;
   margin-top: 10px;
-
-  -webkit-line-clamp: 2;
 }
 
 .event-name-single {
@@ -487,6 +497,13 @@ CONTENT
   display: -webkit-box;
   -webkit-box-orient: vertical;
   max-width: 55vw;
+}
+
+.one-line-clamp {
+  -webkit-line-clamp: 1;
+}
+
+.two-line-clamp {
   -webkit-line-clamp: 2;
 }
 
