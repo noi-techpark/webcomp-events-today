@@ -33,7 +33,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <div id="event-time">
             {{ event.time }}
           </div>
-
           <div id="event-details">
             <div id="company">
               {{ event.companyName }}
@@ -130,8 +129,12 @@ export default {
       return {
         "event-name-single": this.options.maxEvents == 1,
         "event-name-multiple": this.options.maxEvents > 1,
-        "one-line-clamp": event.subTitle[this.currentLanguage].length > 0,
-        "two-line-clamp": event.subTitle[this.currentLanguage].length === 0,
+        "one-line-clamp":
+          this.options.maxEvents > 1 &&
+          event.subTitle[this.currentLanguage].length > 0,
+        "two-line-clamp":
+          this.options.maxEvents == 1 ||
+          event.subTitle[this.currentLanguage].length === 0,
       };
     },
     eventSubtitleClass(event) {
@@ -139,7 +142,9 @@ export default {
       return {
         "event-subtitle-single": this.options.maxEvents == 1,
         "event-subtitle-multiple": this.options.maxEvents > 1,
-        "one-line-clamp": event.subTitle[this.currentLanguage].length > 0,
+        "one-line-clamp":
+          this.options.maxEvents > 1 &&
+          event.subTitle[this.currentLanguage].length > 0,
       };
     },
     nextImage() {
@@ -482,14 +487,16 @@ CONTENT
 }
 
 #event-subtitle {
-  font-family: Milo Pro, sans-serif;
-  font-size: 32px;
-  font-weight: 300;
-  letter-spacing: 0.01em;
+  font-family: Inter, sans-serif;
   margin-top: 10px;
 }
 
 .event-subtitle-multiple {
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: 0.56px;
+
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: initial;
@@ -498,18 +505,27 @@ CONTENT
   max-width: 55vw;
 }
 
+.event-subtitle-single {
+  font-size: 46px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: 0.92px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  max-width: 55vw;
+  -webkit-line-clamp: 4;
+}
+
 .one-line-clamp {
   -webkit-line-clamp: 1;
 }
 
 .two-line-clamp {
   -webkit-line-clamp: 2;
-}
-
-.event-subtitle-single {
-  /**********************
-  Currently not needed
-  **********************/
 }
 
 #event-location {
