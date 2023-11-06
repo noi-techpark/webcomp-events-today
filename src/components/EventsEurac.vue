@@ -372,6 +372,8 @@ export default {
   padding-left: 65px;
   padding-right: 65px;
   padding-bottom: 25px;
+
+  font-feature-settings: "case" on, "lnum" on, "pnum" on;
 }
 
 /**********************
