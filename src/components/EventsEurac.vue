@@ -159,7 +159,7 @@ export default {
       // to show more events during development
       // set increment to 0 before pushing
       const day = 60 * 40 * 24 * 1000;
-      const increment = 10;
+      const increment = 0;
 
       const params = new URLSearchParams([
         ["startdate", new Date().getTime()],
