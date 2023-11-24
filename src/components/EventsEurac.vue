@@ -41,7 +41,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               {{ event.name[currentLanguage] }}
             </div>
             <div id="event-subtitle" :class="eventSubtitleClass(event)">
-              {{ event.subTitle[currentLanguage] }}
+              {{ event.subTitle }}
             </div>
           </div>
           <div id="event-location">
@@ -123,28 +123,21 @@ export default {
   },
   methods: {
     eventNameClass(event) {
-      console.log(event.subTitle[this.currentLanguage].length);
-      console.log(event.subTitle);
-
       return {
         "event-name-single": this.options.maxEvents == 1,
         "event-name-multiple": this.options.maxEvents > 1,
         "one-line-clamp":
-          this.options.maxEvents > 1 &&
-          event.subTitle[this.currentLanguage].length > 0,
+          this.options.maxEvents > 1 && event.subTitle.length > 0,
         "two-line-clamp":
-          this.options.maxEvents == 1 ||
-          event.subTitle[this.currentLanguage].length === 0,
+          this.options.maxEvents == 1 || event.subTitle.length === 0,
       };
     },
     eventSubtitleClass(event) {
-      console.log(event.subTitle);
       return {
         "event-subtitle-single": this.options.maxEvents == 1,
         "event-subtitle-multiple": this.options.maxEvents > 1,
         "one-line-clamp":
-          this.options.maxEvents > 1 &&
-          event.subTitle[this.currentLanguage].length > 0,
+          this.options.maxEvents > 1 && event.subTitle.length > 0,
       };
     },
     nextImage() {
@@ -156,18 +149,6 @@ export default {
         this.images[this.currentImageIndex]
       }`;
     },
-    // check for every language, if description is not empty ant not the same as the title
-    getSubtitle(event) {
-      let subTitle = {};
-      this.languages.forEach((language) => {
-        subTitle[language] =
-          event.EventDescription[language].length === 0 ||
-          event.EventDescription[language] === event.EventTitle[language]
-            ? ""
-            : event.EventDescription[language];
-      });
-      return subTitle;
-    },
     async fetchData() {
       const baseURL =
         "https://tourism.api.opendatahub.com/v1/EventShort/GetbyRoomBooked?";
@@ -178,7 +159,7 @@ export default {
       // to show more events during development
       // set increment to 0 before pushing
       const day = 60 * 40 * 24 * 1000;
-      const increment = 0;
+      const increment = 10;
 
       const params = new URLSearchParams([
         ["startdate", new Date().getTime()],
@@ -225,7 +206,7 @@ export default {
               : element.EventTitle,
             subTitle: this.devMode
               ? { en: this.lorem, it: this.lorem, de: this.lorem }
-              : this.getSubtitle(element),
+              : element.Subtitle,
             companyName: element.CompanyName,
             webAddress: element.WebAddress,
             rooms: element.SpaceDesc,
