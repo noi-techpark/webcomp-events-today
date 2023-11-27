@@ -158,12 +158,13 @@ export default {
 
       // to show more events during development
       // set increment to 0 before pushing
-      const day = 60 * 40 * 24 * 1000;
-      const increment = 0;
+      const day = 60 * 60 * 24 * 1000;
+      const incrementStart = 0;
+      const incrementEnd = 0;
 
       const params = new URLSearchParams([
-        ["startdate", new Date().getTime()],
-        ["enddate", endDate.getTime() + increment * day],
+        ["startdate", new Date().getTime() + incrementStart * day],
+        ["enddate", endDate.getTime() + incrementEnd * day],
         ["eventlocation", this.options.eventLocation],
         // ["room", this.options.room],
         ["datetimeformat", "uxtimestamp"],
