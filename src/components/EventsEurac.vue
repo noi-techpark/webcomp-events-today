@@ -173,14 +173,6 @@ export default {
         ["origin", "webcomp-events-today-eurac"],
       ]);
 
-      // raw filter currently not working for EventShort/GetbyRoomBooked
-      // removing manually after fetching
-      // if (this.options.room != null && this.options.room !== "") {
-      //   params.set(
-      //     "rawfilter",
-      //     "eq(SpaceDesc," + '"' + this.options.room + '"' + ")"
-      //   );
-      // }
       const xhttp = new XMLHttpRequest();
       xhttp.open("GET", baseURL + params, false);
       xhttp.send();

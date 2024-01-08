@@ -20,15 +20,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div class="lines">
           <div class="row line" v-for="event in events" :key="event.key">
             <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
-              <h2 v-if="event.webAddress != null && event.webAddress != ''">
+              <!-- <h2 v-if="event.webAddress != null && event.webAddress != ''">
                 <a :href="event.webAddress" target="_blank">
-                  <strong> {{ event.shortName }} </strong>
+                  <strong> {{ event.title }} </strong>
                 </a>
                 <br />
                 <small> {{ event.companyName }}</small>
-              </h2>
-              <h2 v-else>
-                <strong> {{ event.shortName }} </strong>
+              </h2> -->
+              <!-- <h2 v-else> -->
+              <h2>
+                <strong> {{ event.title }} </strong>
                 <br />
                 <small> {{ event.companyName }} </small>
               </h2>
@@ -38,25 +39,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               style="justify-content: flex-end"
             >
               <div class="location">
-                <span v-for="(room, index) in event.rooms" :key="room.key">
-                  <a
-                    v-if="index < 3"
-                    class="room"
-                    href="https://maps.noi.bz.it/en/"
-                    target="_blank"
-                    >{{ room }}</a
-                  >
-                  <span v-else>...</span>
-                  <span
-                    v-if="
-                      index >= 0 &&
-                      index < 2 &&
-                      event.rooms.length >= 2 &&
-                      index != event.rooms.length - 1
-                    "
-                    >,</span
-                  >
-                </span>
+                <a
+                  class="room"
+                  href="https://maps.noi.bz.it/en/"
+                  target="_blank"
+                  >{{ event.room }}</a
+                >
               </div>
               <div class="starts-in">
                 <div>
@@ -94,65 +82,64 @@ export default {
       return {};
     },
   },
+  created: function () {
+    this.fetchData();
+  },
+  data: function () {
+    return {
+      events: [],
+      devMode: false,
+      lorem:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    };
+  },
   methods: {
     async fetchData() {
-      const baseURL = "https://tourism.api.opendatahub.com/v1/EventShort?";
+      const baseURL =
+        "https://tourism.api.opendatahub.com/v1/EventShort/GetbyRoomBooked?";
+
+      const endDate = new Date();
+      endDate.setUTCHours(24, 0, 0, 0);
+
       const params = new URLSearchParams([
         ["startdate", new Date().getTime()],
         ["eventlocation", this.options.eventLocation],
-        ["room", this.options.room],
-        ["pagesize", this.options.maxEvents ? this.options.maxEvents : 999],
         ["datetimeformat", "uxtimestamp"],
         ["onlyactive", true],
         ["sortorder", "ASC"],
         ["origin", "webcomp-events-today-noi"],
       ]);
-      if (this.options.room != "" && this.options.room != null) {
-        params.set(
-          "rawfilter",
-          "in(RoomBooked.[*].SpaceDescRoomMapping," +
-            '"' +
-            this.options.room +
-            '"' +
-            ")"
-        );
+
+      const xhttp = new XMLHttpRequest();
+      xhttp.open("GET", baseURL + params, false);
+      xhttp.send();
+
+      this.events = [];
+
+      const items = JSON.parse(xhttp.response);
+      for (let i = 0; i <= items.length - 1; i++) {
+        let element = items[i];
+        let startDate = new Date(element.RoomStartDate);
+        let endDate = new Date(element.RoomEndDate);
+
+        let event = {
+          title: this.devMode
+            ? { en: this.lorem, it: this.lorem, de: this.lorem }
+            : element.EventTitle.en,
+          subTitle: this.devMode
+            ? { en: this.lorem, it: this.lorem, de: this.lorem }
+            : element.Subtitle,
+          companyName: element.CompanyName,
+          webAddress: element.WebAddress,
+          time: this.formatTime(startDate, endDate),
+          room: element.SpaceDescList[0],
+          // mapsLink: `https://maps.noi.bz.it/?shared=${}&lang=it`
+        };
+        this.events.push(event);
       }
-      fetch(baseURL + params, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((response) => {
-        if (!response.ok)
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        response.json().then((json) => {
-          var items = json.Items;
-          for (var i = 0; i <= items.length - 1; ++i) {
-            let element = items[i];
-            let startDate = new Date(element.StartDate);
-            let endDate = new Date(element.EndDate);
-            let roomsBooked = element.RoomBooked;
-            let roomsSet = new Set();
-            for (let i = 0; i < roomsBooked.length; i++)
-              roomsSet.add(roomsBooked[i].SpaceDescRoomMapping);
-            let rooms = Array.from(roomsSet);
-            if (rooms.length > 3) rooms = rooms.splice(0, 4);
-            let event = {
-              shortName: element.Shortname,
-              companyName: element.CompanyName,
-              eventText: element.EventTextIT,
-              webAddress: element.WebAddress,
-              rooms: rooms,
-              startDate: this.formatDate(startDate),
-              time: this.formatTime(startDate, endDate),
-            };
-            this.events.push(event);
-          }
-        });
-      });
     },
     formatTime(startDate, endDate) {
-      return new String(
+      return String(
         startDate.getHours() +
           ":" +
           String(startDate.getMinutes()).padStart(2, "0") +
@@ -163,7 +150,7 @@ export default {
       );
     },
     formatDate(date) {
-      var options = {
+      let options = {
         year: "2-digit",
         month: "short",
         day: "numeric",
@@ -185,14 +172,6 @@ export default {
           formatStartDate.slice(3);
       return formatStartDate;
     },
-  },
-  created: function () {
-    this.fetchData();
-  },
-  data: function () {
-    return {
-      events: [],
-    };
   },
 };
 </script>
