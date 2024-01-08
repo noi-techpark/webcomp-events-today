@@ -39,11 +39,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             >
               <div class="location">
                 <a
+                  v-if="event.mapsLink"
                   class="room"
-                  href="https://maps.noi.bz.it/en/"
+                  :href="event.mapsLink"
                   target="_blank"
                   >{{ event.room }}</a
                 >
+                <div v-else>{{ event.room }}</div>
               </div>
               <div class="starts-in">
                 <div>
@@ -82,18 +84,20 @@ export default {
     },
   },
   created: function () {
+    this.fetchRoomMapping();
     this.fetchData();
   },
   data: function () {
     return {
       events: [],
+      roomMapping: {},
       devMode: false,
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     };
   },
   methods: {
-    async fetchData() {
+    fetchData() {
       const baseURL =
         "https://tourism.api.opendatahub.com/v1/EventShort/GetbyRoomBooked?";
 
@@ -117,9 +121,11 @@ export default {
 
       const items = JSON.parse(xhttp.response);
       for (let i = 0; i <= items.length - 1; i++) {
-        let element = items[i];
-        let startDate = new Date(element.RoomStartDate);
-        let endDate = new Date(element.RoomEndDate);
+        const element = items[i];
+        const startDate = new Date(element.RoomStartDate);
+        const endDate = new Date(element.RoomEndDate);
+        const room = element.SpaceDescList[0];
+        // const mapsLink = this.roomMapping[room] ? this.roomMapping[room] : "";
 
         let event = {
           title: this.devMode
@@ -131,12 +137,23 @@ export default {
           companyName: element.CompanyName,
           webAddress: element.EventWebAddress,
           time: this.formatTime(startDate, endDate),
-          room: element.SpaceDescList[0],
+          room: room,
           startDate: this.formatDate(startDate),
-          // mapsLink: `https://maps.noi.bz.it/?shared=${}&lang=it`
+          mapsLink: this.roomMapping[room],
         };
         this.events.push(event);
       }
+    },
+    fetchRoomMapping() {
+      const baseURL =
+        "https://tourism.opendatahub.com/v1/EventShort/RoomMapping?language=en";
+
+      const xhttp = new XMLHttpRequest();
+      xhttp.open("GET", baseURL, false);
+      xhttp.send();
+
+      this.roomMapping = JSON.parse(xhttp.response);
+      console.log(this.roomMapping);
     },
     formatTime(startDate, endDate) {
       return String(
