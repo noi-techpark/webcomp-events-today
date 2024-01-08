@@ -20,15 +20,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div class="lines">
           <div class="row line" v-for="event in events" :key="event.key">
             <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
-              <!-- <h2 v-if="event.webAddress != null && event.webAddress != ''">
+              <h2 v-if="event.webAddress != null && event.webAddress != ''">
                 <a :href="event.webAddress" target="_blank">
                   <strong> {{ event.title }} </strong>
                 </a>
                 <br />
                 <small> {{ event.companyName }}</small>
-              </h2> -->
-              <!-- <h2 v-else> -->
-              <h2>
+              </h2>
+              <h2 v-else>
                 <strong> {{ event.title }} </strong>
                 <br />
                 <small> {{ event.companyName }} </small>
@@ -130,7 +129,7 @@ export default {
             ? { en: this.lorem, it: this.lorem, de: this.lorem }
             : element.Subtitle,
           companyName: element.CompanyName,
-          webAddress: element.WebAddress,
+          webAddress: element.EventWebAddress,
           time: this.formatTime(startDate, endDate),
           room: element.SpaceDescList[0],
           startDate: this.formatDate(startDate),
