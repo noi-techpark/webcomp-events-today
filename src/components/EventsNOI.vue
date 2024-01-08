@@ -50,8 +50,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 <div>
                   <small>
                     {{ event.time }}
-                    <br />
                   </small>
+                  <br />
                   <strong>
                     {{ event.startDate }}
                   </strong>
@@ -133,6 +133,7 @@ export default {
           webAddress: element.WebAddress,
           time: this.formatTime(startDate, endDate),
           room: element.SpaceDescList[0],
+          startDate: this.formatDate(startDate),
           // mapsLink: `https://maps.noi.bz.it/?shared=${}&lang=it`
         };
         this.events.push(event);
@@ -153,24 +154,9 @@ export default {
       let options = {
         year: "2-digit",
         month: "short",
-        day: "numeric",
+        day: "2-digit",
       };
-      let day = date.getDate();
-      let formatStartDate = date.toLocaleDateString("it-it", options);
-      if (day >= 10)
-        formatStartDate =
-          formatStartDate.charAt(0) +
-          formatStartDate.charAt(1) +
-          formatStartDate.charAt(2) +
-          formatStartDate.charAt(3).toUpperCase() +
-          formatStartDate.slice(4);
-      else
-        formatStartDate =
-          formatStartDate.charAt(0) +
-          formatStartDate.charAt(1) +
-          formatStartDate.charAt(2).toUpperCase() +
-          formatStartDate.slice(3);
-      return formatStartDate;
+      return date.toLocaleDateString("en-GB", options);
     },
   },
 };
