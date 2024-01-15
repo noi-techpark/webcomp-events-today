@@ -5,73 +5,69 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <body
+  <div
+    id="base"
     v-bind:style="{ 'font-family': this.options.fontName + ', sans-serif' }"
   >
     <header>
-      <h1 class="title"><strong>TODAY</strong>.NOI.BZ.IT</h1>
+      <h1 id="mainTitle"><strong>TODAY</strong>.NOI.BZ.IT</h1>
       <img
         :src="require('@/assets/icons/NOI_2_BK_borderless.png')"
         class="noi-logo"
       />
     </header>
-    <div class="slideshow-container full-height">
-      <div class="content container-fluid">
-        <div class="lines">
-          <div class="row line" v-for="event in events" :key="event.key">
-            <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 description">
-              <h2 v-if="event.webAddress != null && event.webAddress != ''">
-                <a :href="event.webAddress" target="_blank">
-                  <strong> {{ event.title }} </strong>
-                </a>
-                <br />
-                <small> {{ event.companyName }}</small>
-              </h2>
-              <h2 v-else>
-                <strong> {{ event.title }} </strong>
-                <br />
-                <small> {{ event.companyName }} </small>
-              </h2>
-            </div>
-            <div
-              class="col-sm-5 col-xs-12 col-lg-5 col-lg-offset-0 col-md-5"
-              style="justify-content: flex-end"
+
+    <div class="content">
+      <div class="row line" v-for="event in events" :key="event.key">
+        <div class="description">
+          <a
+            v-if="event.webAddress != ''"
+            :href="event.webAddress"
+            target="_blank"
+          >
+            <strong class="title">{{ event.title }}</strong>
+          </a>
+          <div v-else class="title">{{ event.title }}</div>
+          <br />
+          <div class="subTitle">{{ event.subTitle }}</div>
+          <br />
+          <div class="company">{{ event.companyName }}</div>
+
+          <div class="location">
+            <a
+              v-if="event.mapsLink"
+              class="room"
+              :href="event.mapsLink"
+              target="_blank"
+              >{{ event.room }}</a
             >
-              <div class="location">
-                <a
-                  v-if="event.mapsLink"
-                  class="room"
-                  :href="event.mapsLink"
-                  target="_blank"
-                  >{{ event.room }}</a
-                >
-                <div v-else>{{ event.room }}</div>
-              </div>
-              <div class="starts-in">
-                <div>
-                  <small>
-                    {{ event.time }}
-                  </small>
-                  <br />
-                  <strong>
-                    {{ event.startDate }}
-                  </strong>
-                </div>
-              </div>
+            <div v-else>{{ event.room }}</div>
+          </div>
+
+          <div class="starts-in">
+            <div>
+              <small>
+                {{ event.time }}
+              </small>
+              <br />
+              <strong>
+                {{ event.startDate }}
+              </strong>
             </div>
           </div>
         </div>
-        <div class="footer">
-          <a href="https://opendatahub.com" target="_blank" class="footer-text"
-            >powered by Open Data Hub
-            <img
-              :src="require('@/assets/icons/NOI_OPENDATAHUB_NEW_WH-01.png')"
-              height="35px"
-          /></a>
-        </div>
+      </div>
+
+      <div class="footer">
+        <a href="https://opendatahub.com" target="_blank" class="footer-text"
+          >powered by Open Data Hub
+          <img
+            :src="require('@/assets/icons/NOI_OPENDATAHUB_NEW_WH-01.png')"
+            height="35px"
+        /></a>
       </div>
     </div>
-  </body>
+  </div>
 </template>
 
 <script>
@@ -84,13 +80,12 @@ export default {
     },
   },
   created: function () {
-    this.fetchRoomMapping();
     this.fetchData();
   },
   data: function () {
     return {
       events: [],
-      roomMapping: {},
+      roomMapping: this.fetchRoomMapping(),
       devMode: false,
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -125,7 +120,6 @@ export default {
         const startDate = new Date(element.RoomStartDate);
         const endDate = new Date(element.RoomEndDate);
         const room = element.SpaceDescList[0];
-        // const mapsLink = this.roomMapping[room] ? this.roomMapping[room] : "";
 
         let event = {
           title: this.devMode
@@ -152,8 +146,7 @@ export default {
       xhttp.open("GET", baseURL, false);
       xhttp.send();
 
-      this.roomMapping = JSON.parse(xhttp.response);
-      console.log(this.roomMapping);
+      return JSON.parse(xhttp.response);
     },
     formatTime(startDate, endDate) {
       return String(
@@ -179,69 +172,7 @@ export default {
 </script>
 
 <style>
-@import "~bootstrap/dist/css/bootstrap.min.css";
-
-.full-height {
-  height: 100%;
-}
-
-.content {
-  padding: 0;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-h1 {
-  font-size: 5em;
-  padding: 25px;
-  margin: 0;
-}
-
-h2 {
-  font-size: 2.3em;
-}
-
-h2 small {
-  font-size: 65%;
-  line-height: 1;
-  font-weight: bold;
-  color: #8c8c8c;
-}
-
-h1.title {
-  padding: 5px;
-  font-size: 5em;
-}
-
-.slideshow-container {
-  position: relative;
-  padding: 20px;
-  background-color: #000;
-  min-height: 85vh;
-}
-
-.line {
-  background-color: white;
-  margin: 0;
-  margin-bottom: 15px;
-  padding: 0 20px;
-  position: relative;
-  display: block;
-  height: 17vh;
-}
-
-.line > div {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-body {
+#base {
   /* font-family: "Source Sans Pro", sans-serif; */
   width: 100%;
   text-align: center;
@@ -253,8 +184,52 @@ body {
   padding-bottom: 20px;
 }
 
-body > div {
-  width: 100%;
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content {
+  box-sizing: content-box;
+  border: solid #000 10px;
+}
+
+#mainTitle {
+  font-size: 5em;
+  padding: 25px;
+  margin: 0;
+}
+
+.description {
+  text-align: left;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 2.3em;
+}
+
+.company {
+  font-size: 65%;
+  line-height: 1;
+  font-weight: bold;
+  color: #8c8c8c;
+}
+
+.line {
+  background-color: white;
+  /* margin: 0; */
+  padding: 0 20px;
+  position: relative;
+  display: block;
+  height: 17vh;
+
+  box-sizing: content-box;
+  border: solid #000 5px;
 }
 
 .location {
@@ -270,10 +245,6 @@ body > div {
 
 .location a {
   color: #000000;
-}
-
-.description {
-  text-align: left;
 }
 
 a {

@@ -31,7 +31,7 @@ export default {
     maxEvents: { type: Number, default: 4 },
     eventRotationInterval: {
       type: Number,
-      default: 60,
+      default: 5,
     },
     languageRotationInterval: {
       type: Number,
