@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
     <div class="content">
       <div class="row line" v-for="event in events" :key="event.key">
-        <div class="description">
+        <div>
           <a
             v-if="event.webAddress != ''"
             :href="event.webAddress"
@@ -28,11 +28,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <strong class="title">{{ event.title }}</strong>
           </a>
           <div v-else class="title">{{ event.title }}</div>
-          <br />
           <div class="subTitle">{{ event.subTitle }}</div>
-          <br />
           <div class="company">{{ event.companyName }}</div>
+        </div>
 
+        <div class="right">
           <div class="location">
             <a
               v-if="event.mapsLink"
@@ -201,35 +201,30 @@ header {
   margin: 0;
 }
 
-.description {
-  text-align: left;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
 .title {
   font-size: 2.3em;
 }
 
 .company {
-  font-size: 65%;
   line-height: 1;
   font-weight: bold;
   color: #8c8c8c;
+  float: left;
 }
 
 .line {
-  background-color: white;
-  /* margin: 0; */
+  min-height: 17vh;
   padding: 0 20px;
-  position: relative;
-  display: block;
-  height: 17vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   box-sizing: content-box;
   border: solid #000 5px;
+}
+
+.right {
+  display: flex;
 }
 
 .location {
@@ -241,10 +236,6 @@ header {
   font-size: 1.6em;
   font-weight: bold;
   max-width: 50%;
-}
-
-.location a {
-  color: #000000;
 }
 
 a {
@@ -259,10 +250,6 @@ a.room {
 .noi-logo {
   width: 155px;
   margin: 20px;
-}
-
-strong {
-  font-weight: 600;
 }
 
 .starts-in {
@@ -286,6 +273,8 @@ strong {
 .footer-text {
   color: white;
 }
+
+/* MOBILE */
 
 @media screen and (min-width: 320px) and (max-width: 812px) {
   h1 {
