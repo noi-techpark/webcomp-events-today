@@ -1,7 +1,7 @@
 {
-    "title": "events-today",
-    "shortName": "events-today",
-    "description": "A simple web component to see NOI events",
+    "title": "events-today-eurac",
+    "shortName": "events-today-eurac",
+    "description": "A simple web component to see EURAC events",
     "descriptionAbstract": "events simple webcomp",
     "license": "AGPL-3.0-or-later",
     "repositoryUrl": "https://github.com/noi-techpark/webcomp-events-today.git",
@@ -40,22 +40,9 @@
         "tagName": "events-today",
         "options": [
             {
-                "key": "event-location",
-                "type": "select",
-                "label": "Location of the events: NOI (NOI Techpark), EC (Eurac)",
-                "required": true,
-                "options": {
-                    "values": [
-                        "NOI",
-                        "EC"
-                    ],
-                    "default": "NOI"
-                }
-            },
-            {
                 "key": "room",
                 "type": "text",
-                "label": "Room: e.g. Seminar 1, NOISE, Chapel",
+                "label": "Room: e.g. Seminar 1, Seminar 2",
                 "required": false,
                 "options": {
                     "default": ""
