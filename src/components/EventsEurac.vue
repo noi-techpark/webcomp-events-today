@@ -103,7 +103,7 @@ export default {
     contentClass() {
       return {
         "content-align-bottom":
-          this.options.maxEvents < 4 || this.allEvents.length < 4,
+          this.options.maxEvents < 4 || this.events.length < 4,
       };
     },
   },
@@ -165,7 +165,7 @@ export default {
       const params = new URLSearchParams([
         ["startdate", new Date().getTime() + incrementStart * day],
         ["enddate", endDate.getTime() + incrementEnd * day],
-        ["eventlocation", this.options.eventLocation],
+        ["eventlocation", "EC"],
         // ["room", this.options.room],
         ["datetimeformat", "uxtimestamp"],
         ["onlyactive", true],
@@ -222,6 +222,11 @@ export default {
         return;
       }
 
+      this.events = this.allEvents.slice(
+        this.activePage * this.options.maxEvents,
+        this.activePage * this.options.maxEvents + this.options.maxEvents
+      );
+
       // rotate all events
       const maxPage = Math.ceil(this.allEvents.length / this.options.maxEvents);
       this.activePage++;
@@ -229,11 +234,6 @@ export default {
       if (this.activePage >= maxPage) {
         this.activePage = 0;
       }
-
-      this.events = this.allEvents.slice(
-        this.activePage * this.options.maxEvents,
-        this.activePage * this.options.maxEvents + this.options.maxEvents
-      );
     },
     rotateLanguage() {
       let index = this.languages.indexOf(this.currentLanguage) + 1;

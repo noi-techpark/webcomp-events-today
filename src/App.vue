@@ -5,9 +5,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <EventsToday
+  <EventsEurac
     :options="{
-      eventLocation: eventLocation,
       room: room,
       maxEvents: maxEvents,
       eventRotationInterval: eventRotationInterval,
@@ -19,19 +18,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   />
 </template>
 <script>
-import EventsToday from "./components/EventsToday.vue";
+import EventsEurac from "./components/EventsEurac.vue";
 export default {
   name: "App",
   props: {
-    eventLocation: {
-      type: String,
-      default: "NOI",
-    },
     room: { type: String, default: "" },
     maxEvents: { type: Number, default: 4 },
     eventRotationInterval: {
       type: Number,
-      default: 5,
+      default: 60,
     },
     languageRotationInterval: {
       type: Number,
@@ -57,7 +52,7 @@ export default {
     },
   },
   components: {
-    EventsToday,
+    EventsEurac,
   },
   created: function () {
     this.fetchFont(this.fontUrl).then((font) => {
