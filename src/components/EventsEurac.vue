@@ -160,7 +160,7 @@ export default {
       // set increment to 0 before pushing
       const day = 60 * 60 * 24 * 1000;
       const incrementStart = 0;
-      const incrementEnd = 10;
+      const incrementEnd = 0;
 
       const params = new URLSearchParams([
         ["startdate", new Date().getTime() + incrementStart * day],
