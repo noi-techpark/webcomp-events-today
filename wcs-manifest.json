@@ -1,8 +1,8 @@
 {
     "title": "events-today-eurac",
     "shortName": "events-today-eurac",
-    "description": "A simple web component to see EURAC events",
-    "descriptionAbstract": "events simple webcomp",
+    "description": "A simple web component to see events happening at EURAC",
+    "descriptionAbstract": "events happening at EURAC",
     "license": "AGPL-3.0-or-later",
     "repositoryUrl": "https://github.com/noi-techpark/webcomp-events-today.git",
     "copyrightHolders": [
