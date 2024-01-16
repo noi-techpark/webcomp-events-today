@@ -103,7 +103,7 @@ export default {
     contentClass() {
       return {
         "content-align-bottom":
-          this.options.maxEvents < 4 || this.events.length < 4,
+          this.options.maxEvents < 4 || this.allEvents.length < 4,
       };
     },
   },
@@ -391,7 +391,7 @@ CONTENT
 
 .content-align-bottom {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
 }
 
 #event-row {
