@@ -28,7 +28,9 @@
         }
     ],
     "image": "wcs-logo.png",
-    "searchTags": [],
+    "searchTags": [
+      "events"
+    ],
     "dist": {
         "basePath": "dist",
         "files": [
