@@ -168,7 +168,7 @@ export default {
         ["eventlocation", "EC"],
         // ["room", this.options.room],
         ["datetimeformat", "uxtimestamp"],
-        ["onlyactive", true],
+        ["publishedon", "today.noi.bz.it"],
         ["sortorder", "ASC"],
         ["origin", "webcomp-events-today-eurac"],
       ]);
