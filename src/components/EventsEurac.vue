@@ -532,7 +532,7 @@ CONTENT
 }
 
 #seminar {
-  font-size: 60px;
+  font-size: 50px;
   line-height: 44px;
   margin-top: 10px;
 
