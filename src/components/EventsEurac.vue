@@ -296,7 +296,8 @@ export default {
         !room.includes("Seminar 2 and 3 unified") &&
         !room.includes("Seminar 1, 2 and 3 unified") &&
         !room.includes("Seminar 2+3") &&
-        !room.includes("Seminar 1+2+3")
+        !room.includes("Seminar 1+2+3") &&
+        !room.includes("Seminar 1+2")
       )
         return "Seminar";
       return room;
@@ -310,7 +311,8 @@ export default {
         !room.includes("Seminar 2 and 3 unified") &&
         !room.includes("Seminar 1, 2 and 3 unified") &&
         !room.includes("Seminar 2+3") &&
-        !room.includes("Seminar 1+2+3")
+        !room.includes("Seminar 1+2+3") &&
+        !room.includes("Seminar 1+2")
       ) {
         let seminarRooms = room.split(" ");
         // Seminar 2
