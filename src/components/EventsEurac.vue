@@ -292,12 +292,12 @@ export default {
 
       // Seminar room special rule
       if (
-        room.includes("Seminar") &&
+        (room.includes("Seminar") ||
+          room.includes("Seminar 2+3") ||
+          room.includes("Seminar 1+2+3") ||
+          room.includes("Seminar 1+2")) &&
         !room.includes("Seminar 2 and 3 unified") &&
-        !room.includes("Seminar 1, 2 and 3 unified") &&
-        !room.includes("Seminar 2+3") &&
-        !room.includes("Seminar 1+2+3") &&
-        !room.includes("Seminar 1+2")
+        !room.includes("Seminar 1, 2 and 3 unified")
       )
         return "Seminar";
       return room;
@@ -307,17 +307,18 @@ export default {
       if (this.options.room) room = this.options.room;
 
       if (
-        room.includes("Seminar") &&
+        (room.includes("Seminar") ||
+          room.includes("Seminar 2+3") ||
+          room.includes("Seminar 1+2+3") ||
+          room.includes("Seminar 1+2")) &&
         !room.includes("Seminar 2 and 3 unified") &&
-        !room.includes("Seminar 1, 2 and 3 unified") &&
-        !room.includes("Seminar 2+3") &&
-        !room.includes("Seminar 1+2+3") &&
-        !room.includes("Seminar 1+2")
+        !room.includes("Seminar 1, 2 and 3 unified")
       ) {
         let seminarRooms = room.split(" ");
         // Seminar 2
         if (seminarRooms.length == 2) {
-          return "S" + seminarRooms[1];
+          //return "S" + seminarRooms[1];
+          return seminarRooms[1];
         }
         // Seminar 2 and 3 unified
         else {
