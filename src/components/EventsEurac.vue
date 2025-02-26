@@ -170,6 +170,7 @@ export default {
         ["datetimeformat", "uxtimestamp"],
         ["publishedon", "today.noi.bz.it"],
         ["sortorder", "ASC"],
+        ["eventgrouping", this.options.eventgrouping],
         ["origin", "webcomp-events-today-eurac"],
       ]);
 

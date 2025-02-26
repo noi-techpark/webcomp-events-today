@@ -51,6 +51,15 @@
                 }
             },
             {
+                "key": "eventgrouping",
+                "type": "boolean",
+                "label": "Enable / Disable Events with same Name/Name/Begin/End Grouping",
+                "required": false,
+                "options": {
+                    "default": false
+                }
+            },
+            {
                 "key": "max-events",
                 "type": "number",
                 "label": "Max number of events to display",

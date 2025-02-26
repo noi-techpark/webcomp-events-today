@@ -14,6 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       imageGalleryInterval: imageGalleryInterval,
       imageGalleryUrl: imageGalleryUrl,
       fontName: fontName,
+      eventgrouping: eventgrouping,
     }"
   />
 </template>
@@ -23,6 +24,7 @@ export default {
   name: "App",
   props: {
     room: { type: String, default: "" },
+    eventgrouping: { type: Boolean, default: false },
     maxEvents: { type: Number, default: 4 },
     eventRotationInterval: {
       type: Number,
