@@ -52,7 +52,7 @@
             },
             {
                 "key": "eventgrouping",
-                "type": "boolean",
+                "type": "bool",
                 "label": "Enable / Disable Events with same Name/Name/Begin/End Grouping",
                 "required": false,
                 "options": {
