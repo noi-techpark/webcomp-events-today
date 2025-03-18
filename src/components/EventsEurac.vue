@@ -315,7 +315,7 @@ export default {
         if (room.includes("Seminar 1 and 2 unified")) {
           return "1+2";
         } else if (room.includes("Seminar 2 and 3 unified")) {
-          return "1+3";
+          return "2+3";
         } else {
           return "1+2+3";
         }
