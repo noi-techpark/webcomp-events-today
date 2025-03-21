@@ -74,6 +74,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script>
 "use strict";
 
+import config from "./config";
+
 export default {
   name: "EventsToday",
   props: {
@@ -150,8 +152,7 @@ export default {
       }`;
     },
     async fetchData() {
-      const baseURL =
-        "https://tourism.api.opendatahub.com/v1/EventShort/GetbyRoomBooked?";
+      const baseURL = config.API_BASE_URL + "/EventShort/GetbyRoomBooked?";
 
       const endDate = new Date();
       endDate.setUTCHours(24, 0, 0, 0);
@@ -168,7 +169,7 @@ export default {
         ["eventlocation", "EC"],
         // ["room", this.options.room],
         ["datetimeformat", "uxtimestamp"],
-        ["publishedon", "today.noi.bz.it"],
+        ["publishedon", this.options.publishedon],
         ["sortorder", "ASC"],
         ["eventgrouping", this.options.eventgrouping],
         ["origin", "webcomp-events-today-eurac"],

@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: REUSE Compliance Check
-        uses: fsfe/reuse-action@v1
+        uses: fsfe/reuse-action@v1      
       - uses: noi-techpark/github-actions/npm-build@v2
         with:
           build-command: npm run build
@@ -28,6 +28,10 @@ jobs:
     concurrency: deploy-test
     steps:
       - uses: actions/checkout@v2
+
+      - uses: noi-techpark/github-actions/env-file@v2
+        env:          
+          X_VUE_APP_TOURISM_BASE_PATH: "https://api.tourism.testingmachine.eu/v1"
 
       - uses: noi-techpark/github-actions/npm-build@v2
         with:

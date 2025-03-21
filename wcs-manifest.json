@@ -51,6 +51,16 @@
                 }
             },
             {
+                "key": "publishedon",
+                "type": "multiselect",
+                "label": "PublishedOn Filter",
+                "required": false,
+                "options": {
+                  "values": ["eurac-videowall","eurac-seminarroom"],
+                  "default":["eurac-videowall"]
+                }
+              },
+            {
                 "key": "eventgrouping",
                 "type": "bool",
                 "label": "Enable / Disable Events with same Name/Name/Begin/End Grouping",

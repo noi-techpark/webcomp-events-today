@@ -15,6 +15,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       imageGalleryUrl: imageGalleryUrl,
       fontName: fontName,
       eventgrouping: eventgrouping,
+      publishedon: publishedon,
     }"
   />
 </template>
@@ -24,6 +25,7 @@ export default {
   name: "App",
   props: {
     room: { type: String, default: "" },
+    publishedon: { type: String, default: "eurac-videowall" },
     eventgrouping: { type: Boolean, default: false },
     maxEvents: { type: Number, default: 4 },
     eventRotationInterval: {
