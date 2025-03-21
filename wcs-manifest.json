@@ -57,7 +57,7 @@
                 "required": false,
                 "options": {
                   "values": ["eurac-videowall","eurac-seminarroom"],
-                  "default":["eurac-videowall"]
+                  "default":"eurac-videowall"
                 }
               },
             {
