@@ -198,7 +198,11 @@ export default {
           let event = {
             name: this.devMode
               ? { en: this.lorem, it: this.lorem, de: this.lorem }
-              : element.EventTitle,
+              : {
+                  en: element.Detail.en?.Title,
+                  de: element.Detail.de?.Title,
+                  it: element.Detail.it?.Title,
+                },
             subTitle: this.devMode
               ? { en: this.lorem, it: this.lorem, de: this.lorem }
               : element.Subtitle,
