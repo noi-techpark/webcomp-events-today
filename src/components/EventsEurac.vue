@@ -37,11 +37,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <div id="company">
               {{ event.companyName }}
             </div>
-            <div id="event-name" :class="eventNameClass(event)">
-              {{ event.name[currentLanguage] }}
+            <div
+              v-if="hasEventTitle(event)"
+              id="event-name"
+              :class="eventNameClass(event)"
+            >
+              {{ getEventTitle(event) }}
             </div>
-            <div id="event-subtitle" :class="eventSubtitleClass(event)">
-              {{ event.subTitle }}
+            <div
+              v-if="safeText(event.subTitle)"
+              id="event-subtitle"
+              :class="eventSubtitleClass(event)"
+            >
+              {{ safeText(event.subTitle) }}
             </div>
           </div>
           <div id="event-location">
@@ -124,24 +132,47 @@ export default {
     setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
   },
   methods: {
+    safeText(value) {
+      return typeof value === "string" ? value.trim() : "";
+    },
+
+    getEventTitle(event) {
+      const current = this.safeText(event.name?.[this.currentLanguage]);
+      if (current) return current;
+
+      for (const lang of this.languages) {
+        const fallback = this.safeText(event.name?.[lang]);
+        if (fallback) return fallback;
+      }
+
+      return "";
+    },
+
+    hasEventTitle(event) {
+      return this.getEventTitle(event).length > 0;
+    },
+
     eventNameClass(event) {
+      const subtitle = this.safeText(event.subTitle);
+
       return {
         "event-name-single": this.options.maxEvents == 1,
         "event-name-multiple": this.options.maxEvents > 1,
-        "one-line-clamp":
-          this.options.maxEvents > 1 && event.subTitle.length > 0,
-        "two-line-clamp":
-          this.options.maxEvents == 1 || event.subTitle.length === 0,
+        "one-line-clamp": this.options.maxEvents > 1 && subtitle.length > 0,
+        "two-line-clamp": this.options.maxEvents == 1 || subtitle.length === 0,
       };
     },
+
     eventSubtitleClass(event) {
+      const subtitle = this.safeText(event.subTitle);
+
       return {
         "event-subtitle-single": this.options.maxEvents == 1,
         "event-subtitle-multiple": this.options.maxEvents > 1,
-        "one-line-clamp":
-          this.options.maxEvents > 1 && event.subTitle.length > 0,
+        "one-line-clamp": this.options.maxEvents > 1 && subtitle.length > 0,
       };
     },
+
     nextImage() {
       this.currentImageIndex++;
       if (this.currentImageIndex > this.images.length - 1) {
@@ -199,13 +230,11 @@ export default {
             name: this.devMode
               ? { en: this.lorem, it: this.lorem, de: this.lorem }
               : {
-                  en: element.Detail.en?.Title,
-                  de: element.Detail.de?.Title,
-                  it: element.Detail.it?.Title,
+                  en: element.Detail?.en?.Title ?? "",
+                  de: element.Detail?.de?.Title ?? "",
+                  it: element.Detail?.it?.Title ?? "",
                 },
-            subTitle: this.devMode
-              ? { en: this.lorem, it: this.lorem, de: this.lorem }
-              : element.Subtitle,
+            subTitle: this.devMode ? this.lorem : element.Subtitle ?? "",
             companyName: element.CompanyName,
             webAddress: element.WebAddress,
             rooms: element.SpaceDesc,
