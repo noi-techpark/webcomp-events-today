@@ -69,7 +69,7 @@ on your local machine for development and testing purposes.
 
 To build the project, the following prerequisites must be met:
 
-- Node 16.x / NPM 9.x
+- Node 18.x / NPM 9.x
 
 For a ready to use Docker environment with all prerequisites already installed
 and prepared, you can check out the [Docker environment](#docker-environment)
