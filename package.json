@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "npm run vcbuild -- --target wc --name events-today ./src/App.vue --watch --inline-vue",
+    "serve": "concurrently \"npm run vcbuild -- --target wc --name events-today ./src/App.vue --watch --inline-vue\" \"live-server dist --port=1444 --open=demo.html\"",
     "start": "npm run serve",
     "build": "npm run vcbuild -- --target wc --name events-today ./src/App.vue --inline-vue",
     "lint": "vue-cli-service lint",
@@ -21,11 +21,13 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "concurrently": "^9.2.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.0.3",
     "file-loader": "^6.2.0",
+    "live-server": "^1.2.2",
     "prettier": "^2.4.1",
     "vue-template-compiler": "^2.7.14"
   }
