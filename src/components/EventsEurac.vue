@@ -124,14 +124,72 @@ export default {
     setInterval(this.nextImage, this.options.imageGalleryInterval * 1000);
   },
   methods: {
+    getLanguageFallbackOrder(language) {
+      const fallbackOrder = {
+        en: ["en", "it", "de"],
+        de: ["de", "it", "en"],
+        it: ["it", "de", "en"],
+      };
+      return fallbackOrder[language] || fallbackOrder.en;
+    },
+
+    getLocalizedValue(values, language) {
+      if (!values || typeof values !== "object") {
+        return null;
+      }
+
+      const order = this.getLanguageFallbackOrder(language);
+
+      for (const lang of order) {
+        const value = values[lang];
+        if (typeof value === "string" && value.trim() !== "") {
+          return value.trim();
+        }
+      }
+
+      return null;
+    },
+
+    buildLocalizedFields(element) {
+      const localizedTitle = {
+        en: this.getLocalizedValue(
+          {
+            en: element.Detail?.en?.Title,
+            de: element.Detail?.de?.Title,
+            it: element.Detail?.it?.Title,
+          },
+          "en"
+        ),
+        de: this.getLocalizedValue(
+          {
+            en: element.Detail?.en?.Title,
+            de: element.Detail?.de?.Title,
+            it: element.Detail?.it?.Title,
+          },
+          "de"
+        ),
+        it: this.getLocalizedValue(
+          {
+            en: element.Detail?.en?.Title,
+            de: element.Detail?.de?.Title,
+            it: element.Detail?.it?.Title,
+          },
+          "it"
+        ),
+      };
+
+      return {
+        title: localizedTitle,
+      };
+    },
     eventNameClass(event) {
       return {
         "event-name-single": this.options.maxEvents == 1,
         "event-name-multiple": this.options.maxEvents > 1,
         "one-line-clamp":
-          this.options.maxEvents > 1 && event.subTitle.length > 0,
+          this.options.maxEvents > 1 && event.subTitle?.length > 0,
         "two-line-clamp":
-          this.options.maxEvents == 1 || event.subTitle.length === 0,
+          this.options.maxEvents == 1 || event.subTitle?.length === 0,
       };
     },
     eventSubtitleClass(event) {
@@ -139,7 +197,7 @@ export default {
         "event-subtitle-single": this.options.maxEvents == 1,
         "event-subtitle-multiple": this.options.maxEvents > 1,
         "one-line-clamp":
-          this.options.maxEvents > 1 && event.subTitle.length > 0,
+          this.options.maxEvents > 1 && event.subTitle?.length > 0,
       };
     },
     nextImage() {
@@ -152,68 +210,87 @@ export default {
       }`;
     },
     async fetchData() {
-      const baseURL = config.API_BASE_URL + "/EventShort/GetbyRoomBooked?";
+      const baseURL = config.API_BASE_URL + "/Event?";
 
       const endDate = new Date();
       endDate.setUTCHours(24, 0, 0, 0);
 
-      // to show more events during development
       // set increment to 0 before pushing
       const day = 60 * 60 * 24 * 1000;
       const incrementStart = 0;
       const incrementEnd = 0;
 
       const params = new URLSearchParams([
-        ["startdate", new Date().getTime() + incrementStart * day],
+        ["tagfilter", "eventlocation:ec"],
+        ["begindate", new Date().getTime() + incrementStart * day],
         ["enddate", endDate.getTime() + incrementEnd * day],
-        ["eventlocation", "EC"],
-        // ["room", this.options.room],
         ["datetimeformat", "uxtimestamp"],
+        ["sort", "upcomping"],
+        ["active", "true"],
         ["publishedon", this.options.publishedon],
-        ["sortorder", "ASC"],
-        ["eventgrouping", this.options.eventgrouping],
+        ["optimizedates", "true"],
         ["origin", "webcomp-events-today-eurac"],
+        ["denormalize", "true"],
       ]);
 
       const xhttp = new XMLHttpRequest();
       xhttp.open("GET", baseURL + params, false);
       xhttp.send();
+      const items = (JSON.parse(xhttp.response).Items || []).flat();
 
-      const items = JSON.parse(xhttp.response);
+      // obtaining the list of venues of Eurac
+      const VenueURL = config.API_BASE_URL + "/Venue?source=eurac";
+
+      const xhttpVenue = new XMLHttpRequest();
+      xhttpVenue.open("GET", VenueURL, false);
+      xhttpVenue.send();
+
+      //Chosing the venues of Eurac
+      const EuracVenues = JSON.parse(xhttpVenue.response).Items[0];
 
       this.allEvents = [];
 
-      for (let i = 0; i <= items.length - 1; ++i) {
-        let element = items[i];
-
-        // manually filter for rooms, can be removed if raw filter works for EventShort/GetbyRoomBooked
+      items.forEach((element) => {
+        // manually filter for rooms, can be removed if raw filter works for Event
         if (
           this.options.room == null ||
           this.options.room === "" ||
-          element.SpaceDescList.indexOf(this.options.room) > -1
+          element.EventDate[0].VenueRoomDetailsIds.indexOf(this.options.room) >
+            -1
         ) {
-          let startDate = new Date(element.RoomStartDate);
-          let endDate = new Date(element.RoomEndDate);
+          let startDate = new Date(element.EventDate[0].FromUTC);
+          let endDate = new Date(element.EventDate[0].ToUTC);
+
+          const localizedFields = this.buildLocalizedFields(element);
+
+          if (
+            !localizedFields.title.en &&
+            !localizedFields.title.de &&
+            !localizedFields.title.it
+          ) {
+            return;
+          }
 
           let event = {
-            name: this.devMode
-              ? { en: this.lorem, it: this.lorem, de: this.lorem }
-              : {
-                  en: element.Detail.en?.Title,
-                  de: element.Detail.de?.Title,
-                  it: element.Detail.it?.Title,
-                },
-            subTitle: this.devMode
-              ? { en: this.lorem, it: this.lorem, de: this.lorem }
-              : element.Subtitle,
-            companyName: element.CompanyName,
-            webAddress: element.WebAddress,
-            rooms: element.SpaceDesc,
+            name: localizedFields.title,
+            subTitle:
+              element.EventDate[0].EventDateAdditionalInfo?.en.Description,
+            companyName: element.OrganizerInfos.en.CompanyName,
+            webAddress: element.contactinfo?.en.Url ?? null,
+
+            // obtaining the Shortname from the roomId
+            rooms: element.EventDate.map((ed) => ed.VenueRoomDetailsIds)
+              .flat()
+              .map((room) => {
+                return EuracVenues.RoomDetails[
+                  EuracVenues.RoomDetails.findIndex((r) => r.Id === room)
+                ].Shortname;
+              }),
             time: this.formatTime(startDate, endDate),
           };
           this.allEvents.push(event);
         }
-      }
+      });
     },
     rotateEvents() {
       // first update also events
@@ -297,51 +374,33 @@ export default {
       if (this.options.room) room = this.options.room;
 
       // Seminar room special rule
-      if (
-        room.includes("Seminar") ||
-        room.includes("Seminar 2+3") ||
-        room.includes("Seminar 1+2+3") ||
-        room.includes("Seminar 1+2") ||
-        room.includes("Seminar 2 and 3 unified") ||
-        room.includes("Seminar 1, 2 and 3 unified")
-      )
+      if (String(room).includes("Seminar") && !room.includes("Seminar Hallway"))
         return "Seminar";
-      return room;
+      if (String(room).includes("Virtual Space")) return "Virtual Space";
+      return String(room);
     },
     getBigRoomName(room) {
       // show room set in options, if set
       if (this.options.room) room = this.options.room;
 
-      if (
-        room.includes("Seminar 1 and 2 unified") ||
-        room.includes("Seminar 2 and 3 unified") ||
-        room.includes("Seminar 1, 2 and 3 unified")
-      ) {
-        if (room.includes("Seminar 1 and 2 unified")) {
-          return "1+2";
-        } else if (room.includes("Seminar 2 and 3 unified")) {
-          return "2+3";
-        } else {
-          return "1+2+3";
-        }
-      } else if (
-        room.includes("Seminar") ||
-        room.includes("Seminar 2+3") ||
-        room.includes("Seminar 1+2+3") ||
-        room.includes("Seminar 1+2")
-      ) {
-        let seminarRooms = room.split(" ");
-        // Seminar 2
+      // special rools for showing the room number
+      if (room.includes("Seminar 1 and 2 unified")) {
+        return "1+2";
+      } else if (room.includes("Seminar 2 and 3 unified")) {
+        return "2+3";
+      } else if (room.includes("Seminar 1, 2 and 3 unified")) {
+        return "1+2+3";
+      } else if (String(room).includes("Seminar")) {
+        let seminarRooms = String(room).split(" ");
         if (seminarRooms.length == 2) {
-          //return "S" + seminarRooms[1];
           return seminarRooms[1];
         }
-        // Seminar 2 and 3 unified
-        else {
-          return room;
+      } else if (String(room).includes("Virtual Space")) {
+        let seminarRooms = String(room).split(" ");
+        if (seminarRooms.length == 3) {
+          return seminarRooms[2];
         }
       }
-
       return "";
     },
     getNow: function () {
