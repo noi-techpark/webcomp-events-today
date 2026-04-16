@@ -184,20 +184,20 @@ export default {
     },
 
     eventNameClass(event) {
-      const subTitle = this.safeText(event.subTitle);
+      const subtitle = this.safeText(event.subTitle);
       return {
         "event-name-single": this.options.maxEvents == 1,
         "event-name-multiple": this.options.maxEvents > 1,
-        "one-line-clamp": this.options.maxEvents > 1 && subTitle.length > 0,
-        "two-line-clamp": this.options.maxEvents == 1 || subTitle.length === 0,
+        "one-line-clamp": this.options.maxEvents > 1 && subtitle.length > 0,
+        "two-line-clamp": this.options.maxEvents == 1 || subtitle.length === 0,
       };
     },
     eventSubtitleClass(event) {
-      const subTitle = this.safeText(event.subTitle);
+      const subtitle = this.safeText(event.subTitle);
       return {
         "event-subtitle-single": this.options.maxEvents == 1,
         "event-subtitle-multiple": this.options.maxEvents > 1,
-        "one-line-clamp": this.options.maxEvents > 1 && subTitle.length > 0,
+        "one-line-clamp": this.options.maxEvents > 1 && subtitle.length > 0,
       };
     },
     nextImage() {
