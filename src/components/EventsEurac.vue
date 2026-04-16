@@ -195,7 +195,7 @@ export default {
     },
     eventSubtitleClass(event) {
       const subtitle = this.safeText(event.subTitle);
-      
+
       return {
         "event-subtitle-single": this.options.maxEvents == 1,
         "event-subtitle-multiple": this.options.maxEvents > 1,
