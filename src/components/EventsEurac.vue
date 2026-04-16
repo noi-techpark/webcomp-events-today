@@ -147,53 +147,57 @@ export default {
     },
 
     buildLocalizedFields(element) {
+      const titles = {
+        en: element.Detail?.en?.Title,
+        de: element.Detail?.de?.Title,
+        it: element.Detail?.it?.Title,
+      };
       const localizedTitle = {
-        en: this.getLocalizedValue(
-          {
-            en: element.Detail?.en?.Title,
-            de: element.Detail?.de?.Title,
-            it: element.Detail?.it?.Title,
-          },
-          "en"
-        ),
-        de: this.getLocalizedValue(
-          {
-            en: element.Detail?.en?.Title,
-            de: element.Detail?.de?.Title,
-            it: element.Detail?.it?.Title,
-          },
-          "de"
-        ),
-        it: this.getLocalizedValue(
-          {
-            en: element.Detail?.en?.Title,
-            de: element.Detail?.de?.Title,
-            it: element.Detail?.it?.Title,
-          },
-          "it"
-        ),
+        en: this.getLocalizedValue(titles, "en"),
+        de: this.getLocalizedValue(titles, "de"),
+        it: this.getLocalizedValue(titles, "it"),
       };
 
       return {
         title: localizedTitle,
       };
     },
+
+    safeText(value) {
+      return typeof value === "string" ? value.trim() : "";
+    },
+
+    getEventTitle(event) {
+      const current = this.safeText(event.name?.[this.currentLanguage]);
+      if (current) return current;
+
+      for (const lang of this.languages) {
+        const fallback = this.safeText(event.name?.[lang]);
+        if (fallback) return fallback;
+      }
+
+      return "";
+    },
+
+    hasEventTitle(event) {
+      return this.getEventTitle(event).length > 0;
+    },
+
     eventNameClass(event) {
+      const subTitle = this.safeText(event.subTitle);
       return {
         "event-name-single": this.options.maxEvents == 1,
         "event-name-multiple": this.options.maxEvents > 1,
-        "one-line-clamp":
-          this.options.maxEvents > 1 && event.subTitle?.length > 0,
-        "two-line-clamp":
-          this.options.maxEvents == 1 || event.subTitle?.length === 0,
+        "one-line-clamp": this.options.maxEvents > 1 && subTitle.length > 0,
+        "two-line-clamp": this.options.maxEvents == 1 || subTitle.length === 0,
       };
     },
     eventSubtitleClass(event) {
+      const subTitle = this.safeText(event.subTitle);
       return {
         "event-subtitle-single": this.options.maxEvents == 1,
         "event-subtitle-multiple": this.options.maxEvents > 1,
-        "one-line-clamp":
-          this.options.maxEvents > 1 && event.subTitle?.length > 0,
+        "one-line-clamp": this.options.maxEvents > 1 && subTitle.length > 0,
       };
     },
     nextImage() {
