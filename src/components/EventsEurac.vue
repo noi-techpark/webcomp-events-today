@@ -275,10 +275,11 @@ export default {
 
           let event = {
             name: localizedFields.title,
-            subTitle:
-              element.EventDate[0].EventDateAdditionalInfo?.en.Description,
+            subTitle: element.EventDate[0].EventDateAdditionalInfo
+              ? element.EventDate[0].EventDateAdditionalInfo?.en.Description
+              : null,
             companyName: element.OrganizerInfos.en.CompanyName,
-            webAddress: element.contactinfo?.en.Url ?? null,
+            webAddress: element.EventUrls ? element.EventUrls[0].Url.en : null,
 
             // obtaining the Shortname from the roomId
             rooms: element.EventDate.map((ed) => ed.VenueRoomDetailsIds)

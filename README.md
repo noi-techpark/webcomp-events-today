@@ -8,7 +8,7 @@ SPDX-License-Identifier: CC0-1.0
 
 [![REUSE Compliance](https://github.com/noi-techpark/webcomp-events-today/actions/workflows/reuse.yml/badge.svg)](https://github.com/noi-techpark/odh-docs/wiki/REUSE#badges)
 
-Events Today is a web component that displays a list of events that are happening at EURAC. It fetches data from the [EventShort API](https://tourism.opendatahub.com/swagger/index.html#/EventShort)  and displays the events in a simple, easy-to-read format.<br> 
+Events Today is a web component that displays a list of events that are happening at EURAC. It fetches data from the [Event API](https://tourism.opendatahub.com/swagger/index.html#/Event)  and displays the events in a simple, easy-to-read format.<br> 
 
 
 **Table of Contents**
@@ -59,6 +59,11 @@ Default value is "https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.galle
 ```
 <events-today imageGalleryUrl="https://s3.eu-west-1.amazonaws.com/it.bz.noi.today.eurac.gallery"></events-today>
 ```
+
+#### <b>denormalize</b>
+
+A single event can be associated with multiple rooms, and the web component creates one event per room. The query parameter `denormalize=true` ensures that the data is expanded so that a separate event is generated for each room before it is passed to the web component.
+As a result, the web component receives only events related to a single room, avoiding duplicate or redundant events.
 
 ## Getting started
 
