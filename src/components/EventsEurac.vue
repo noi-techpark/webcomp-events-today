@@ -233,7 +233,7 @@ export default {
       const incrementEnd = 0;
 
       const params = new URLSearchParams([
-        ["tagfilter", "eventlocation:ec"],
+        ["tagfilter", "ec"],
         ["begindate", new Date().getTime() + incrementStart * day],
         ["enddate", endDate.getTime() + incrementEnd * day],
         ["datetimeformat", "uxtimestamp"],
