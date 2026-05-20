@@ -37,11 +37,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <div id="company">
               {{ event.companyName }}
             </div>
-            <div id="event-name" :class="eventNameClass(event)">
-              {{ event.name[currentLanguage] }}
+            <div
+              v-if="hasEventTitle(event)"
+              id="event-name"
+              :class="eventNameClass(event)"
+            >
+              {{ getEventTitle(event) }}
             </div>
-            <div id="event-subtitle" :class="eventSubtitleClass(event)">
-              {{ event.subTitle }}
+            <div
+              v-if="safeText(event.subTitle)"
+              id="event-subtitle"
+              :class="eventSubtitleClass(event)"
+            >
+              {{ safeText(event.subTitle) }}
             </div>
           </div>
           <div id="event-location">
@@ -193,6 +201,7 @@ export default {
         "two-line-clamp": this.options.maxEvents == 1 || subtitle.length === 0,
       };
     },
+
     eventSubtitleClass(event) {
       const subtitle = this.safeText(event.subTitle);
 
@@ -202,6 +211,7 @@ export default {
         "one-line-clamp": this.options.maxEvents > 1 && subtitle.length > 0,
       };
     },
+
     nextImage() {
       this.currentImageIndex++;
       if (this.currentImageIndex > this.images.length - 1) {
