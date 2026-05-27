@@ -176,11 +176,11 @@ export default {
     },
 
     getEventTitle(event) {
-      const current = this.safeText(event.name?.[this.currentLanguage]);
+      const current = this.safeText(event.title?.[this.currentLanguage]);
       if (current) return current;
 
       for (const lang of this.languages) {
-        const fallback = this.safeText(event.name?.[lang]);
+        const fallback = this.safeText(event.title?.[lang]);
         if (fallback) return fallback;
       }
 
@@ -263,12 +263,19 @@ export default {
       this.allEvents = [];
 
       items.forEach((element) => {
-        // manually filter for rooms, can be removed if raw filter works for Event
+        const stanze = element.EventDate.map((ed) => ed.VenueRoomDetailsIds)
+          .flat()
+          .map((room) => {
+            return EuracVenues.RoomDetails[
+              EuracVenues.RoomDetails.findIndex((r) => r.Id === room)
+            ].Shortname;
+          });
+
+        // manually filter for rooms
         if (
           this.options.room == null ||
           this.options.room === "" ||
-          element.EventDate[0].VenueRoomDetailsIds.indexOf(this.options.room) >
-            -1
+          stanze.includes(this.options.room)
         ) {
           let startDate = new Date(element.EventDate[0].FromUTC);
           let endDate = new Date(element.EventDate[0].ToUTC);
@@ -280,25 +287,25 @@ export default {
             !localizedFields.title.de &&
             !localizedFields.title.it
           ) {
-            return;
+            localizedFields.title = {
+              en: "No title",
+              de: "Kein Titel",
+              it: "Nessun titolo",
+            };
           }
 
           let event = {
-            name: localizedFields.title,
+            title: localizedFields.title,
             subTitle: element.EventDate[0].EventDateAdditionalInfo
               ? element.EventDate[0].EventDateAdditionalInfo?.en.Description
               : null,
-            companyName: element.OrganizerInfos.en.CompanyName,
+            companyName: element.OrganizerInfos
+              ? element.OrganizerInfos.en.CompanyName
+              : null,
             webAddress: element.EventUrls ? element.EventUrls[0].Url.en : null,
 
             // obtaining the Shortname from the roomId
-            rooms: element.EventDate.map((ed) => ed.VenueRoomDetailsIds)
-              .flat()
-              .map((room) => {
-                return EuracVenues.RoomDetails[
-                  EuracVenues.RoomDetails.findIndex((r) => r.Id === room)
-                ].Shortname;
-              }),
+            rooms: stanze,
             time: this.formatTime(startDate, endDate),
           };
           this.allEvents.push(event);
