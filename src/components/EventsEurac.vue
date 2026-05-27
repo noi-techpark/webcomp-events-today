@@ -263,12 +263,19 @@ export default {
       this.allEvents = [];
 
       items.forEach((element) => {
-        // manually filter for rooms, can be removed if raw filter works for Event
+        const stanze = element.EventDate.map((ed) => ed.VenueRoomDetailsIds)
+          .flat()
+          .map((room) => {
+            return EuracVenues.RoomDetails[
+              EuracVenues.RoomDetails.findIndex((r) => r.Id === room)
+            ].Shortname;
+          });
+
+        // manually filter for rooms
         if (
           this.options.room == null ||
           this.options.room === "" ||
-          element.EventDate[0].VenueRoomDetailsIds.indexOf(this.options.room) >
-            -1
+          stanze.includes(this.options.room)
         ) {
           let startDate = new Date(element.EventDate[0].FromUTC);
           let endDate = new Date(element.EventDate[0].ToUTC);
@@ -298,13 +305,7 @@ export default {
             webAddress: element.EventUrls ? element.EventUrls[0].Url.en : null,
 
             // obtaining the Shortname from the roomId
-            rooms: element.EventDate.map((ed) => ed.VenueRoomDetailsIds)
-              .flat()
-              .map((room) => {
-                return EuracVenues.RoomDetails[
-                  EuracVenues.RoomDetails.findIndex((r) => r.Id === room)
-                ].Shortname;
-              }),
+            rooms: stanze,
             time: this.formatTime(startDate, endDate),
           };
           this.allEvents.push(event);
