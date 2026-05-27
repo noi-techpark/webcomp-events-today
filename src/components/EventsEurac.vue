@@ -176,11 +176,11 @@ export default {
     },
 
     getEventTitle(event) {
-      const current = this.safeText(event.name?.[this.currentLanguage]);
+      const current = this.safeText(event.title?.[this.currentLanguage]);
       if (current) return current;
 
       for (const lang of this.languages) {
-        const fallback = this.safeText(event.name?.[lang]);
+        const fallback = this.safeText(event.title?.[lang]);
         if (fallback) return fallback;
       }
 
@@ -280,15 +280,21 @@ export default {
             !localizedFields.title.de &&
             !localizedFields.title.it
           ) {
-            return;
+            localizedFields.title = {
+              en: "No title",
+              de: "Kein Titel",
+              it: "Nessun titolo",
+            };
           }
 
           let event = {
-            name: localizedFields.title,
+            title: localizedFields.title,
             subTitle: element.EventDate[0].EventDateAdditionalInfo
               ? element.EventDate[0].EventDateAdditionalInfo?.en.Description
               : null,
-            companyName: element.OrganizerInfos.en.CompanyName,
+            companyName: element.OrganizerInfos
+              ? element.OrganizerInfos.en.CompanyName
+              : null,
             webAddress: element.EventUrls ? element.EventUrls[0].Url.en : null,
 
             // obtaining the Shortname from the roomId
