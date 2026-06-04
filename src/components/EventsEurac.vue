@@ -493,7 +493,8 @@ CONTENT
 
 .content-align-bottom {
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 #event-row {
