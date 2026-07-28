@@ -45,11 +45,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               {{ getEventTitle(event) }}
             </div>
             <div
-              v-if="safeText(event.subTitle)"
+              v-if="hasEventSubtitle(event)"
               id="event-subtitle"
               :class="eventSubtitleClass(event)"
             >
-              {{ safeText(event.subTitle) }}
+              {{ getEventSubtitle(event) }}
             </div>
           </div>
           <div id="event-location">
@@ -166,8 +166,20 @@ export default {
         it: this.getLocalizedValue(titles, "it"),
       };
 
+      const subTitles = {
+        en: element.Detail?.en?.SubHeader,
+        de: element.Detail?.de?.SubHeader,
+        it: element.Detail?.it?.SubHeader,
+      };
+      const localizedSubTitle = {
+        en: this.getLocalizedValue(subTitles, "en"),
+        de: this.getLocalizedValue(subTitles, "de"),
+        it: this.getLocalizedValue(subTitles, "it"),
+      };
+
       return {
         title: localizedTitle,
+        subTitle: localizedSubTitle,
       };
     },
 
@@ -191,8 +203,24 @@ export default {
       return this.getEventTitle(event).length > 0;
     },
 
+    getEventSubtitle(event) {
+      const current = this.safeText(event.subTitle?.[this.currentLanguage]);
+      if (current) return current;
+
+      for (const lang of this.languages) {
+        const fallback = this.safeText(event.subTitle?.[lang]);
+        if (fallback) return fallback;
+      }
+
+      return "";
+    },
+
+    hasEventSubtitle(event) {
+      return this.getEventSubtitle(event).length > 0;
+    },
+
     eventNameClass(event) {
-      const subtitle = this.safeText(event.subTitle);
+      const subtitle = this.getEventSubtitle(event);
 
       return {
         "event-name-single": this.options.maxEvents == 1,
@@ -203,7 +231,7 @@ export default {
     },
 
     eventSubtitleClass(event) {
-      const subtitle = this.safeText(event.subTitle);
+      const subtitle = this.getEventSubtitle(event);
 
       return {
         "event-subtitle-single": this.options.maxEvents == 1,
@@ -296,9 +324,10 @@ export default {
 
           let event = {
             title: localizedFields.title,
-            subTitle: element.EventDate[0].EventDateAdditionalInfo
-              ? element.EventDate[0].EventDateAdditionalInfo?.en.Description
-              : null,
+            // subTitle: element.EventDate[0].EventDateAdditionalInfo
+            //   ? element.EventDate[0].EventDateAdditionalInfo?.en.Description
+            //   : null,
+            subTitle: localizedFields.subTitle,
             companyName: element.OrganizerInfos
               ? element.OrganizerInfos.en.CompanyName
               : null,
