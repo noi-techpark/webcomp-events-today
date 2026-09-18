@@ -166,10 +166,12 @@ export default {
         it: this.getLocalizedValue(titles, "it"),
       };
 
+      const eventDateDetail = element.EventDate?.[0]?.Detail;
+
       const subTitles = {
-        en: element.Detail?.en?.SubHeader,
-        de: element.Detail?.de?.SubHeader,
-        it: element.Detail?.it?.SubHeader,
+        en: eventDateDetail?.en?.Title || element.Detail?.en?.SubHeader,
+        de: eventDateDetail?.de?.Title || element.Detail?.de?.SubHeader,
+        it: eventDateDetail?.it?.Title || element.Detail?.it?.SubHeader,
       };
       const localizedSubTitle = {
         en: this.getLocalizedValue(subTitles, "en"),
